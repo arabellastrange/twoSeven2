@@ -1,16 +1,25 @@
-
 public class Board {
-
+	Square squares[][] = null;
+	String colours[] = {"Brown", "Green", "Red", "Yellow", "Purple", "Maroon", "Navy", "Orange"};
+	Coordinates coord;
+	
 	public Board(){
-		
-	}
+		for(int i = 0; i < 8; i++){
+			for(int m = 0; m < 8; m ++){
+				squares[i][m] = new Square("Default", coord.getCoordinates()[i]);
+				}
+			}
+		}
 	
-	public String getColour(int x, int y){
-		return colour;
-	}
-	
-	public boolean isEmpty(int x, int y){
-		return true;
+	public Square getSquare(String position){
+		for(Square sq[]: squares){
+			for(Square s: sq){
+				if(s.getSquarePosition().equals(position)){
+					return s;
+				}
+			}
+		}
+		return null;
 	}
 	
 }
