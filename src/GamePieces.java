@@ -5,7 +5,7 @@ public class GamePieces {
 		Piece pieces[];
 	}
 	
-	public String getColour(int x, int y){
+	public static String getColour(int x, int y){
 		return colour;
 	}
 	
