@@ -7,7 +7,7 @@ public class Coordinates {
 	}
 	
 	public String moveUp(String coord){
-		Board b = b.getSquare(coord);
+		//in
 
 	}
 }

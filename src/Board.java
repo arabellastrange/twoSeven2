@@ -4,9 +4,11 @@ public class Board {
 	Coordinates coord;
 	
 	public Board(){
-		for(int i = 0; i < 8; i++){
-			for(int m = 0; m < 8; m ++){
-				squares[i][m] = new Square("Default", coord.getCoordinates()[i]);
+		for(int n = 0; n < 64; n++){
+			for(int i = 0; i < 8; i++){
+				for(int m = 0; m < 8; m++){
+					squares[i][m] = new Square("Default", coord.getCoordinates()[n]);
+					}
 				}
 			}
 		}
