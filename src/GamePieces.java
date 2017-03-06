@@ -1,15 +1,23 @@
-
 public class GamePieces {
-
+	
+	Piece pieces[] = null;
+	
 	public GamePieces(){
-		Piece pieces[];
+		for(int i = 0; i < 8; i++){
+			pieces[i] = new Piece("Default", "Default", "White");
+		}
+		
+		for(int i = 0; i < 8; i++){
+			pieces[i] = new Piece("Default", "Default", "Black");
+		}
 	}
 	
-	public static String getColour(int x, int y){
-		return colour;
-	}
-	
-	public int getCurrentPosition(){
-		return position;
+	public Piece getPiece(String position){
+		for(Piece p: pieces){
+			if(p.getPiecePosition().equals(position)){
+				return p;
+			}
+		}
+		return null;
 	}
 }
