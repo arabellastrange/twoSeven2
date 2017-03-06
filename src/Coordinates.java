@@ -8,6 +8,35 @@ public class Coordinates {
 	
 	public String moveUp(String coord){
 		//in
+		return "new coord";
 
+	}
+	
+	public String moveDown(String coord){
+		return "new coord";
+	}
+	
+	public String moveLeft(String coord){
+		return "new coord";
+	}
+	
+	public String moveRight(String coord){
+		return "new coord";
+	}
+	
+	public String moveDiagonalLeftDown(String coord){
+		return moveLeft(moveDown(coord));
+	}
+	
+	public String moveDiagonalRightDown(String coord){
+		return moveRight(moveDown(coord));
+	}
+	
+	public String moveDiagonalLeftUp(String coord){
+		return moveLeft(moveUp(coord));
+	}
+	
+	public String moveDiagonalRightUp(String coord){
+		return moveRight(moveUp(coord));
 	}
 }
