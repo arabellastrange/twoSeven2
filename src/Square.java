@@ -16,8 +16,7 @@ public class Square {
 	}
 	
 	public boolean isEmpty(){
-		return true;
-		
+		return true;		
 		//add mechanics
 	}
 }

@@ -1,6 +1,9 @@
 public class Board {
+	
 	Square squares[][] = null;
+	
 	String colours[] = {"Brown", "Green", "Red", "Yellow", "Purple", "Maroon", "Navy", "Orange"};
+	
 	Coordinates coord;
 	
 	public Board(){
@@ -13,15 +16,8 @@ public class Board {
 			}
 		}
 	
-	public Square getSquare(String position){
-		for(Square sq[]: squares){
-			for(Square s: sq){
-				if(s.getSquarePosition().equals(position)){
-					return s;
-				}
-			}
-		}
-		return null;
+	public Square getSquare(int x, int y){
+		return squares[x][y];
 	}
 	
 }
