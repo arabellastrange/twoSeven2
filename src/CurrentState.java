@@ -2,8 +2,16 @@
 public class CurrentState {
 
 	double timer;
+	Board board; 
+	GamePieces pieces;
+	CurrentState currentState;
+	CurrentState savedState;
+	
 	public CurrentState(){
 		timer = 0;
+		board = new Board();
+		pieces = new GamePieces();
+		
 	}
 	
 	public boolean gameOver(CurrentState currentState){
@@ -15,22 +23,22 @@ public class CurrentState {
 	}
 	
 	public CurrentState getCurrentState(){
-		return CurrentState;
+		return currentState;
 	}
 	
 	public double getTime(){
 		return timer;
 	}
 	
-	public Piece getPiece(String colour, int id){
-		return Piece;
+	public GamePieces getPiece(String colour, int id){
+		return pieces;
 	}
 	
-	public Board getBoard(int x, int y){
-		return square;
+	public Board getBoard(){
+		return board;
 	}
 	
 	public void saveCurrentState(CurrentState currentState){
-		CurrentState savedState = currentState;
+		savedState = currentState;
 	}
 }
