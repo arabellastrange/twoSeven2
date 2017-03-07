@@ -15,6 +15,10 @@ public class Square {
 		return position; 
 	}
 	
+	public void seSquaretColour(String squareColour){
+		colour = squareColour;
+	}
+	
 	public boolean isEmpty(){
 		return true;		
 		//add mechanics

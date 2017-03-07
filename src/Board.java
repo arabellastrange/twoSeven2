@@ -14,7 +14,12 @@ public class Board {
 					}
 				}
 			}
+		for(int i = 0; i < 8; i++){
+			for(int m = 0; m < 8; m++){
+				squares[i][m].seSquaretColour("Brown");//im confused
+			}
 		}
+	}
 	
 	public Square getSquare(int x, int y){
 		return squares[x][y];
