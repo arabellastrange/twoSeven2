@@ -23,4 +23,9 @@ public class GamePieces {
 		}
 		return null;
 	}
+	
+	public Piece[] getPieces(){
+		return pieces;
+	}
+	
 }
