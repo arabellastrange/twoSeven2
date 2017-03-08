@@ -15,7 +15,7 @@ public class Square {
 		return position; 
 	}
 	
-	public void seSquaretColour(String squareColour){
+	public void setSquareColour(String squareColour){
 		colour = squareColour;
 	}
 	
