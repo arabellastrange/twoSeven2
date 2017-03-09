@@ -21,14 +21,6 @@ public class Stats {
 		
 	}
 	
-	public void getBestTime(double bestTime){
-		
-	}
-	
-	public void getAchievements(String achievements[]){
-		
-	} 
-	
 	public void addAchievements(String achievement){
 		int i = 0;
 		achievements[i] = achievement;
