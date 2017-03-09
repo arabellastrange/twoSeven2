@@ -2,35 +2,65 @@
 public class CurrentState {
 
 	double timer;
+	Board board; 
+	GamePieces pieces;
+	String[] positions;
+	CurrentState currentState;
+	CurrentState savedState;
+	Piece piece;
+	
 	public CurrentState(){
 		timer = 0;
+		board = new Board();
+		pieces = new GamePieces();		
 	}
 	
 	public boolean gameOver(CurrentState currentState){
-		return true;
+		if(piece.getPlayerColour().equals("White") && piece.getPiecePosition().startsWith("A")){
+			return true;
+		}
+		else if(piece.getPlayerColour().equals("Black") && piece.getPiecePosition().startsWith("H")){
+			return true;
+		}
+		else{
+			return false;
+		}
 	}
 	
 	public void setCurrentState(GamePieces gamePieces, Board board, double timer){
+		//timer = timer.getTime();
+		for(int i = 0; i < 16; i++){
+			getPositions();
+		}
 		
 	}
 	
+	public void getPositions() {
+		int m = 0;
+		Piece p[] = pieces.getPieces();
+		for(Piece i: p){
+			positions[m] = i.getPiecePosition();
+			m++;
+		}
+	}
+
 	public CurrentState getCurrentState(){
-		return CurrentState;
+		return currentState;
 	}
 	
 	public double getTime(){
 		return timer;
 	}
 	
-	public Piece getPiece(String colour, int id){
-		return Piece;
+	public GamePieces getPiece(String colour, int id){
+		return pieces;
 	}
 	
-	public Board getBoard(int x, int y){
-		return square;
+	public Board getBoard(){
+		return board;
 	}
 	
 	public void saveCurrentState(CurrentState currentState){
-		CurrentState savedState = currentState;
+		savedState = currentState;
 	}
 }

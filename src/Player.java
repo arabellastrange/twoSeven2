@@ -22,15 +22,7 @@ public class Player {
 			//board[fromRow][fromCol] = NULL; Empty data from old square
 		}
 		
-		/*Determines that game is over
-		if (toRow == 0 && board[toRow][toCol] == WHITE){
-            board[toRow][toCol] = ;
-        }
-		
-		if (toRow == 7 && board[toRow][toCol] == BLACK){
-            board[toRow][toCol] = ;
-        }
-        */
+		/*getCurrentState.getBoard.getSquareYouWantToGoTo.isEmpty.getLastMovedPieceColour*/
 		return true;
 	}
 	
