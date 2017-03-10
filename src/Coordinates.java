@@ -23,7 +23,7 @@ public class Coordinates {
 	public String XYtoString(int x, int y){
 		return currentState.getCurrentState().getBoard().getSquare(x,y).getSquarePosition();
 	}
-	//is move forward method to check valid coordinate for player colour
+
 	public Boolean isMoveForward(String from, String to, String playerColour){
 		return true;
 	}

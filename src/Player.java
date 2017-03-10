@@ -20,14 +20,15 @@ public class Player {
 		playerColour = colour;
 	}
 	
-	public boolean makeMove(Piece fromPiece, String toSquare, String playerColour){
+	public boolean makeMove(String fromPiece, String toSquare, String playerColour){
 		board.getCurrentState();
+		Piece piece = board.getCurrentState().getPieces().getPiece(fromPiece);
 		movedTo = toSquare;
-		movingPiece = fromPiece.getPlayerColour();
+		movingPiece = piece.getPlayerColour();
 		if(movingPiece.equals(playerColour)){
 			if(movingPiece.equals(lastLandedOn.getColour())){
 				if(toSquare.isEmpty()){
-					if(co.isMoveForward(fromPiece.getPiecePosition(), movedTo, movingPiece)){
+					if(co.isMoveForward(piece.getPiecePosition(), movedTo, movingPiece)){
 						lastLandedOn.setSquareColour(movedTo);
 						return true;
 					}

@@ -53,7 +53,11 @@ public class CurrentState {
 		return timer;
 	}
 	
-	public GamePieces getPiece(String colour, int id){
+	public Piece getPiece(String id){
+		return pieces.getPiece(id);
+	}
+	
+	public GamePieces getPieces(){
 		return pieces;
 	}
 	
