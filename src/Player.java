@@ -20,6 +20,10 @@ public class Player {
 		playerColour = colour;
 	}
 	
+	public String getColour(){
+		return playerColour;
+	}
+	
 	public boolean makeMove(String fromPiece, String toSquare, String playerColour){
 		board.getCurrentState();
 		Piece piece = board.getCurrentState().getPieces().getPiece(fromPiece);

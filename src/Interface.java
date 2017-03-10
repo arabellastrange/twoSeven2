@@ -45,13 +45,23 @@ public class Interface {
 				String piece = s.nextLine().trim().toUpperCase();
 				System.out.println("Player One select the square you wish to move to: ");
 				String square = s.nextLine().trim().toUpperCase();
-				if(playerOne.makeMove(piece, square, "White")){
+				if(playerOne.makeMove(piece, square, playerOne.getColour())){
 					i.updateInterface();
 				}
 				else{
 					System.out.println("That is not a valid move!");
 				}
-				System.out.println("Player Two make a move!");
+				
+				System.out.println("Player Two make a move! Select the piece you wish to move: ");
+				piece = s.nextLine().trim().toUpperCase();
+				System.out.println("Player Two select the square you wish to move to: ");
+				square = s.nextLine().trim().toUpperCase();
+				if(playerTwo.makeMove(piece, square, playerTwo.getColour())){
+					i.updateInterface();
+				}
+				else{
+					System.out.println("That is not a valid move!");
+				}
 			}
 			while(option.equals("Q"));
 		}

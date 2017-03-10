@@ -23,10 +23,12 @@ public class Coordinates {
 	public String XYtoString(int x, int y){
 		return currentState.getCurrentState().getBoard().getSquare(x,y).getSquarePosition();
 	}
-
+	
+	//TO DO
 	public Boolean isMoveForward(String from, String to, String playerColour){
 		return true;
 	}
+	
 	public String moveUp(String coord){
 		stringToXY(coord);
 		if(y + 1 != 8){
