@@ -8,6 +8,7 @@ public class CurrentState {
 	CurrentState currentState;
 	CurrentState savedState;
 	Piece piece;
+	Square lastLandedOn;
 	
 	public CurrentState(){
 		timer = 0;

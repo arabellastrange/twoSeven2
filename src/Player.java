@@ -1,10 +1,13 @@
 
 public class Player {
 
-	int[][] board;
+	CurrentState board = new CurrentState();
 	String playerColour;
 	String playerName;
-	
+	String movingPiece;
+	String movedTo;
+	Square lastLandedOn;
+	Coordinates co;
 	public void getStats(){
 		
 	}
@@ -17,17 +20,31 @@ public class Player {
 		playerColour = colour;
 	}
 	
-	public boolean makeMove(int fromRow, int fromCol, int toRow, int toCol){
-		/*Only works one way - have to fix it for opposite - i.e pieces going in opposite direction
-		if(toRow > fromRow && GamePieces..getPiece().getColour(fromRow, fromCol) == WHITE || toCol >= fromCol && GamePieces.getColour(fromRow, fromCol) == BLACK ){ 
-			//New square must also be empty
-			board[toRow][toCol] = board[fromRow][fromCol];
-			//board[fromRow][fromCol] = NULL; Empty data from old square
+	public boolean makeMove(Piece fromPiece, String toSquare, String playerColour){
+		board.getCurrentState();
+		movedTo = toSquare;
+		movingPiece = fromPiece.getPlayerColour();
+		if(movingPiece.equals(playerColour)){
+			if(movingPiece.equals(lastLandedOn.getColour())){
+				if(toSquare.isEmpty()){
+					if(co.isMoveForward(fromPiece.getPiecePosition(), movedTo, movingPiece)){
+						lastLandedOn.setSquareColour(movedTo);
+						return true;
+					}
+					else{
+						return false;
+					}
+				}
+				else{
+					return false;
+				}
+			}
+			else{
+				return false;
+			}
 		}
-		
-		/*getCurrentState.getBoard.getSquareYouWantToGoTo.isEmpty.getLastMovedPieceColour*/
-		return true;
+		else{
+			return false;
+		}
 	}
-	
-	
 }
