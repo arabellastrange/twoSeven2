@@ -28,14 +28,6 @@ public class CurrentState {
 		}
 	}
 	
-	public void setCurrentState(GamePieces gamePieces, Board board, double timer){
-		//timer = timer.getTime();
-		for(int i = 0; i < 16; i++){
-			getPositions();
-		}
-		
-	}
-	
 	public void getPositions() {
 		int m = 0;
 		Piece p[] = pieces.getPieces();
@@ -43,10 +35,6 @@ public class CurrentState {
 			positions[m] = i.getPiecePosition();
 			m++;
 		}
-	}
-
-	public CurrentState getCurrentState(){
-		return currentState;
 	}
 	
 	public double getTime(){

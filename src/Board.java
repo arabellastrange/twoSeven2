@@ -7,14 +7,14 @@ public class Board {
 	Coordinates coord = new Coordinates();
 	
 	public Board(){
-		//for(int n = 0; n < 64; n++){
+		for(int n = 0; n < 64; n++){
 			for(int i = 0; i < 8; i++){
 				for(int m = 0; m < 8; m++){
-					String j =  coord.getCoordinates(i);
+					String j =  coord.getCoordinates(n);
 					squares[i][m] = new Square("Default", j);
 					}
 				}
-			//}
+			}
 		
 		for(int i = 0; i < 8; i++){
 				getSquare(i,i).setSquareColour(colours[7]);		
