@@ -2,17 +2,18 @@
 public class CurrentState {
 
 	double timer;
-	Board board; 
-	GamePieces pieces;
 	String[] positions;
 	CurrentState currentState;
 	CurrentState savedState;
 	Piece piece;
+	Square lastLandedOn;
+	GamePieces pieces;
+	Board board;
 	
 	public CurrentState(){
 		timer = 0;
+		pieces = new GamePieces();
 		board = new Board();
-		pieces = new GamePieces();		
 	}
 	
 	public boolean gameOver(CurrentState currentState){
@@ -52,7 +53,11 @@ public class CurrentState {
 		return timer;
 	}
 	
-	public GamePieces getPiece(String colour, int id){
+	public Piece getPiece(String id){
+		return pieces.getPiece(id);
+	}
+	
+	public GamePieces getPieces(){
 		return pieces;
 	}
 	

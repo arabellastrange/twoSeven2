@@ -1,6 +1,7 @@
 public class Square {
 	String colour;
-	String position;
+	static String position;
+	GamePieces gamePiece;
 	
 	public Square(String pieceColour, String piecePosition){
 		colour = pieceColour;
@@ -11,7 +12,7 @@ public class Square {
 		return colour;
 	}
 	
-	public String getSquarePosition(){
+	public static String getSquarePosition(){
 		return position; 
 	}
 	
@@ -19,8 +20,14 @@ public class Square {
 		colour = squareColour;
 	}
 	
+	//TO DO
 	public boolean isEmpty(){
-		return true;		
-		//add mechanics
+		String pos = Square.getSquarePosition();
+		if(gamePiece.getPiece(pos) == null){
+			return false;
+		}
+		else{
+			return true;	
+		}	
 	}
 }
