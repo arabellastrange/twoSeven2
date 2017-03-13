@@ -7,15 +7,15 @@ public class Board {
 	Coordinates coord = new Coordinates();
 	
 	public Board(){
-		for(int n = 0; n < 64; n++){
+			int n = 0;
 			for(int i = 0; i < 8; i++){
 				for(int m = 0; m < 8; m++){
 					String j =  coord.getCoordinates(n);
 					squares[i][m] = new Square("Default", j);
+					n++;
 					}
 				}
-			}
-		
+			
 		for(int i = 0; i < 8; i++){
 				getSquare(i,i).setSquareColour(colours[7]);		
 		}
@@ -26,10 +26,14 @@ public class Board {
 		
 		
 		String start = getSquare(3,0).getSquarePosition();
+		System.out.println(start);
 		String currentPosition = start;
-		
+		;
 		for(int i = 0; i < 4; i++){
-			getStringSquare(currentPosition).setSquareColour(colours[4]);
+			Square s = getStringSquare(currentPosition);
+			System.out.println(currentPosition);
+			
+			//s.setSquareColour(colours[4]);
 			String nextPosition = coord.moveDiagonalLeftDown(currentPosition);
 			currentPosition = nextPosition; 	
 		}

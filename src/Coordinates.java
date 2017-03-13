@@ -18,11 +18,12 @@ public class Coordinates {
 	
 	public void stringToXY(String position){
 		x = Integer.parseInt(position.substring(1));
-		y = position.charAt(0) - 65;
+		y = position.charAt(0) - 64;
 	}
 	
 	public String XYtoString(int x, int y){
-		char sty = (char) y;
+		int ascy = y + 64;
+		char sty = (char) ascy;
 		char stx = Character.forDigit(x, 10);
 		String xyString  = sty + "" + stx;
 		return xyString;
