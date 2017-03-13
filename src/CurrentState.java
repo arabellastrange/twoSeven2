@@ -43,10 +43,6 @@ public class CurrentState {
 			m++;
 		}
 	}
-
-	public CurrentState getCurrentState(){
-		return currentState;
-	}
 	
 	public Piece getPiece(String id){
 		return pieces.getPiece(id);

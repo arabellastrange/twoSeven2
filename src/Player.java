@@ -1,11 +1,18 @@
 public class Player {
-	CurrentState board = new CurrentState();
+	Observer observer = new Observer();
+	CurrentState now = observer.getCurrentState();
 	String playerColour;
 	String playerName;
 	String movingPiece;
 	String movedTo;
-	Square lastLandedOn;
+	Square lastLandedOn = new Square("Default", "Defualt");
 	Coordinates co = new Coordinates();
+	
+	public Player(){
+		playerName = "Default";
+		playerColour = "Default";
+	}
+	
 	public void getStats(){
 		
 	}
@@ -23,8 +30,7 @@ public class Player {
 	}
 	
 	public boolean makeMove(String fromPiece, String toSquare, String playerColour){
-		board.getCurrentState();
-		Piece piece = board.getCurrentState().getPieces().getPiece(fromPiece);
+		Piece piece = now.getPieces().getPiece(fromPiece);
 		movedTo = toSquare;
 		movingPiece = piece.getPlayerColour();
 		if(movingPiece.equals(playerColour)){
@@ -32,7 +38,7 @@ public class Player {
 				if(toSquare.isEmpty()){
 					if(co.isMoveForward(piece.getPiecePosition(), movedTo, movingPiece)){
 						lastLandedOn.setSquareColour(movedTo);
-						board.gameOver(board);
+						//board.gameOver(board);
 						return true;
 					}
 					else{

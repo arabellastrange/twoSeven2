@@ -3,9 +3,9 @@ public class Square {
 	static String position;
 	GamePieces gamePiece;
 	
-	public Square(String pieceColour, String piecePosition){
-		colour = pieceColour;
-		position = piecePosition;
+	public Square(String squareColour, String squarePosition){
+		colour = squareColour;
+		position = squarePosition;
 	}
 	
 	public String getColour(){

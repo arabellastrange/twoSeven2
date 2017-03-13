@@ -1,7 +1,5 @@
 public class Coordinates {
-	
 	String[] positions;
-	CurrentState currentState;
 	int x;
 	int y; 
 	
@@ -19,18 +17,16 @@ public class Coordinates {
 	}
 	
 	public void stringToXY(String position){
-		for(int i = 0; i < 8; i++){
-			for(int n = 0; n < 8; n++){
-				if(currentState.getCurrentState().getBoard().getSquare(i,n).getSquarePosition().equals(position)){//i think you would have to get the board object from the current state object, how to force update all current state objects tho???
-					x = i;
-					y = n;
-				}
-			}
-		}
+		x = Integer.parseInt(position.substring(1));
+		y = position.charAt(0) - 64;
 	}
 	
 	public String XYtoString(int x, int y){
-		return currentState.getCurrentState().getBoard().getSquare(x,y).getSquarePosition();
+		int ascy = y + 64;
+		char sty = (char) ascy;
+		char stx = Character.forDigit(x, 10);
+		String xyString  = sty + "" + stx;
+		return xyString;
 	}
 	
 	//TO DO
