@@ -19,8 +19,8 @@ public class Square {
 		colour = squareColour;
 	}
 	
+	//TO DO
 	public boolean isEmpty(){
 		return true;		
-		//add mechanics
 	}
 }
