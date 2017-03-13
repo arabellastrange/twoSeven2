@@ -7,7 +7,7 @@ public class Player {
 	String movingPiece;
 	String movedTo;
 	Square lastLandedOn;
-	Coordinates co;
+	Coordinates co = new Coordinates();
 	public void getStats(){
 		
 	}
