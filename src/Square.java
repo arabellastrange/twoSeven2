@@ -20,6 +20,7 @@ public class Square {
 		colour = squareColour;
 	}
 	
+	//TO DO
 	public boolean isEmpty(){
 		String pos = Square.getSquarePosition();
 		if(gamePiece.getPiece(pos) == null){
