@@ -1,5 +1,5 @@
 public class Board {
-	
+//XY ARE WRONG FIX THEM!
 	Square squares[][] = new Square[8][8];
 	
 	String colours[] = {"Brown", "Green", "Red", "Yellow", "Purple", "Maroon", "Navy", "Orange"};
@@ -12,58 +12,63 @@ public class Board {
 				for(int m = 0; m < 8; m++){
 					String j =  coord.getCoordinates(n);
 					squares[i][m] = new Square("Default", j);
+					System.out.println("Assigned Square ["+ i + "] [" + m + "] position: " + squares[i][m].getSquarePosition());
 					n++;
 					}
 				}
 			
+			colourBoard();	
+	}
+	
+	public void colourBoard(){
 		for(int i = 0; i < 8; i++){
-				getSquare(i,i).setSquareColour(colours[7]);		
-		}
-		
-		for(int i = 7; i >= 0; i--){
-			getSquare(i,i).setSquareColour(colours[1]);		
-		}
-		
-		
-		String start = getSquare(3,0).getSquarePosition();
-		System.out.println(start);
-		String currentPosition = start;
-		;
-		for(int i = 0; i < 4; i++){
-			Square s = getStringSquare(currentPosition);
-			System.out.println(currentPosition);
-			
-			//s.setSquareColour(colours[4]);
-			String nextPosition = coord.moveDiagonalLeftDown(currentPosition);
-			currentPosition = nextPosition; 	
-		}
-		
-		start = getSquare(7,4).getSquarePosition();
-		currentPosition = start;
-		
-		for(int i = 0; i < 4; i++){
-			getStringSquare(currentPosition).setSquareColour(colours[4]);
-			String nextPosition = coord.moveDiagonalLeftDown(currentPosition);
-			currentPosition = nextPosition; 	
-		}
-		
-		start = getSquare(3,7).getSquarePosition();
-		currentPosition = start;
-		
-		for(int i = 0; i < 4; i++){
-			getStringSquare(currentPosition).setSquareColour("Yellow");
-			String nextPosition = coord.moveDiagonalLeftUp(currentPosition);
-			currentPosition = nextPosition; 	
-		}
-		
-		start = getSquare(4,0).getSquarePosition();
-		currentPosition = start;
-		for(int i = 0; i < 4; i++){
-			getStringSquare(currentPosition).setSquareColour("Yellow");
-			String nextPosition = coord.moveDiagonalRightDown(currentPosition);
-			currentPosition = nextPosition; 	
-		}
-		
+			getSquare(i,i).setSquareColour(colours[7]);		
+			System.out.println("Coloring Square ["+ i + "] [" + i + "] position: " + squares[i][i].getSquarePosition());
+	}
+	
+	for(int i = 7; i >= 0; i--){
+		getSquare(i,i).setSquareColour(colours[1]);		
+	}
+	
+	
+	String start = getSquare(3,3).getSquarePosition();
+	System.out.println("Start: " + start);
+	String currentPosition = start;
+	;
+	for(int i = 0; i < 4; i++){
+		Square s = getStringSquare(currentPosition);
+		System.out.println(currentPosition);
+		s.setSquareColour(colours[4]);
+		String nextPosition = coord.moveDiagonalLeftDown(currentPosition);
+		currentPosition = nextPosition; 	
+	}
+	
+	start = getSquare(7,4).getSquarePosition();
+	currentPosition = start;
+	
+	for(int i = 0; i < 4; i++){
+		getStringSquare(currentPosition).setSquareColour(colours[4]);
+		String nextPosition = coord.moveDiagonalLeftDown(currentPosition);
+		currentPosition = nextPosition; 	
+	}
+	
+	start = getSquare(3,7).getSquarePosition();
+	currentPosition = start;
+	
+	for(int i = 0; i < 4; i++){
+		getStringSquare(currentPosition).setSquareColour("Yellow");
+		String nextPosition = coord.moveDiagonalLeftUp(currentPosition);
+		currentPosition = nextPosition; 	
+	}
+	
+	start = getSquare(4,0).getSquarePosition();
+	currentPosition = start;
+	for(int i = 0; i < 4; i++){
+		getStringSquare(currentPosition).setSquareColour("Yellow");
+		String nextPosition = coord.moveDiagonalRightDown(currentPosition);
+		currentPosition = nextPosition; 	
+	}
+	
 		getSquare(2,0).setSquareColour("Maroon");
 		getSquare(7,1).setSquareColour("Maroon");
 		getSquare(4,2).setSquareColour("Maroon");
@@ -96,11 +101,10 @@ public class Board {
 		getSquare(7,5).setSquareColour("Green");
 		getSquare(4,6).setSquareColour("Green");
 		getSquare(1,7).setSquareColour("Green");
-		
 	}
 	
-	public Square getSquare(int x, int y){
-		return squares[x][y];
+	public Square getSquare(int y, int x){
+		return squares[y][x];
 	}
 	
 	public Square getStringSquare(String position){
