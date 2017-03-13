@@ -30,6 +30,7 @@ public class Player {
 				if(toSquare.isEmpty()){
 					if(co.isMoveForward(piece.getPiecePosition(), movedTo, movingPiece)){
 						lastLandedOn.setSquareColour(movedTo);
+						board.gameOver(board);
 						return true;
 					}
 					else{
