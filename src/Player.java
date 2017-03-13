@@ -1,7 +1,7 @@
 
 public class Player {
 
-	CurrentState board = new CurrentState();
+	CurrentState now = new CurrentState();
 	String playerColour;
 	String playerName;
 	String movingPiece;
@@ -25,8 +25,8 @@ public class Player {
 	}
 	
 	public boolean makeMove(String fromPiece, String toSquare, String playerColour){
-		board.getCurrentState();
-		Piece piece = board.getCurrentState().getPieces().getPiece(fromPiece);
+		now.getCurrentState();
+		Piece piece = now.getCurrentState().getPieces().getPiece(fromPiece);
 		movedTo = toSquare;
 		movingPiece = piece.getPlayerColour();
 		if(movingPiece.equals(playerColour)){
