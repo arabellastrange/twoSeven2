@@ -7,7 +7,7 @@ public class Player {
 	String movingPiece;
 	String movedTo;
 	Square lastLandedOn;
-	Coordinates co;
+	Coordinates co = new Coordinates();
 	public void getStats(){
 		
 	}
@@ -34,6 +34,7 @@ public class Player {
 				if(toSquare.isEmpty()){
 					if(co.isMoveForward(piece.getPiecePosition(), movedTo, movingPiece)){
 						lastLandedOn.setSquareColour(movedTo);
+						board.gameOver(board);
 						return true;
 					}
 					else{

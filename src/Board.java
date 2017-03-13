@@ -1,19 +1,20 @@
 public class Board {
 	
-	Square squares[][] = null;
+	Square squares[][] = new Square[8][8];
 	
 	String colours[] = {"Brown", "Green", "Red", "Yellow", "Purple", "Maroon", "Navy", "Orange"};
 	
-	Coordinates coord;
+	Coordinates coord = new Coordinates();
 	
 	public Board(){
-		for(int n = 0; n < 64; n++){
+		//for(int n = 0; n < 64; n++){
 			for(int i = 0; i < 8; i++){
 				for(int m = 0; m < 8; m++){
-					squares[i][m] = new Square("Default", coord.getCoordinates()[n]);
+					String j =  coord.getCoordinates(i);
+					squares[i][m] = new Square("Default", j);
 					}
 				}
-			}
+			//}
 		
 		for(int i = 0; i < 8; i++){
 				getSquare(i,i).setSquareColour(colours[7]);		
