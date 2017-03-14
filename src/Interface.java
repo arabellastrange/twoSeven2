@@ -29,11 +29,11 @@ public class Interface {
 			playerColour = s.nextLine().trim().toUpperCase();
 			playerOne.setColour(playerColour);
 			
-			if(playerColour.equals("White")){
-				playerTwo.setColour("Black");
+			if(playerColour.equals("W")){
+				playerTwo.setColour("B");
 			}
 			else{
-				playerTwo.setColour("White");
+				playerTwo.setColour("W");
 			}
 			
 			Interface i = new Interface();

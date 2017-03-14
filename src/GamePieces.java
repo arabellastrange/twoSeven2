@@ -8,12 +8,12 @@ public class GamePieces {
 		pieces = new Piece[16];
 		
 		for(int i = 0; i < 8; i++){
-			pieces[i] = new Piece(colours[i], coord.getCoordinates(i), "White");
+			pieces[i] = new Piece(colours[i], coord.getCoordinates(i), "W" + i);
 			
 		}
 		
 		for(int i = 8; i < 16; i++){
-			pieces[i] = new Piece(colours[i-8], coord.getCoordinates(i+47), "Black");
+			pieces[i] = new Piece(colours[i-8], coord.getCoordinates(i+47), "B" + i);
 		}
 	}
 	

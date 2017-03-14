@@ -1,12 +1,12 @@
 public class Piece {
 	String colour;
 	String position;
-	String pColour;
+	String id;
 	
-	public Piece(String pieceColour, String piecePosition, String playerColour){
+	public Piece(String pieceColour, String piecePosition, String pid){
 		colour = pieceColour;
 		position = piecePosition;
-		pColour = playerColour;
+		id = pid;
 	}
 	
 	public void setColour(String sColour){
@@ -17,8 +17,8 @@ public class Piece {
 		return colour;
 	}
 	
-	public String getPlayerColour(){
-		return pColour;
+	public String getID(){
+		return id;
 	}
 	
 	public String getPiecePosition(){
