@@ -19,7 +19,7 @@ public class Coordinates {
 	public void stringToXY(String position){
 		y = Integer.parseInt(position.substring(1));
 		x = position.charAt(0) - 64;
-		System.out.println("Xy trans: " + y + "," + x);
+//		System.out.println("Xy trans: " + y + "," + x);
 	}
 	
 	public String XYtoString(int x, Integer y){
@@ -27,7 +27,7 @@ public class Coordinates {
 		char stx = (char) ascx;
 		String sty = y.toString(y,10);
 		String xyString  = stx + "" + sty;
-		System.out.println(xyString);
+//		System.out.println(xyString);
 		return xyString;
 	}
 	
