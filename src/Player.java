@@ -32,7 +32,7 @@ public class Player {
 	public boolean makeMove(String fromPiece, String toSquare, String playerColour){
 		Piece piece = now.getPieces().getPiece(fromPiece);
 		movedTo = toSquare;
-		movingPiece = piece.getID();
+		movingPiece = piece.getID().substring(0,0);
 		if(movingPiece.equals(getColour())){
 			if(movingPiece.equals(lastLandedOn.getColour())){
 				if(toSquare.isEmpty()){
