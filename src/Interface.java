@@ -80,8 +80,11 @@ public class Interface {
 		for(int m = 0; m <8; m++){	
 			System.out.print(m + " ");
 			for(int n = 0; n < 8; n++){
-				if(m == 0 || m == 7){
+				if(m == 0){
 					System.out.print("|•|");
+				}
+				else if(m == 7){
+					System.out.println("|º|");
 				}
 				else{
 					System.out.print("|_|");
