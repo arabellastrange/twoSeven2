@@ -1,4 +1,3 @@
-
 public class Player {
 	Observer observer = new Observer();
 	CurrentState now = observer.getCurrentState();
@@ -43,18 +42,22 @@ public class Player {
 						return true;
 					}
 					else{
+						System.out.println("You cannot move in this direction - only straight and diagonally forward.");
 						return false;
 					}
 				}
 				else{
+					System.out.println("You cannot put your piece here as the square is already occupied.");
 					return false;
 				}
 			}
 			else{
+				System.out.println("You cannot move this piece as it is not the same colour as the last landed on square.");
 				return false;
 			}
 		}
 		else{
+			System.out.println("This is not one of you pieces.");
 			return false;
 		}
 	}

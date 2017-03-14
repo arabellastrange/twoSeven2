@@ -1,7 +1,6 @@
 
 public class CurrentState {
-
-	double timer;
+	Timer timer;
 	String[] positions;
 	CurrentState currentState;
 	CurrentState savedState;
@@ -11,7 +10,7 @@ public class CurrentState {
 	Board board;
 	
 	public CurrentState(){
-		timer = 0;
+		timer = new Timer();
 		pieces = new GamePieces();
 		board = new Board();
 	}
@@ -28,6 +27,14 @@ public class CurrentState {
 		}
 	}
 	
+	public void setCurrentState(GamePieces gamePieces, Board board){
+		double time = timer.getTime();
+		for(int i = 0; i < 16; i++){
+			getPositions();
+		}
+		
+	}
+	
 	public void getPositions() {
 		int m = 0;
 		Piece p[] = pieces.getPieces();
@@ -35,10 +42,6 @@ public class CurrentState {
 			positions[m] = i.getPiecePosition();
 			m++;
 		}
-	}
-	
-	public double getTime(){
-		return timer;
 	}
 	
 	public Piece getPiece(String id){
