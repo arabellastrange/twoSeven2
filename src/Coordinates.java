@@ -17,15 +17,17 @@ public class Coordinates {
 	}
 	
 	public void stringToXY(String position){
-		x = Integer.parseInt(position.substring(1));
-		y = position.charAt(0) - 64;
+		y = Integer.parseInt(position.substring(1));
+		x = position.charAt(0) - 64;
+		System.out.println("Xy trans: " + y + "," + x);
 	}
 	
-	public String XYtoString(int x, int y){
-		int ascy = y + 64;
-		char sty = (char) ascy;
-		char stx = Character.forDigit(x, 10);
-		String xyString  = sty + "" + stx;
+	public String XYtoString(int x, Integer y){
+		int ascx = x + 64;
+		char stx = (char) ascx;
+		String sty = y.toString(y,10);
+		String xyString  = stx + "" + sty;
+		System.out.println(xyString);
 		return xyString;
 	}
 	
@@ -36,23 +38,23 @@ public class Coordinates {
 	
 	public String moveUp(String coord){
 		stringToXY(coord);
-		if(y + 1 != 8){
-			y = y + 1;
+		if(y - 1 >= 0){
+			y = y - 1;
 		}
 		return XYtoString(x,y);
 	}
 	
 	public String moveDown(String coord){
 		stringToXY(coord);
-		if(y - 1 != 0){
-			y = y -1;
+		if(y + 1 <= 7){
+			y = y + 1;
 		}
 		return XYtoString(x,y);
 	}
 	
 	public String moveLeft(String coord){
 		stringToXY(coord);
-		if(x - 1 != 0){
+		if(x - 1 >= 0){
 			x = x - 1;
 		}
 		return XYtoString(x,y);
@@ -60,7 +62,7 @@ public class Coordinates {
 	
 	public String moveRight(String coord){
 		stringToXY(coord);
-		if(x + 1 != 8){
+		if(x + 1 <= 8){
 			x = x + 1;
 		}
 		return XYtoString(x,y);
