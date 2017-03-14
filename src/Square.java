@@ -1,6 +1,6 @@
 public class Square {
 	String colour;
-	static String position;
+	String position;
 	GamePieces gamePiece;
 	
 	public Square(String squareColour, String squarePosition){
@@ -12,7 +12,7 @@ public class Square {
 		return colour;
 	}
 	
-	public static String getSquarePosition(){
+	public String getSquarePosition(){
 		return position; 
 	}
 	
@@ -20,9 +20,9 @@ public class Square {
 		colour = squareColour;
 	}
 	
-	//TO DO
+	//TO DO -- i dont know if this acually works?? dont u have to loop thru all pieces
 	public boolean isEmpty(){
-		String pos = Square.getSquarePosition();
+		String pos = getSquarePosition();
 		if(gamePiece.getPiece(pos) == null){
 			return false;
 		}

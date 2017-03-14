@@ -16,10 +16,10 @@ public class CurrentState {
 	}
 	
 	public boolean gameOver(CurrentState currentState){
-		if(piece.getPlayerColour().equals("White") && piece.getPiecePosition().startsWith("A")){
+		if(piece.getID().startsWith("W") && piece.getPiecePosition().startsWith("A")){
 			return true;
 		}
-		else if(piece.getPlayerColour().equals("Black") && piece.getPiecePosition().startsWith("H")){
+		else if(piece.getID().startsWith("B") && piece.getPiecePosition().startsWith("H")){
 			return true;
 		}
 		else{

@@ -29,11 +29,11 @@ public class Interface {
 			playerColour = s.nextLine().trim().toUpperCase();
 			playerOne.setColour(playerColour);
 			
-			if(playerColour.equals("White")){
-				playerTwo.setColour("Black");
+			if(playerColour.equals("W")){
+				playerTwo.setColour("B");
 			}
 			else{
-				playerTwo.setColour("White");
+				playerTwo.setColour("W");
 			}
 			
 			Interface i = new Interface();
@@ -43,8 +43,10 @@ public class Interface {
 			do{
 				System.out.println("Player One make a move! Select the piece you wish to move: ");
 				String piece = s.nextLine().trim().toUpperCase();
+				isQuit(piece);
 				System.out.println("Player One select the square you wish to move to: ");
 				String square = s.nextLine().trim().toUpperCase();
+				isQuit(square);
 				if(playerOne.makeMove(piece, square, playerOne.getColour())){
 					i.updateInterface();
 				}
@@ -54,8 +56,10 @@ public class Interface {
 				
 				System.out.println("Player Two make a move! Select the piece you wish to move: ");
 				piece = s.nextLine().trim().toUpperCase();
+				isQuit(piece);
 				System.out.println("Player Two select the square you wish to move to: ");
 				square = s.nextLine().trim().toUpperCase();
+				isQuit(square);
 				if(playerTwo.makeMove(piece, square, playerTwo.getColour())){
 					i.updateInterface();
 				}
@@ -63,7 +67,7 @@ public class Interface {
 					System.out.println("That is not a valid move!");
 				}
 			}
-			while(option.equals("Q"));
+			while(!option.equals("Q"));
 		}
 		else{
 			System.out.println("That is not a valid option");
@@ -76,8 +80,11 @@ public class Interface {
 		for(int m = 0; m <8; m++){	
 			System.out.print(m + " ");
 			for(int n = 0; n < 8; n++){
-				if(m == 0 || m == 7){
+				if(m == 0){
 					System.out.print("|•|");
+				}
+				else if(m == 7){
+					System.out.println("|º|");
 				}
 				else{
 					System.out.print("|_|");
@@ -89,5 +96,12 @@ public class Interface {
 	
 	public void updateInterface(){
 		//DO THINGS
+	}
+	
+	public static void isQuit(String input){
+		if(input.equals("Q")){
+			System.out.println("Goodbye");
+			System.exit(0);
+		}
 	}
 }
