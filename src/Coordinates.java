@@ -33,6 +33,12 @@ public class Coordinates {
 	
 	//TO DO
 	public Boolean isMoveForward(String from, String to, String playerColour){
+		stringToXY(from);
+		
+		if(playerColour.equals("White")  ){
+			
+		}
+			
 		return true;
 	}
 	

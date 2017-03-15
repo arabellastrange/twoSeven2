@@ -21,6 +21,11 @@ public class Player {
 		playerName = name;
 	}
 	
+	public String getName(){
+		return playerName;
+	}
+
+	
 	public void setColour(String colour){
 		playerColour = colour;
 	}
@@ -33,7 +38,7 @@ public class Player {
 		Piece piece = now.getPieces().getPiece(fromPiece);
 		movedTo = toSquare;
 		movingPiece = piece.getID().substring(0,0);
-		if(movingPiece.equals(getColour())){
+		if(movingPiece.equals(getColour()) && movingPiece.equals(playerColour)){
 			if(movingPiece.equals(lastLandedOn.getColour())){
 				if(toSquare.isEmpty()){
 					if(co.isMoveForward(piece.getPiecePosition(), movedTo, movingPiece)){

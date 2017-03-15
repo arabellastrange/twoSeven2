@@ -7,7 +7,7 @@ public class Interface {
 		String option;
 		String playerColour;
 		Player playerOne = new Player();
-		System.out.println("Welcome to Kamisado, please enter yor name: ");
+		System.out.println("Welcome to Kamisado, please enter your name: ");
 		Scanner s = new Scanner(System.in);
 		account = s.nextLine().trim().toUpperCase();
 		playerOne.setName(account);
@@ -23,14 +23,24 @@ public class Interface {
 			Player playerTwo = new Player();
 			System.out.println("You are playing against another human! Player two, enter your name: ");
 			account = s.nextLine().trim().toUpperCase();
-			playerTwo.setName(account);
-			
+			if(playerOne.getName().equals(account)){
+				System.out.println("Both players cannot use the same name. Please enter a unique account name:");
+				account = s.nextLine().trim().toUpperCase();
+				playerTwo.setName(account);			
+			}
+			else{
+				playerTwo.setName(account);
+			}
+		
 			System.out.println("Player one select your colour! [White or Black]");
 			playerColour = s.nextLine().trim().toUpperCase();
 			playerOne.setColour(playerColour);
 			
 			if(playerColour.equals("W")){
 				playerTwo.setColour("B");
+			}
+			else if(playerColour.equals("Q")){
+				isQuit(playerColour);
 			}
 			else{
 				playerTwo.setColour("W");
@@ -40,6 +50,7 @@ public class Interface {
 			
 			System.out.println("Begin Game! Press S to start or Q to quit");
 			option = s.nextLine().trim().toUpperCase();
+			isQuit(option);
 			do{
 				System.out.println("Player One make a move! Select the piece you wish to move: ");
 				String piece = s.nextLine().trim().toUpperCase();
@@ -99,7 +110,8 @@ public class Interface {
 	}
 	
 	public static void isQuit(String input){
-		if(input.equals("Q")){
+		String quit = input.toUpperCase();
+		if(quit.equals("Q")){
 			System.out.println("Goodbye");
 			System.exit(0);
 		}
