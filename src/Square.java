@@ -1,9 +1,9 @@
 public class Square {
 	String colour;
 	String position;
-	GamePieces gamePiece;
+	Boolean empty = false;
 	
-	public Square(String squareColour, String squarePosition){
+	public Square(String squareColour, String squarePosition, Boolean empty){
 		colour = squareColour;
 		position = squarePosition;
 	}
@@ -22,12 +22,14 @@ public class Square {
 	
 	//TO DO -- i dont know if this acually works?? dont u have to loop thru all pieces
 	public boolean isEmpty(){
-		String pos = getSquarePosition();
-		if(gamePiece.getPiece(pos) == null){
-			return false;
-		}
-		else{
-			return true;	
-		}	
+		return empty;
+	}
+	
+	public void setOccupied(){
+		empty = true;
+	}
+	
+	public void clear(){
+		empty = false;
 	}
 }

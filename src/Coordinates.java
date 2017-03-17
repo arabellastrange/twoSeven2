@@ -19,7 +19,7 @@ public class Coordinates {
 	public void stringToXY(String position){
 		y = Integer.parseInt(position.substring(1));
 		x = position.charAt(0) - 64;
-//		System.out.println("Xy trans: " + y + "," + x);
+		//System.out.println("Xy trans: " + y + "," + x);
 	}
 	
 	public String XYtoString(int x, Integer y){
@@ -27,13 +27,26 @@ public class Coordinates {
 		char stx = (char) ascx;
 		String sty = y.toString(y,10);
 		String xyString  = stx + "" + sty;
-//		System.out.println(xyString);
+		//System.out.println(xyString);
 		return xyString;
 	}
 	
-	//TO DO
-	public Boolean isMoveForward(String from, String to, String playerColour){
-		return true;
+	//TO DO -- if white and y has increased or black and y has decreased, valid move
+	public Boolean isMoveForward(String from, String to, char playerColour){
+		stringToXY(from);
+		int startX = x;
+		int startY = y;
+		//System.out.println(y);
+		stringToXY(to);
+		int finalX = x;
+		int finalY = y;
+		//System.out.println(y);
+		if(playerColour == 'W' && startY < finalY || playerColour == 'B' && startY > finalY){
+			return true;
+		}
+		else{	
+			return false;
+		}
 	}
 	
 	public String moveUp(String coord){

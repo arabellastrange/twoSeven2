@@ -3,9 +3,6 @@ public class Player {
 	CurrentState now = observer.getCurrentState();
 	String playerColour;
 	String playerName;
-	String movingPiece;
-	String movedTo;
-	Square lastLandedOn = new Square("Default", "Defualt");
 	Coordinates co = new Coordinates();
 	
 	public Player(){
@@ -21,6 +18,11 @@ public class Player {
 		playerName = name;
 	}
 	
+	public String getName(){
+		return playerName;
+	}
+
+	
 	public void setColour(String colour){
 		playerColour = colour;
 	}
@@ -29,16 +31,20 @@ public class Player {
 		return playerColour;
 	}
 	
-	public boolean makeMove(String fromPiece, String toSquare, String playerColour){
+	public boolean makeMove(String fromPiece, String toSquare){
+		Square lastLandedOn = new Square("Default", "Defualt", true);
+		Square movedTo = now.getBoard().getStringSquare(toSquare);
 		Piece piece = now.getPieces().getPiece(fromPiece);
-		movedTo = toSquare;
-		movingPiece = piece.getID().substring(0,0);
-		if(movingPiece.equals(getColour())){
-			if(movingPiece.equals(lastLandedOn.getColour())){
-				if(toSquare.isEmpty()){
-					if(co.isMoveForward(piece.getPiecePosition(), movedTo, movingPiece)){
-						lastLandedOn.setSquareColour(movedTo);
-						//board.gameOver(board);
+		char movingPieceID = piece.getID().charAt(0); 
+		String movingPieceColour = piece.getColour();
+		
+		if(movingPieceID == getColour().charAt(0)){
+			if(lastLandedOn.getColour().equals("Default")){
+				if(movedTo.isEmpty()){
+					if(co.isMoveForward(piece.getPiecePosition(), toSquare, movingPieceID)){
+						lastLandedOn.setSquareColour(movedTo.getColour());
+						now.getBoard().getStringSquare(toSquare).setOccupied();
+						//clear old square
 						return true;
 					}
 					else{
@@ -51,14 +57,31 @@ public class Player {
 					return false;
 				}
 			}
+		}
+		else if(movingPieceColour.equals(lastLandedOn.getColour())){
+			if(toSquare.isEmpty()){
+				if(co.isMoveForward(piece.getPiecePosition(), toSquare, movingPieceID)){
+					lastLandedOn.setSquareColour(movedTo.getColour());
+					return true;
+				}
+				else{
+					System.out.println("You cannot move in this direction - only straight and diagonally forward.");
+					return false;
+				}
+			}
 			else{
-				System.out.println("You cannot move this piece as it is not the same colour as the last landed on square.");
+				System.out.println("You cannot put your piece here as the square is already occupied.");
 				return false;
 			}
 		}
+		else if(!lastLandedOn.getColour().equals("Default") || !movingPieceColour.equals(lastLandedOn.getColour())){
+				System.out.println("You cannot move this piece as it is not the same colour as the last landed on square.");
+				return false;
+			}
 		else{
 			System.out.println("This is not one of you pieces.");
 			return false;
 		}
+		return false;
 	}
 }
