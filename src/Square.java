@@ -1,11 +1,13 @@
 public class Square {
 	String colour;
 	String position;
-	Boolean empty = false;
+	Boolean empty;
 	
-	public Square(String squareColour, String squarePosition, Boolean empty){
+	public Square(String squareColour, String squarePosition, Boolean squareEmpty){
 		colour = squareColour;
 		position = squarePosition;
+		empty = squareEmpty;
+		
 	}
 	
 	public String getColour(){
