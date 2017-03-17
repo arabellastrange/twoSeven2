@@ -48,7 +48,7 @@ public class Interface {
 			
 			Interface i = new Interface();
 			
-			System.out.println("Begin Game! Press S to start or Q to quit");
+			System.out.println("Begin Game! Press S to start or Q to quit at any point");
 			option = s.nextLine().trim().toUpperCase();
 			isQuit(option);
 			do{

@@ -37,13 +37,12 @@ public class Player {
 	public boolean makeMove(String fromPiece, String toSquare, String playerColour){
 		Piece piece = now.getPieces().getPiece(fromPiece);
 		movedTo = toSquare;
-		movingPiece = piece.getID().substring(0,0);
+		movingPiece = piece.getID().substring(0,0); 
 		if(movingPiece.equals(getColour()) && movingPiece.equals(playerColour)){
 			if(movingPiece.equals(lastLandedOn.getColour())){
 				if(toSquare.isEmpty()){
 					if(co.isMoveForward(piece.getPiecePosition(), movedTo, movingPiece)){
 						lastLandedOn.setSquareColour(movedTo);
-						//board.gameOver(board);
 						return true;
 					}
 					else{
