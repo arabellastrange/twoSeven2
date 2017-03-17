@@ -3,6 +3,7 @@ public class Player {
 	CurrentState now = observer.getCurrentState();
 	String playerColour;
 	String playerName;
+	Square lastLandedOn = new Square("Default", "Defualt", false);
 	Coordinates co = new Coordinates();
 	
 	public Player(){
@@ -32,7 +33,6 @@ public class Player {
 	}
 	
 	public boolean makeMove(String fromPiece, String toSquare){
-		Square lastLandedOn = new Square("Default", "Defualt", false);
 		Square movedTo = now.getBoard().getStringSquare(toSquare);
 		Piece piece = now.getPieces().getPiece(fromPiece);
 		char movingPieceID = piece.getID().charAt(0); 
