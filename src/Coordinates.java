@@ -32,7 +32,7 @@ public class Coordinates {
 	}
 	
 	//TO DO -- if white and y has increased or black and y has decreased, valid move
-	public Boolean isMoveForward(String from, String to, String playerColour){
+	public Boolean isMoveForward(String from, String to, char playerColour){
 		stringToXY(from);
 		int startX = x;
 		int startY = y;
@@ -41,7 +41,7 @@ public class Coordinates {
 		int finalX = x;
 		int finalY = y;
 		//System.out.println(y);
-		if(playerColour.equals("White") && startY < finalY || playerColour.equals("Black") && startY > finalY){
+		if(playerColour == 'W' && startY < finalY || playerColour == 'B' && startY > finalY){
 			return true;
 		}
 		else{	

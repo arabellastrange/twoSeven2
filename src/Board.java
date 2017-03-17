@@ -11,7 +11,12 @@ public class Board {
 			for(int i = 0; i < 8; i++){
 				for(int m = 0; m < 8; m++){
 					String j =  coord.getCoordinates(n);
-					squares[i][m] = new Square("Default", j);
+					if(i == 0 || i == 7){
+						squares[i][m] = new Square("Default", j, true);
+					}
+					else{
+						squares[i][m] = new Square("Default", j, false);
+					}
 //					System.out.println("Assigned Square ["+ i + "] [" + m + "] position: " + squares[i][m].getSquarePosition());
 					n++;
 					}
