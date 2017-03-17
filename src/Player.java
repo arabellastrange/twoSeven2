@@ -32,7 +32,7 @@ public class Player {
 	}
 	
 	public boolean makeMove(String fromPiece, String toSquare){
-		Square lastLandedOn = new Square("Default", "Defualt", true);
+		Square lastLandedOn = new Square("Default", "Defualt", false);
 		Square movedTo = now.getBoard().getStringSquare(toSquare);
 		Piece piece = now.getPieces().getPiece(fromPiece);
 		char movingPieceID = piece.getID().charAt(0); 
@@ -43,6 +43,7 @@ public class Player {
 				if(movedTo.isEmpty()){
 					if(co.isMoveForward(piece.getPiecePosition(), toSquare, movingPieceID)){
 						lastLandedOn.setSquareColour(movedTo.getColour());
+						lastLandedOn.setOccupied();
 						now.getBoard().getStringSquare(toSquare).setOccupied();
 						//clear old square
 						return true;
