@@ -9,6 +9,7 @@ public class Interface {
 		String account;
 		String option;
 		String playerColour;
+		Settings set = new Settings();
 		Player playerOne = new Player();
 		System.out.println("Welcome to Kamisado, please enter your name: ");
 		Scanner s = new Scanner(System.in);
@@ -47,6 +48,15 @@ public class Interface {
 			}
 			else{
 				playerTwo.setColour("W");
+			}
+			
+			System.out.println("Do you wish to play in speed mode? [Y/N]");
+			String time = s.nextLine().trim().toUpperCase();
+			
+			if(time.equals("Y")){
+				System.out.println("Set the timer value you would like to use (in minutes");
+				double length = s.nextDouble();
+				set.setTimer(length);
 			}
 			
 			Interface i = new Interface();
