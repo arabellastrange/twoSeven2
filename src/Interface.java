@@ -1,6 +1,8 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Interface {
+	ArrayList<String> updatedSquares = new ArrayList<String>();
 	
 	public static void main(String[] args){
 		String account;
@@ -48,7 +50,7 @@ public class Interface {
 				String square = s.nextLine().trim().toUpperCase();
 				isQuit(square);
 				if(playerOne.makeMove(piece, square, playerOne.getColour())){
-					i.updateInterface();
+					i.updateInterface(piece, square);
 				}
 				else{
 					System.out.println("That is not a valid move!");
@@ -61,7 +63,7 @@ public class Interface {
 				square = s.nextLine().trim().toUpperCase();
 				isQuit(square);
 				if(playerTwo.makeMove(piece, square, playerTwo.getColour())){
-					i.updateInterface();
+					i.updateInterface(piece, square);
 				}
 				else{
 					System.out.println("That is not a valid move!");
@@ -94,8 +96,39 @@ public class Interface {
 		}
 	}
 	
-	public void updateInterface(){
-		//DO THINGS
+	public void updateInterface(String piece, String square){
+		updatedSquares.add(square);
+		
+		Coordinates coord = new Coordinates();
+		coord.stringToXY(square);
+		
+		int colour = -1;
+		
+		if(piece.startsWith("W")){
+			colour = 0;
+		}
+		else if(piece.startsWith("B")){
+			colour = 1;
+		}
+		
+		System.out.println("         Kamisado");
+		System.out.println("   A  B  C  D  E  F  G  H");
+		for(int m = 0; m <8; m++){	
+			System.out.print(m + " ");
+			for(int n = 0; n < 8; n++){
+				if(m == 0){
+					System.out.print("|•|");
+				}
+				else if(m == 7){
+					System.out.println("|º|");
+				}
+				else{
+					System.out.print("|_|");
+				}	
+			} 
+			System.out.println();
+			}
+		
 	}
 	
 	public static void isQuit(String input){
