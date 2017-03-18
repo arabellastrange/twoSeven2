@@ -45,8 +45,8 @@ public class Player {
 						now.getBoard().getLastLandedOn().setSquareColour(movedTo.getColour());
 						now.getBoard().getLastLandedOn().setOccupied();
 						now.getBoard().getStringSquare(toSquare).setOccupied();
+						now.getBoard().getStringSquare(piece.getPiecePosition()).clear();
 						piece.setPiecePosition(toSquare);
-						//clear old square
 						return true;
 					}
 					else{
@@ -64,6 +64,10 @@ public class Player {
 			if(toSquare.isEmpty()){
 				if(co.isMoveForward(piece.getPiecePosition(), toSquare, movingPieceID)){
 					now.getBoard().getLastLandedOn().setSquareColour(movedTo.getColour());
+					now.getBoard().getLastLandedOn().setOccupied();
+					now.getBoard().getStringSquare(toSquare).setOccupied();
+					now.getBoard().getStringSquare(piece.getPiecePosition()).clear();
+					piece.setPiecePosition(toSquare);
 					return true;
 				}
 				else{

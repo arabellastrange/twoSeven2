@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 public class Interface {
 	ArrayList<String> updatedSquares = new ArrayList<String>();
+	ArrayList<String> allSquares = new ArrayList<String>(); // make a list of all squares and print them out if you, then print out all the updated squares, in a square is in both all squares and updated squares then clear it in all squares
 	
 	public static void main(String[] args){
 		String account;
@@ -54,7 +55,7 @@ public class Interface {
 			String time = s.nextLine().trim().toUpperCase();
 			
 			if(time.equals("Y")){
-				System.out.println("Set the timer value you would like to use (in minutes");
+				System.out.println("Set the timer value you would like to use (in minutes): ");
 				double length = s.nextDouble();
 				set.setTimer(length);
 			}
@@ -85,9 +86,6 @@ public class Interface {
 				
 				if(playerTwo.makeMove(piece, square)){
 					i.updateInterface(piece, square);
-				}
-				else{
-					System.out.println("That is not a valid move!");
 				}
 			}
 			while(!option.equals("Q"));
@@ -204,7 +202,7 @@ public class Interface {
 					System.out.print("|•|");
 				}
 				else if(m == 7){
-					System.out.println("|º|");
+					System.out.print("|º|");
 				}
 				else{
 					System.out.print("|_|");
