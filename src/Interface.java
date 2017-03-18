@@ -1,9 +1,8 @@
 import java.util.ArrayList;
 import java.util.Scanner;
-
-
 public class Interface {
 	ArrayList<String> updatedSquares = new ArrayList<String>();
+	ArrayList<String> allSquares = new ArrayList<String>(); // make a list of all squares and print them out if you, then print out all the updated squares, in a square is in both all squares and updated squares then clear it in all squares
 	
 	public static void main(String[] args){
 		String account;
@@ -11,6 +10,7 @@ public class Interface {
 		String playerColour;
 		Settings set = new Settings();
 		Player playerOne = new Player();
+		Player playerTwo = new Player();
 		System.out.println("Welcome to Kamisado, please enter your name: ");
 		Scanner s = new Scanner(System.in);
 		account = s.nextLine().trim().toUpperCase();
@@ -24,7 +24,6 @@ public class Interface {
 			Interface i = new Interface();
 		}
 		else if(option.equals("H")){
-			Player playerTwo = new Player();
 			System.out.println("You are playing against another human! Player two, enter your name: ");
 			account = s.nextLine().trim().toUpperCase();
 			if(playerOne.getName().equals(account)){
@@ -54,7 +53,7 @@ public class Interface {
 			String time = s.nextLine().trim().toUpperCase();
 			
 			if(time.equals("Y")){
-				System.out.println("Set the timer value you would like to use (in seconds):");
+				System.out.println("Set the timer value you would like to use (in minutes): ");
 				double length = s.nextDouble();
 				set.setTimer(length);
 			}
@@ -75,9 +74,6 @@ public class Interface {
 				if(playerOne.makeMove(piece, square)){
 					i.updateInterface(piece, square);
 				}
-				else{
-					System.out.println("That is not a valid move!");
-				}
 				
 				System.out.println("Player Two make a move! Select the piece you wish to move: ");
 				piece = s.nextLine().trim().toUpperCase();
@@ -88,9 +84,6 @@ public class Interface {
 				
 				if(playerTwo.makeMove(piece, square)){
 					i.updateInterface(piece, square);
-				}
-				else{
-					System.out.println("That is not a valid move!");
 				}
 			}
 			while(!option.equals("Q"));
@@ -107,57 +100,57 @@ public class Interface {
 			System.out.print(m + " ");
 			for(int n = 0; n < 8; n++){
 		        if(m == 0 && n == 0){ //purple(orange)
-		          System.out.print("\u001b[1;45m|\u001b[0m表u001b[1;45m|\u001b[0m");
+		          System.out.print("\u001b[1;45m|\u001b[0m\u001b[1;45m|\u001b[0m");
 		        }
 		        else if(m == 0 && n == 1){ //blue
-		          System.out.print("\u001b[1;44m|\u001b[0m表u001b[1;44m|\u001b[0m");
+		          System.out.print("\u001b[1;44m|\u001b[0m\u001b[1;44m|\u001b[0m");
 		        }
 		        else if(m == 0 && n == 2){ //cyan
-		          System.out.print("\u001b[1;46m|\u001b[0m表u001b[1;46m|\u001b[0m");
+		          System.out.print("\u001b[1;46m|\u001b[0m\u001b[1;46m|\u001b[0m");
 		        }
 		        else if(m == 0 && n == 3){ //supposed to be pink
-		          System.out.print("\u001b[0;47m|\u001b[0m表u001b[0;47m|\u001b[0m");
+		          System.out.print("\u001b[0;47m|\u001b[0m\u001b[0;47m|\u001b[0m");
 		        }
 		        else if(m == 0 && n == 4){ //yellow
-		          System.out.print("\u001b[1;43m|\u001b[0m表u001b[1;43m|\u001b[0m");
+		          System.out.print("\u001b[1;43m|\u001b[0m\u001b[1;43m|\u001b[0m");
 		        }
 				else if(m == 0 && n == 5){ //red
-							System.out.print("\u001b[1;41m|\u001b[0m表u001b[1;41m|\u001b[0m");
+							System.out.print("\u001b[1;41m|\u001b[0m\u001b[1;41m|\u001b[0m");
 						}
 		        else if(m == 0 && n == 6){ //green
-							System.out.print("\u001b[1;42m|\u001b[0m表u001b[1;42m|\u001b[0m");
+							System.out.print("\u001b[1;42m|\u001b[0m\u001b[1;42m|\u001b[0m");
 						}
 		        else if(m == 0 && n == 7){ //black
-							System.out.print("\u001b[1;40m|\u001b[0m表u001b[1;40m|\u001b[0m");
+							System.out.print("\u001b[1;40m|\u001b[0m\u001b[1;40m|\u001b[0m");
 						}
-				else if(m == 7 && n == 7){ //purple(orange)
-							System.out.print("\u001b[1;45m|\u001b[0mｰ\u001b[1;45m|\u001b[0m");
+				else if(m == 7 && n == 7){ //purple
+							System.out.print("\u001b[1;45m|\u001b[0m\u001b[1;45m|\u001b[0m");
 						}
 		        else if(m == 7 && n == 6){ //blue
-							System.out.print("\u001b[1;44m|\u001b[0mｰ\u001b[1;44m|\u001b[0m");
+							System.out.print("\u001b[1;44m|\u001b[0m\u001b[1;44m|\u001b[0m");
 						}
 		        else if(m == 7 && n == 5){ //cyan
-							System.out.print("\u001b[1;46m|\u001b[0mｰ\u001b[1;46m|\u001b[0m");
+							System.out.print("\u001b[1;46m|\u001b[0m\u001b[1;46m|\u001b[0m");
 						}
 		        else if(m == 7 && n == 4){ //supposed to be pink
-							System.out.print("\u001b[0;47m|\u001b[0mｰ\u001b[0;47m|\u001b[0m");
+							System.out.print("\u001b[0;47m|\u001b[0m\u001b[0;47m|\u001b[0m");
 						}
 		        else if(m == 7 && n == 3){ //yellow
-							System.out.print("\u001b[1;43m|\u001b[0mｰ\u001b[1;43m|\u001b[0m");
+							System.out.print("\u001b[1;43m|\u001b[0m\u001b[1;43m|\u001b[0m");
 						}
 		        else if(m == 7 && n == 2){ //red
-							System.out.print("\u001b[1;41m|\u001b[0mｰ\u001b[1;41m|\u001b[0m");
+							System.out.print("\u001b[1;41m|\u001b[0m\u001b[1;41m|\u001b[0m");
 						}
 		        else if(m == 7 && n == 1){ //green
-							System.out.print("\u001b[1;42m|\u001b[0mｰ\u001b[1;42m|\u001b[0m");
+							System.out.print("\u001b[1;42m|\u001b[0m\u001b[1;42m|\u001b[0m");
 						}
 		        else if(m == 7 && n == 0){ //black
-							System.out.print("\u001b[1;40m|\u001b[0mｰ\u001b[1;40m|\u001b[0m");
+							System.out.print("\u001b[1;40m|\u001b[0m\u001b[1;40m|\u001b[0m");
 						}
 						else if(m == 1 && n == 0 || m == 2 && n == 3 || m == 3 && n == 6 || m == 4 && n == 1 || m == 5 && n == 4 || m == 6 && n == 7){ //red
 							System.out.print("\u001b[1;41m|_|\u001b[0m");
 						}
-		        else if(m == 1 && n == 1 || m == 2 && n == 2 || m == 3 && n == 3 || m == 4 && n == 4 || m == 5 && n == 5 || m == 6 && n == 6){ //purple(orange)
+		        else if(m == 1 && n == 1 || m == 2 && n == 2 || m == 3 && n == 3 || m == 4 && n == 4 || m == 5 && n == 5 || m == 6 && n == 6){ //purple
 							System.out.print("\u001b[1;45m|_|\u001b[0m");
 						}
 		        else if(m == 1 && n == 2 || m == 2 && n == 1 || m == 3 && n == 0 || m == 4 && n == 7 || m == 5 && n == 6 || m == 6 && n == 5){ //supposed to be pink
@@ -204,10 +197,10 @@ public class Interface {
 			System.out.print(m + " ");
 			for(int n = 0; n < 8; n++){
 				if(m == 0){
-					System.out.print("|怖");
+					System.out.print("||");
 				}
 				else if(m == 7){
-					System.out.println("|ｺ|");
+					System.out.print("||");
 				}
 				else{
 					System.out.print("|_|");
