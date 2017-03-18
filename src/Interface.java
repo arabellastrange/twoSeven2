@@ -76,6 +76,9 @@ public class Interface {
 				if(playerOne.makeMove(piece, square)){
 					board.updateInterface(piece, square);
 				}
+				else{
+					System.out.println("check above for error");
+				}
 				
 				System.out.println("Player Two make a move! Select the piece you wish to move: ");
 				piece = s.nextLine().trim().toUpperCase();
@@ -86,6 +89,9 @@ public class Interface {
 				
 				if(playerTwo.makeMove(piece, square)){
 					board.updateInterface(piece, square);
+				}
+				else{
+					System.out.println("check above for error");
 				}
 			}
 			while(!option.equals("Q"));
@@ -188,9 +194,9 @@ public class Interface {
 	public void updateInterface(String piece, String square){
 		Coordinates coord = new Coordinates();
 		coord.stringToXY(square);
-		int x = coord.getX();
-		int y = coord.getY();
-		int sqIndex = x + (y*8);
+		int newx = coord.getX();
+		int newy = coord.getY();
+		int sqIndex = newx + (newy*8);
 		
 		if(piece.startsWith("W")){
 			String newSq = allSquares.get(sqIndex).replace("|_|","|°|");
