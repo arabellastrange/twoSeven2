@@ -39,11 +39,9 @@ public class Board {
 		}
 		
 		String start = getSquare(0,3).getSquarePosition();
-//		System.out.println("Start: " + start);
 		String currentPosition = start;	
 		for(int i = 0; i < 4; i++){
 			Square s = getStringSquare(currentPosition);
-//			System.out.println(currentPosition);
 			s.setSquareColour(colours[4]);
 			String nextPosition = coord.moveDiagonalLeftDown(currentPosition);
 			currentPosition = nextPosition; 	
