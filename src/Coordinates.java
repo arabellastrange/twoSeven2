@@ -41,12 +41,17 @@ public class Coordinates {
 		int finalX = x;
 		int finalY = y;
 		//System.out.println(y);
-		if(playerColour == 'W' && startY < finalY || playerColour == 'B' && startY > finalY){
-			return true;
+		if(playerColour == 'W'){
+			 	if(startY < finalY){
+			 		return true;
+			 	}
 		}
-		else{	
+		else if(playerColour == 'B'){
+				if(startY > finalY){
+					return false;
+				}
+		}
 			return false;
-		}
 	}
 	
 	public String moveUp(String coord){
