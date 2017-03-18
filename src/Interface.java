@@ -190,14 +190,15 @@ public class Interface {
 		coord.stringToXY(square);
 		int x = coord.getX();
 		int y = coord.getY();
-		
-		//char at 11
+		int sqIndex = x + (y*8);
 		
 		if(piece.startsWith("W")){
-			
+			String newSq = allSquares.get(sqIndex).replace("|_|","|°|");
+			allSquares.set(sqIndex, newSq);
 		}
 		else if(piece.startsWith("B")){
-
+			String newSq = allSquares.get(sqIndex ).replace("|_|","|•|");
+			allSquares.set(sqIndex, newSq);
 		}
 		
 		printInterface();
