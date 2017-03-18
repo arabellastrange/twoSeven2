@@ -3,7 +3,6 @@ public class Player {
 	CurrentState now = observer.getCurrentState();
 	String playerColour;
 	String playerName;
-	Square lastLandedOn = new Square("Default", "Defualt", false);
 	Coordinates co = new Coordinates();
 	
 	public Player(){
@@ -33,18 +32,20 @@ public class Player {
 	}
 	
 	public boolean makeMove(String fromPiece, String toSquare){
+		Square last = now.getBoard().getLastLandedOn();
 		Square movedTo = now.getBoard().getStringSquare(toSquare);
 		Piece piece = now.getPieces().getPiece(fromPiece);
 		char movingPieceID = piece.getID().charAt(0); 
 		String movingPieceColour = piece.getColour();
 		
 		if(movingPieceID == getColour().charAt(0)){
-			if(lastLandedOn.getColour().equals("Default")){
+			if(last.getColour().equals("Default")){
 				if(movedTo.isEmpty()){
-					if(co.isMoveForward(piece.getPiecePosition(), toSquare, movingPieceID)){
-						lastLandedOn.setSquareColour(movedTo.getColour());
-						lastLandedOn.setOccupied();
+					if(co.isMoveForward(piece.getPiecePosition(), movedTo.getSquarePosition(), movingPieceID)){
+						now.getBoard().getLastLandedOn().setSquareColour(movedTo.getColour());
+						now.getBoard().getLastLandedOn().setOccupied();
 						now.getBoard().getStringSquare(toSquare).setOccupied();
+						piece.setPiecePosition(toSquare);
 						//clear old square
 						return true;
 					}
@@ -59,10 +60,10 @@ public class Player {
 				}
 			}
 		}
-		else if(movingPieceColour.equals(lastLandedOn.getColour())){
+		else if(movingPieceColour.equals(last.getColour())){
 			if(toSquare.isEmpty()){
 				if(co.isMoveForward(piece.getPiecePosition(), toSquare, movingPieceID)){
-					lastLandedOn.setSquareColour(movedTo.getColour());
+					now.getBoard().getLastLandedOn().setSquareColour(movedTo.getColour());
 					return true;
 				}
 				else{
@@ -75,7 +76,7 @@ public class Player {
 				return false;
 			}
 		}
-		else if(!lastLandedOn.getColour().equals("Default") || !movingPieceColour.equals(lastLandedOn.getColour())){
+		else if(!last.getColour().equals("Default") || !movingPieceColour.equals(last.getColour())){
 				System.out.println("You cannot move this piece as it is not the same colour as the last landed on square.");
 				return false;
 			}

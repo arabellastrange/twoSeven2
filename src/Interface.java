@@ -75,9 +75,6 @@ public class Interface {
 				if(playerOne.makeMove(piece, square)){
 					i.updateInterface(piece, square);
 				}
-				else{
-					System.out.println("That is not a valid move!");
-				}
 				
 				System.out.println("Player Two make a move! Select the piece you wish to move: ");
 				piece = s.nextLine().trim().toUpperCase();
