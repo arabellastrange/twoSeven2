@@ -1,6 +1,6 @@
 
 public class CurrentState {
-	Timer timer;
+	Settings timer;
 	String[] positions;
 	CurrentState currentState;
 	CurrentState savedState;
@@ -10,7 +10,7 @@ public class CurrentState {
 	Board board;
 	
 	public CurrentState(){
-		timer = new Timer();
+		timer = new Settings();
 		pieces = new GamePieces();
 		board = new Board();
 	}

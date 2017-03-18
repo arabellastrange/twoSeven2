@@ -54,7 +54,7 @@ public class Interface {
 			String time = s.nextLine().trim().toUpperCase();
 			
 			if(time.equals("Y")){
-				System.out.println("Set the timer value you would like to use (in minutes");
+				System.out.println("Set the timer value you would like to use (in seconds):");
 				double length = s.nextDouble();
 				set.setTimer(length);
 			}
@@ -130,7 +130,7 @@ public class Interface {
 		        else if(m == 0 && n == 7){ //black
 							System.out.print("\u001b[1;40m|\u001b[0m•\u001b[1;40m|\u001b[0m");
 						}
-				else if(m == 7 && n == 7){ //purple
+				else if(m == 7 && n == 7){ //purple(orange)
 							System.out.print("\u001b[1;45m|\u001b[0m°\u001b[1;45m|\u001b[0m");
 						}
 		        else if(m == 7 && n == 6){ //blue
@@ -157,7 +157,7 @@ public class Interface {
 						else if(m == 1 && n == 0 || m == 2 && n == 3 || m == 3 && n == 6 || m == 4 && n == 1 || m == 5 && n == 4 || m == 6 && n == 7){ //red
 							System.out.print("\u001b[1;41m|_|\u001b[0m");
 						}
-		        else if(m == 1 && n == 1 || m == 2 && n == 2 || m == 3 && n == 3 || m == 4 && n == 4 || m == 5 && n == 5 || m == 6 && n == 6){ //purple
+		        else if(m == 1 && n == 1 || m == 2 && n == 2 || m == 3 && n == 3 || m == 4 && n == 4 || m == 5 && n == 5 || m == 6 && n == 6){ //purple(orange)
 							System.out.print("\u001b[1;45m|_|\u001b[0m");
 						}
 		        else if(m == 1 && n == 2 || m == 2 && n == 1 || m == 3 && n == 0 || m == 4 && n == 7 || m == 5 && n == 6 || m == 6 && n == 5){ //supposed to be pink
