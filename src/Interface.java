@@ -55,7 +55,7 @@ public class Interface {
 			String time = s.nextLine().trim().toUpperCase();
 
 			if(time.equals("Y")){
-				System.out.println("Set the timer value you would like to use (in seconds):");
+				System.out.println("Set the timer value you would like to use (in minutes):");
 				double length = s.nextDouble();
 				set.setTimer(length);
 			}

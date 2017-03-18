@@ -42,12 +42,12 @@ public class Coordinates {
 		int finalY = y;
 		//System.out.println(y);
 		if(playerColour == 'W'){
-			 	if(startY < finalY){
+			 	if(startY > finalY){
 			 		return true;
 			 	}
 		}
 		else if(playerColour == 'B'){
-				if(startY > finalY){
+				if(startY < finalY){
 					return false;
 				}
 		}
