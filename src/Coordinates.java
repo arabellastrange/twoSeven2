@@ -100,4 +100,13 @@ public class Coordinates {
 	public String moveDiagonalRightUp(String coord){
 		return moveRight(moveUp(coord));
 	}
+	
+	public int getX(){
+		return x;
+	}
+	
+	public int getY(){
+		return y;
+	}
+	
 }
