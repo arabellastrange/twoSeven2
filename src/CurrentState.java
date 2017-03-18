@@ -1,7 +1,6 @@
 
 public class CurrentState {
-
-	double timer;
+	Timer timer;
 	String[] positions;
 	CurrentState currentState;
 	CurrentState savedState;
@@ -11,16 +10,16 @@ public class CurrentState {
 	Board board;
 	
 	public CurrentState(){
-		timer = 0;
+		timer = new Timer();
 		pieces = new GamePieces();
 		board = new Board();
 	}
 	
 	public boolean gameOver(CurrentState currentState){
-		if(piece.getPlayerColour().equals("White") && piece.getPiecePosition().startsWith("A")){
+		if(piece.getID().startsWith("W") && piece.getPiecePosition().startsWith("A")){
 			return true;
 		}
-		else if(piece.getPlayerColour().equals("Black") && piece.getPiecePosition().startsWith("H")){
+		else if(piece.getID().startsWith("B") && piece.getPiecePosition().startsWith("H")){
 			return true;
 		}
 		else{
@@ -28,8 +27,8 @@ public class CurrentState {
 		}
 	}
 	
-	public void setCurrentState(GamePieces gamePieces, Board board, double timer){
-		//timer = timer.getTime();
+	public void setCurrentState(GamePieces gamePieces, Board board){
+		double time = timer.getTime();
 		for(int i = 0; i < 16; i++){
 			getPositions();
 		}
@@ -43,14 +42,6 @@ public class CurrentState {
 			positions[m] = i.getPiecePosition();
 			m++;
 		}
-	}
-
-	public CurrentState getCurrentState(){
-		return currentState;
-	}
-	
-	public double getTime(){
-		return timer;
 	}
 	
 	public Piece getPiece(String id){

@@ -1,7 +1,5 @@
 public class Coordinates {
-	
 	String[] positions;
-	CurrentState currentState;
 	int x;
 	int y; 
 	
@@ -19,44 +17,57 @@ public class Coordinates {
 	}
 	
 	public void stringToXY(String position){
-		for(int i = 0; i < 8; i++){
-			for(int n = 0; n < 8; n++){
-				if(currentState.getCurrentState().getBoard().getSquare(i,n).getSquarePosition().equals(position)){//i think you would have to get the board object from the current state object, how to force update all current state objects tho???
-					x = i;
-					y = n;
-				}
-			}
+		y = Integer.parseInt(position.substring(1));
+		x = position.charAt(0) - 64;
+		//System.out.println("Xy trans: " + y + "," + x);
+	}
+	
+	public String XYtoString(int x, Integer y){
+		int ascx = x + 64;
+		char stx = (char) ascx;
+		String sty = y.toString(y,10);
+		String xyString  = stx + "" + sty;
+		//System.out.println(xyString);
+		return xyString;
+	}
+	
+	//TO DO -- if white and y has increased or black and y has decreased, valid move
+	public Boolean isMoveForward(String from, String to, char playerColour){
+		stringToXY(from);
+		int startX = x;
+		int startY = y;
+		//System.out.println(y);
+		stringToXY(to);
+		int finalX = x;
+		int finalY = y;
+		//System.out.println(y);
+		if(playerColour == 'W' && startY < finalY || playerColour == 'B' && startY > finalY){
+			return true;
 		}
-	}
-	
-	public String XYtoString(int x, int y){
-		return currentState.getCurrentState().getBoard().getSquare(x,y).getSquarePosition();
-	}
-	
-	//TO DO
-	public Boolean isMoveForward(String from, String to, String playerColour){
-		return true;
+		else{	
+			return false;
+		}
 	}
 	
 	public String moveUp(String coord){
 		stringToXY(coord);
-		if(y + 1 != 8){
-			y = y + 1;
+		if(y - 1 >= 0){
+			y = y - 1;
 		}
 		return XYtoString(x,y);
 	}
 	
 	public String moveDown(String coord){
 		stringToXY(coord);
-		if(y - 1 != 0){
-			y = y -1;
+		if(y + 1 <= 7){
+			y = y + 1;
 		}
 		return XYtoString(x,y);
 	}
 	
 	public String moveLeft(String coord){
 		stringToXY(coord);
-		if(x - 1 != 0){
+		if(x - 1 >= 0){
 			x = x - 1;
 		}
 		return XYtoString(x,y);
@@ -64,7 +75,7 @@ public class Coordinates {
 	
 	public String moveRight(String coord){
 		stringToXY(coord);
-		if(x + 1 != 8){
+		if(x + 1 <= 8){
 			x = x + 1;
 		}
 		return XYtoString(x,y);
