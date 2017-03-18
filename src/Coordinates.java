@@ -18,12 +18,12 @@ public class Coordinates {
 	
 	public void stringToXY(String position){
 		y = Integer.parseInt(position.substring(1));
-		x = position.charAt(0) - 64;
+		x = position.charAt(0) - 65;
 		//System.out.println("Xy trans: " + y + "," + x);
 	}
 	
 	public String XYtoString(int x, Integer y){
-		int ascx = x + 64;
+		int ascx = x + 65;
 		char stx = (char) ascx;
 		String sty = y.toString(y,10);
 		String xyString  = stx + "" + sty;
@@ -36,17 +36,21 @@ public class Coordinates {
 		stringToXY(from);
 		int startX = x;
 		int startY = y;
-		//System.out.println(y);
 		stringToXY(to);
 		int finalX = x;
 		int finalY = y;
-		//System.out.println(y);
-		if(playerColour == 'W' && startY < finalY || playerColour == 'B' && startY > finalY){
-			return true;
+		if(playerColour == 'W'){
+			if(startY > finalY){
+				return true;
+			}
 		}
-		else{	
-			return false;
+		else if(playerColour == 'B'){
+			if(startY < finalY){
+				return true;
+			}
 		}
+		
+		return false;
 	}
 	
 	public String moveUp(String coord){
