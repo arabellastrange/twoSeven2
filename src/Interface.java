@@ -11,6 +11,7 @@ public class Interface {
 		String playerColour;
 		Settings set = new Settings();
 		Player playerOne = new Player();
+		Player playerTwo = new Player();
 		System.out.println("Welcome to Kamisado, please enter your name: ");
 		Scanner s = new Scanner(System.in);
 		account = s.nextLine().trim().toUpperCase();
@@ -24,7 +25,6 @@ public class Interface {
 			Interface i = new Interface();
 		}
 		else if(option.equals("H")){
-			Player playerTwo = new Player();
 			System.out.println("You are playing against another human! Player two, enter your name: ");
 			account = s.nextLine().trim().toUpperCase();
 			if(playerOne.getName().equals(account)){
