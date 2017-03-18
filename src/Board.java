@@ -4,6 +4,8 @@ public class Board {
 	
 	String colours[] = {"Brown", "Green", "Red", "Yellow", "Purple", "Maroon", "Navy", "Orange"};
 	
+	Square lastLandedOn = new Square("Default", "Defualt", false);
+	
 	Coordinates coord = new Coordinates();
 	
 	public Board(){
@@ -12,10 +14,10 @@ public class Board {
 				for(int m = 0; m < 8; m++){
 					String j =  coord.getCoordinates(n);
 					if(i == 0 || i == 7){
-						squares[i][m] = new Square("Default", j, true);
+						squares[i][m] = new Square("Default", j, false);
 					}
 					else{
-						squares[i][m] = new Square("Default", j, false);
+						squares[i][m] = new Square("Default", j, true);
 					}
 //					System.out.println("Assigned Square ["+ i + "] [" + m + "] position: " + squares[i][m].getSquarePosition());
 					n++;
@@ -118,6 +120,10 @@ public class Board {
 			}
 		}
 		return null;
+	}
+	
+	public Square getLastLandedOn(){
+		return lastLandedOn;
 	}
 	
 }

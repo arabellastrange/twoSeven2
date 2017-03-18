@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 public class Interface {
 	ArrayList<String> updatedSquares = new ArrayList<String>();
-	ArrayList<String> allSquares = new ArrayList<String>(); 
+	ArrayList<String> allSquares = new ArrayList<String>(); // make a list of all squares and print them out if you, then print out all the updated squares, in a square is in both all squares and updated squares then clear it in all squares
 
 	public static void main(String[] args){
 		String account;
