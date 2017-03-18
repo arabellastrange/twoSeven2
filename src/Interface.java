@@ -200,7 +200,7 @@ public class Interface {
 					System.out.print("||");
 				}
 				else if(m == 7){
-					System.out.print("||");
+					System.out.print("|º|");
 				}
 				else{
 					System.out.print("|_|");
