@@ -1,9 +1,5 @@
-
 public class Settings {
-
 	long startTime;
-
-
 	double current;
 	double elapsed;
 	double limit;
@@ -24,5 +20,10 @@ public class Settings {
 
 	public void setTimer(double time){
 		limit = time;
+	}
+	
+	public double clearTimer(){
+		elapsed = 0.0;
+		return elapsed;
 	}
 }

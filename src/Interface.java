@@ -61,48 +61,95 @@ public class Interface {
 				System.out.println("Set the timer value you would like to use (in minutes): ");
 				double length = s.nextDouble();
 				set.setTimer(length);
+				
+				Interface i = new Interface();
+				
+				System.out.println("Begin Game! Press Q to quit at any point");
+				option = s.nextLine().trim().toUpperCase();
+				isQuit(option);
+				do{
+					System.out.println("Player One make a move! Select the piece you wish to move: ");	
+					set.clearTimer();
+					System.out.println("You have run out of time. Player Two make a move.");	
+					String piece = s.nextLine().trim().toUpperCase();
+					isQuit(piece);
+					System.out.println("Player One select the square you wish to move to: ");
+					String square = s.nextLine().trim().toUpperCase();
+					isQuit(square);
+						
+					System.out.println(set.getTime());
+					if(set.getTime() >= length){
+						set.clearTimer();
+						System.out.println("You have run out of time. Player Two make a move.");
+					}else{
+						if(playerOne.makeMove(piece, square)){
+							i.updateInterface(piece, square);
+							set.clearTimer();
+						}
+					}
+					
+					System.out.println("Player Two make a move! Select the piece you wish to move: ");
+					
+					piece = s.nextLine().trim().toUpperCase();
+					isQuit(piece);
+					System.out.println("Player Two select the square you wish to move to: ");
+					square = s.nextLine().trim().toUpperCase();
+					isQuit(square);
+					
+					System.out.println(set.getTime());
+					if(set.getTime() >= length){
+						set.clearTimer();
+						System.out.println("You have run out of time. Player Two make a move.");
+					}else{
+						if(playerTwo.makeMove(piece, square)){
+							i.updateInterface(piece, square);
+							set.clearTimer();
+						}
+					}
+				}while(!option.equals("Q"));
 			}
-			
-			Interface board = new Interface();
-			
-			System.out.println("Begin Game! Press S to start or Q to quit at any point");
-			option = s.nextLine().trim().toUpperCase();
-			isQuit(option);
-			do{
-				System.out.println("Player One make a move! Select the piece you wish to move: ");
-				String piece = s.nextLine().trim().toUpperCase();
-				isQuit(piece);
-				System.out.println("Player One select the square you wish to move to: ");
-				String square = s.nextLine().trim().toUpperCase();
-				isQuit(square);
+			else{
+				Interface board = new Interface();
 				
-				if(playerOne.makeMove(piece, square)){
-					board.updateInterface(piece, square);
+				System.out.println("Begin Game! Press S to start or Q to quit at any point");
+				option = s.nextLine().trim().toUpperCase();
+				isQuit(option);
+				do{
+					System.out.println("Player One make a move! Select the piece you wish to move: ");
+					String piece = s.nextLine().trim().toUpperCase();
+					isQuit(piece);
+					System.out.println("Player One select the square you wish to move to: ");
+					String square = s.nextLine().trim().toUpperCase();
+					isQuit(square);
+					
+					if(playerOne.makeMove(piece, square)){
+						board.updateInterface(piece, square);
+					}
+					else{
+						System.out.println("check above for error");
+					}
+					
+					System.out.println("Player Two make a move! Select the piece you wish to move: ");
+					piece = s.nextLine().trim().toUpperCase();
+					isQuit(piece);
+					System.out.println("Player Two select the square you wish to move to: ");
+					square = s.nextLine().trim().toUpperCase();
+					isQuit(square);
+					
+					if(playerTwo.makeMove(piece, square)){
+						board.updateInterface(piece, square);
+					}
+					else{
+						System.out.println("check above for error");
+					}
 				}
-				else{
-					System.out.println("check above for error");
-				}
-				
-				System.out.println("Player Two make a move! Select the piece you wish to move: ");
-				piece = s.nextLine().trim().toUpperCase();
-				isQuit(piece);
-				System.out.println("Player Two select the square you wish to move to: ");
-				square = s.nextLine().trim().toUpperCase();
-				isQuit(square);
-				
-				if(playerTwo.makeMove(piece, square)){
-					board.updateInterface(piece, square);
-				}
-				else{
-					System.out.println("check above for error");
-				}
+				while(!option.equals("Q"));
 			}
-			while(!option.equals("Q"));
 		}
 		else{
 			System.out.println("That is not a valid option");
 		}
-	}
+}
 	
 	public Interface(){
 
