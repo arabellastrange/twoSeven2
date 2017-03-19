@@ -12,7 +12,7 @@ public class Interface {
 		String playerColour;
 		Settings set = new Settings();
 		Player playerOne = new Player();
-		Player playerTwo = new Player();
+		Opponent playerTwo = new Opponent();
 		
 		System.out.println("Welcome to Kamisado, please enter your name: ");
 		Scanner s = new Scanner(System.in);
