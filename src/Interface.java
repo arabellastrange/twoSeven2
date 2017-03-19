@@ -12,7 +12,7 @@ public class Interface {
 		String playerColour;
 		Settings set = new Settings();
 		Player playerOne = new Player();
-		Opponent playerTwo = new Opponent();
+		Player playerTwo = new Player();
 		
 		System.out.println("Welcome to Kamisado, please enter your name: ");
 		Scanner s = new Scanner(System.in);
@@ -75,11 +75,7 @@ public class Interface {
 				
 				if(playerOne.makeMove(piece, square)){
 					board.updateInterface(piece, square);
-				}
-				else{
-					System.out.println("check above for error");
-				}
-				
+				}				
 				System.out.println("Player Two make a move! Select the piece you wish to move: ");
 				piece = s.nextLine().trim().toUpperCase();
 				isQuit(piece);
