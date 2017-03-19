@@ -1,7 +1,6 @@
 public class Driver {
-	
-	Observer observer = new Observer();
 	Coordinates co = new Coordinates();
+	Observer observer = new Observer();
 	
 	public boolean checkMove(String fromPiece, String toSquare, String pColour){
 		Square last = observer.getCurrentState().getLastLandedOn();
@@ -35,39 +34,41 @@ public class Driver {
 					return false;
 				}
 			}
-		}
-		else if(movingPieceColour.equals(last.getColour())){
-			if(toSquare.isEmpty()){
-				if(co.isMoveForward(piece.getPiecePosition(), toSquare, movingPieceID)){
-					observer.getCurrentState().getLastLandedOn().setSquareColour(movedTo.getColour());
-					observer.getCurrentState().getLastLandedOn().setOccupied();
-					observer.getCurrentState().getBoard().getStringSquare(toSquare).setOccupied();
-					observer.getCurrentState().getBoard().getStringSquare(piece.getPiecePosition()).clear();
-					piece.setPiecePosition(toSquare);
-					if(observer.getCurrentState().gameOver(piece)){
-						System.out.println("Congrats! You won!");
-						System.exit(0);
+			else if(movingPieceColour.equals(last.getColour())){
+				if(toSquare.isEmpty()){
+					if(co.isMoveForward(piece.getPiecePosition(), toSquare, movingPieceID)){
+						observer.getCurrentState().getLastLandedOn().setSquareColour(movedTo.getColour());
+						observer.getCurrentState().getLastLandedOn().setOccupied();
+						observer.getCurrentState().getBoard().getStringSquare(toSquare).setOccupied();
+						observer.getCurrentState().getBoard().getStringSquare(piece.getPiecePosition()).clear();
+						piece.setPiecePosition(toSquare);
+						if(observer.getCurrentState().gameOver(piece)){
+							System.out.println("Congrats! You won!");
+							System.exit(0);
+						}
+						return true;
 					}
-					return true;
-				}
+					else{
+						System.out.println("You cannot move in this direction - only straight and diagonally forward.");
+						return false;
+						}
+					}
 				else{
-					System.out.println("You cannot move in this direction - only straight and diagonally forward.");
+					System.out.println("You cannot put your piece here as the square is already occupied.");
 					return false;
 				}
 			}
+			else if(!last.getColour().equals("Default") || !movingPieceColour.equals(last.getColour())){
+					System.out.println("You cannot move this piece as it is not the same colour as the last landed on square.");
+					return false;
+			}
 			else{
-				System.out.println("You cannot put your piece here as the square is already occupied.");
+				System.out.println("This is not one of you pieces.");
 				return false;
 			}
+			
 		}
-		else if(!last.getColour().equals("Default") || !movingPieceColour.equals(last.getColour())){
-				System.out.println("You cannot move this piece as it is not the same colour as the last landed on square.");
-				return false;
-			}
-		else{
-			System.out.println("This is not one of you pieces.");
-			return false;
-		}
+		System.out.println("All other options fell thru");
 		return false;
 	}
 }
