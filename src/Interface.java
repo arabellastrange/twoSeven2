@@ -13,7 +13,7 @@ public class Interface {
 		String playerColour;
 		Settings set = new Settings();
 		Player playerOne = new Player();
-		Opponent playerTwo = new Opponent();
+		Player playerTwo = new Player();
 		
 		System.out.println("Welcome to Kamisado, please enter your name: ");
 		Scanner s = new Scanner(System.in);
@@ -62,6 +62,7 @@ public class Interface {
 				double length = s.nextDouble();
 				set.setTimer(length);
 				
+
 				Interface i = new Interface();
 				
 				System.out.println("Begin Game! Press Q to quit at any point");
@@ -110,6 +111,7 @@ public class Interface {
 			}
 			else{
 				Interface board = new Interface();
+
 				
 				System.out.println("Begin Game! Press S to start or Q to quit at any point");
 				option = s.nextLine().trim().toUpperCase();
