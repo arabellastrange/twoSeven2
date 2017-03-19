@@ -4,4 +4,6 @@ public class Opponent extends Player {
 		playerName = "Default";
 		playerColour = "Default";
 	}
+
 }
+

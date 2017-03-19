@@ -4,6 +4,8 @@ public class Board {
 	
 	String colours[] = {"Brown", "Green", "Red", "Yellow", "Purple", "Maroon", "Navy", "Orange"};
 	
+	Square lastLandedOn = new Square("Default", "Defualt", false);
+	
 	Coordinates coord = new Coordinates();
 	
 	public Board(){
@@ -117,9 +119,9 @@ public class Board {
 		}
 		return null;
 	}
-<<<<<<< HEAD
-		
-=======
 	
->>>>>>> master
+	public Square getLastLandedOn(){
+		return lastLandedOn;
+	}
+	
 }

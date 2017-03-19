@@ -117,9 +117,5 @@ public class Board {
 		}
 		return null;
 	}
-<<<<<<< HEAD
 		
-=======
-	
->>>>>>> master
 }

@@ -24,7 +24,9 @@ public class Interface {
 		option = s.nextLine().trim().toUpperCase();
 		
 		if(option.equals("A")){
-			System.out.println("You are playing agint AI");
+
+			System.out.println("You are playing agint AI");		
+
 		}
 		else if(option.equals("H")){
 			System.out.println("You are playing against another human! Player two, enter your name: ");
@@ -61,7 +63,7 @@ public class Interface {
 				set.setTimer(length);
 			}
 			
-			Interface i = new Interface();
+			Interface board = new Interface();
 			
 			System.out.println("Begin Game! Press S to start or Q to quit at any point");
 			option = s.nextLine().trim().toUpperCase();
@@ -75,7 +77,7 @@ public class Interface {
 				isQuit(square);
 				
 				if(playerOne.makeMove(piece, square)){
-					i.updateInterface(piece, square);
+					board.updateInterface(piece, square);
 				}
 				else{
 					System.out.println("check above for error");
@@ -89,7 +91,10 @@ public class Interface {
 				isQuit(square);
 				
 				if(playerTwo.makeMove(piece, square)){
-					i.updateInterface(piece, square);
+					board.updateInterface(piece, square);
+				}
+				else{
+					System.out.println("check above for error");
 				}
 			}
 			while(!option.equals("Q"));
@@ -100,14 +105,17 @@ public class Interface {
 	}
 	
 	public Interface(){
-		allSquares.add("\u001b[1;45m|\u001b[0m\u001b[1;45m|\u001b[0m"); // purple
-		allSquares.add("\u001b[1;44m|\u001b[0m\u001b[1;44m|\u001b[0m"); // blue
-		allSquares.add("\u001b[1;46m|\u001b[0m\u001b[1;46m|\u001b[0m"); // cyan
-		allSquares.add("\u001b[0;47m|\u001b[0m\u001b[0;47m|\u001b[0m"); // pink
-		allSquares.add("\u001b[1;43m|\u001b[0m\u001b[1;43m|\u001b[0m"); // yellow
-		allSquares.add("\u001b[1;41m|\u001b[0m\u001b[1;41m|\u001b[0m"); // red
-		allSquares.add("\u001b[1;42m|\u001b[0m\u001b[1;42m|\u001b[0m"); // green
-		allSquares.add("\u001b[1;40m|\u001b[0m\u001b[1;40m|\u001b[0m"); // black
+
+		allSquares.add("\u001b[1;45m|\u001b[0m表u001b[1;45m|\u001b[0m"); // purple
+		allSquares.add("\u001b[1;44m|\u001b[0m表u001b[1;44m|\u001b[0m"); // blue
+		allSquares.add("\u001b[1;46m|\u001b[0m表u001b[1;46m|\u001b[0m"); // cyan
+		allSquares.add("\u001b[0;47m|\u001b[0m表u001b[0;47m|\u001b[0m"); // pink
+		allSquares.add("\u001b[1;43m|\u001b[0m表u001b[1;43m|\u001b[0m"); // yellow
+		allSquares.add("\u001b[1;41m|\u001b[0m表u001b[1;41m|\u001b[0m"); // red
+		allSquares.add("\u001b[1;42m|\u001b[0m表u001b[1;42m|\u001b[0m"); // green
+		allSquares.add("\u001b[1;40m|\u001b[0m表u001b[1;40m|\u001b[0m"); // black
+
+
 		allSquares.add("\u001b[1;41m|_|\u001b[0m"); // row 1
 		allSquares.add("\u001b[1;45m|_|\u001b[0m");
 		allSquares.add("\u001b[0;47m|_|\u001b[0m");
@@ -162,15 +170,16 @@ public class Interface {
 		allSquares.add("\u001b[1;45m|_|\u001b[0m");
 		allSquares.add("\u001b[1;41m|_|\u001b[0m");
 		
-		allSquares.add("\u001b[1;40m|\u001b[0m\u001b[1;40m|\u001b[0m"); // black
-		allSquares.add("\u001b[1;42m|\u001b[0m\u001b[1;42m|\u001b[0m"); // green
-		allSquares.add("\u001b[1;41m|\u001b[0m\u001b[1;41m|\u001b[0m"); // red
-		allSquares.add("\u001b[1;43m|\u001b[0m\u001b[1;43m|\u001b[0m"); // yellow
-		allSquares.add("\u001b[1;47m|\u001b[0m\u001b[1;47m|\u001b[0m"); // pink
-		allSquares.add("\u001b[1;46m|\u001b[0m\u001b[1;46m|\u001b[0m"); // cyan
-		allSquares.add("\u001b[1;44m|\u001b[0m\u001b[1;44m|\u001b[0m"); // blue
-		allSquares.add("\u001b[1;45m|\u001b[0m\u001b[1;45m|\u001b[0m"); // purple
-		
+
+		allSquares.add("\u001b[1;40m|\u001b[0mｰ\u001b[1;40m|\u001b[0m"); // black
+		allSquares.add("\u001b[1;42m|\u001b[0mｰ\u001b[1;42m|\u001b[0m"); // green
+		allSquares.add("\u001b[1;41m|\u001b[0mｰ\u001b[1;41m|\u001b[0m"); // red
+		allSquares.add("\u001b[1;43m|\u001b[0mｰ\u001b[1;43m|\u001b[0m"); // yellow
+		allSquares.add("\u001b[1;47m|\u001b[0mｰ\u001b[1;47m|\u001b[0m"); // pink
+		allSquares.add("\u001b[1;46m|\u001b[0mｰ\u001b[1;46m|\u001b[0m"); // cyan
+		allSquares.add("\u001b[1;44m|\u001b[0mｰ\u001b[1;44m|\u001b[0m"); // blue
+		allSquares.add("\u001b[1;45m|\u001b[0mｰ\u001b[1;45m|\u001b[0m"); // purple
+
 		printInterface();
 	}
 	
@@ -196,11 +205,13 @@ public class Interface {
 		int sqIndex = newx + (newy*8);
 		
 		if(piece.startsWith("W")){
-			String newSq = allSquares.get(sqIndex).replace("|_|","||");
+
+			String newSq = allSquares.get(sqIndex).replace("|_|","|ｰ|");
 			allSquares.set(sqIndex, newSq);
 		}
 		else if(piece.startsWith("B")){
-			String newSq = allSquares.get(sqIndex ).replace("|_|","||");
+			String newSq = allSquares.get(sqIndex ).replace("|_|","|怖");
+
 			allSquares.set(sqIndex, newSq);
 		}
 		
