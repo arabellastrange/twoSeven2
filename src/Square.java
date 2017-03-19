@@ -27,10 +27,10 @@ public class Square {
 	}
 	
 	public void setOccupied(){
-		empty = true;
+		empty = false;
 	}
 	
 	public void clear(){
-		empty = false;
+		empty = true;
 	}
 }

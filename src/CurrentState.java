@@ -1,11 +1,9 @@
-
 public class CurrentState {
 	Settings timer;
 	String[] positions;
 	CurrentState currentState;
 	CurrentState savedState;
-	Piece piece;
-	Square lastLandedOn;
+	Square lastLandedOn = new Square("Default", "Defualt", false);
 	GamePieces pieces;
 	Board board;
 	
@@ -15,11 +13,11 @@ public class CurrentState {
 		board = new Board();
 	}
 	
-	public boolean gameOver(CurrentState currentState){
-		if(piece.getID().startsWith("W") && piece.getPiecePosition().startsWith("A")){
+	public boolean gameOver(Piece p){
+		if(p.getID().startsWith("W") && p.getPiecePosition().charAt(1) == 0){
 			return true;
 		}
-		else if(piece.getID().startsWith("B") && piece.getPiecePosition().startsWith("H")){
+		else if(p.getID().startsWith("B") && p.getPiecePosition().charAt(1) == 7){
 			return true;
 		}
 		else{
@@ -58,5 +56,9 @@ public class CurrentState {
 	
 	public void saveCurrentState(CurrentState currentState){
 		savedState = currentState;
+	}
+	
+	public Square getLastLandedOn(){
+		return lastLandedOn;
 	}
 }
