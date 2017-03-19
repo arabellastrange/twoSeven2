@@ -69,9 +69,7 @@ public class Interface {
 				option = s.nextLine().trim().toUpperCase();
 				isQuit(option);
 				do{
-					System.out.println("Player One make a move! Select the piece you wish to move: ");	
-					set.clearTimer();
-					System.out.println("You have run out of time. Player Two make a move.");	
+					System.out.println("Player One make a move! Select the piece you wish to move: ");		
 					String piece = s.nextLine().trim().toUpperCase();
 					isQuit(piece);
 					System.out.println("Player One select the square you wish to move to: ");
@@ -90,7 +88,6 @@ public class Interface {
 					}
 					
 					System.out.println("Player Two make a move! Select the piece you wish to move: ");
-					
 					piece = s.nextLine().trim().toUpperCase();
 					isQuit(piece);
 					System.out.println("Player Two select the square you wish to move to: ");
@@ -112,7 +109,6 @@ public class Interface {
 			else{
 				Interface board = new Interface();
 
-				
 				System.out.println("Begin Game! Press S to start or Q to quit at any point");
 				option = s.nextLine().trim().toUpperCase();
 				isQuit(option);

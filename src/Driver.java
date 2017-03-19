@@ -59,7 +59,7 @@ public class Driver {
 				}
 			}
 			else if(!last.getColour().equals("Default") || !movingPieceColour.equals(last.getColour())){
-					System.out.println("You cannot move this piece as it is not the same colour as the last landed on square.");
+					System.out.println("You cannot move this piece as it is not the same colour as the last landed on square - " + last.getColour());
 					return false;
 			}
 			else{
