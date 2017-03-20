@@ -1,4 +1,3 @@
-
 public class CurrentState {
 	Settings timer;
 	String[] positions;

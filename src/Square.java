@@ -7,7 +7,6 @@ public class Square {
 		colour = squareColour;
 		position = squarePosition;
 		empty = squareEmpty;
-		
 	}
 	
 	public String getColour(){
