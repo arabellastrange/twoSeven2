@@ -1,8 +1,6 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 
-
-
 public class Interface {
 	ArrayList<String> updatedSquares = new ArrayList<String>();
 	ArrayList<String> allSquares = new ArrayList<String>(); // make a list of all squares and print them out if you, then print out all the updated squares, in a square is in both all squares and updated squares then clear it in all squares
@@ -71,10 +69,28 @@ public class Interface {
 				do{
 					System.out.println("Player One make a move! Select the piece you wish to move: ");		
 					String piece = s.nextLine().trim().toUpperCase();
-					isQuit(piece);
+					
+					if(piece.startsWith("W") || piece.startsWith("Bl")){
+						isQuit(piece);
+					}
+					else{
+						System.out.println("This is not a valid piece ID. The piece id should be either 'W' or 'Bl' followed by the piece number.");
+						System.out.println("Please try again:");
+						piece = s.nextLine().trim().toUpperCase();
+						isQuit(piece);
+					}
+					
 					System.out.println("Player One select the square you wish to move to: ");
 					String square = s.nextLine().trim().toUpperCase();
-					isQuit(square);
+					
+					if(square.matches("(A|B|C|D|E|F|G|H|Q).*")){
+						isQuit(square);
+					}
+					else{
+						System.out.println("Square numbers are coordinates ranging from A0 to H7. Please try again:");
+						square = s.nextLine().trim().toUpperCase();
+						isQuit(square);
+					}
 						
 					System.out.println(set.getTime());
 					if(set.getTime() >= length){
@@ -89,10 +105,28 @@ public class Interface {
 					
 					System.out.println("Player Two make a move! Select the piece you wish to move: ");
 					piece = s.nextLine().trim().toUpperCase();
-					isQuit(piece);
+
+					if(piece.startsWith("W") || piece.startsWith("Bl")){
+						isQuit(piece);
+					}
+					else{
+						System.out.println("This is not a valid piece ID. The piece id should be either 'W' or 'Bl' followed by the piece number.");
+						System.out.println("Please try again:");
+						piece = s.nextLine().trim().toUpperCase();
+						isQuit(piece);
+					}
+					
 					System.out.println("Player Two select the square you wish to move to: ");
 					square = s.nextLine().trim().toUpperCase();
-					isQuit(square);
+					
+					if(square.matches("(A|B|C|D|E|F|G|H|Q).*")){
+						isQuit(square);
+					}
+					else{
+						System.out.println("Square numbers are coordinates ranging from A0 to H7. Please try again:");
+						square = s.nextLine().trim().toUpperCase();
+						isQuit(square);
+					}
 					
 					System.out.println(set.getTime());
 					if(set.getTime() >= length){
@@ -115,10 +149,28 @@ public class Interface {
 				do{
 					System.out.println("Player One make a move! Select the piece you wish to move: ");
 					String piece = s.nextLine().trim().toUpperCase();
-					isQuit(piece);
+					
+					if(piece.startsWith("W") || piece.startsWith("Bl")){
+						isQuit(piece);
+					}
+					else{
+						System.out.println("This is not a valid piece ID. The piece id should be either 'W' or 'Bl' followed by the piece number.");
+						System.out.println("Please try again:");
+						piece = s.nextLine().trim().toUpperCase();
+						isQuit(piece);
+					}
+					
 					System.out.println("Player One select the square you wish to move to: ");
 					String square = s.nextLine().trim().toUpperCase();
-					isQuit(square);
+					
+					if(square.matches("(A|B|C|D|E|F|G|H|Q).*")){
+						isQuit(square);
+					}
+					else{
+						System.out.println("Square numbers are coordinates ranging from A0 to H7. Please try again:");
+						square = s.nextLine().trim().toUpperCase();
+						isQuit(square);
+					}
 					
 					if(playerOne.makeMove(piece, square)){
 						board.updateInterface(piece, square);
@@ -129,10 +181,28 @@ public class Interface {
 					
 					System.out.println("Player Two make a move! Select the piece you wish to move: ");
 					piece = s.nextLine().trim().toUpperCase();
-					isQuit(piece);
+
+					if(piece.startsWith("W") || piece.startsWith("Bl")){
+						isQuit(piece);
+					}
+					else{
+						System.out.println("This is not a valid piece ID. The piece id should be either 'W' or 'Bl' followed by the piece number.");
+						System.out.println("Please try again:");
+						piece = s.nextLine().trim().toUpperCase();
+						isQuit(piece);
+					}
+					
 					System.out.println("Player Two select the square you wish to move to: ");
 					square = s.nextLine().trim().toUpperCase();
-					isQuit(square);
+
+					if(square.matches("(A|B|C|D|E|F|G|H|Q).*")){
+						isQuit(square);
+					}
+					else{
+						System.out.println("Square numbers are coordinates ranging from A0 to H7. Please try again:");
+						square = s.nextLine().trim().toUpperCase();
+						isQuit(square);
+					}
 					
 					if(playerTwo.makeMove(piece, square)){
 						board.updateInterface(piece, square);
