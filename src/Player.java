@@ -19,7 +19,6 @@ public class Player {
 	public String getName(){
 		return playerName;
 	}
-
 	
 	public void setColour(String colour){
 		playerColour = colour;
