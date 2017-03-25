@@ -1,6 +1,8 @@
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
@@ -61,10 +63,23 @@ public class CurrentState implements Serializable{
 			System.out.println("File saved successfully");
 		}
 		catch(IOException e){
-			System.out.println("Stream failed");
+			System.out.println("Output Stream failed");
 		} 
 	}
 	
+	public void loadCurrentState(){
+		CurrentState savedState = new CurrentState();
+		try{
+			ObjectInputStream in= new ObjectInputStream(new FileInputStream("savedGame.txt"));
+			savedState = (CurrentState) in.readObject();
+		}
+		catch(IOException e){
+			System.out.println("Input Stream failed");
+		} catch (ClassNotFoundException e) {
+			System.out.println("Class not found");
+		}
+		  
+	}
 	public Square getLastLandedOn(){
 		return lastLandedOn;
 	}
