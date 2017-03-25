@@ -1,4 +1,6 @@
-public class Settings {
+import java.io.Serializable;
+
+public class Settings implements Serializable {
 	long startTime;
 	double current;
 	double elapsed;
