@@ -1,11 +1,9 @@
 import java.awt.List;
 import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.Stack;
 
 public class Interface {
 	ArrayList<String> updatedSquares = new ArrayList<String>();
-	static Stack<String> moves = new Stack<String>();
 	static ArrayList<String> gameSettings = new ArrayList<String>();
 	static ArrayList<String> allSquares = new ArrayList<String>(); // make a list of all squares and print them out if you, then print out all the updated squares, in a square is in both all squares and updated squares then clear it in all squares
 	static Scanner s = new Scanner(System.in);
@@ -14,7 +12,7 @@ public class Interface {
 	static String playerTwoName; // add to array 
 	static String opOption;
 	static String time;
-	static double timeLength = -1; // add to array
+	static double timeLength; // add to array
 	static String playerColour;
 	static Player playerTwo = new Player();
 	static Settings set = new Settings();
@@ -27,6 +25,7 @@ public class Interface {
 		System.out.println("Do you wish to load saved game? [Y/N]");
 		String load = s.nextLine().trim().toUpperCase();
 		if(load.equals("Y")){
+			playerOne.Load();
 			if(playerOne.getSettings().size() == 3){
 				playerOneName = playerOne.getSettings().get(0); //name
 				opOption = playerOne.getSettings().get(1); //opponent 
@@ -39,6 +38,16 @@ public class Interface {
 				opOption = playerOne.getSettings().get(2);
 				time = playerOne.getSettings().get(3);
 				playerColour = playerOne.getSettings().get(4); //works as long as no one plays speed mode in AI lol
+
+				if(playerColour.equals("W")){
+					playerTwo.setColour("B");
+				}
+				else if(playerColour.equals("Q")){
+					isQuit(playerColour);
+				}
+				else{
+					playerTwo.setColour("W");
+				}
 			}
 			else{
 				playerOneName = playerOne.getSettings().get(0);
@@ -47,11 +56,23 @@ public class Interface {
 				time = playerOne.getSettings().get(3);
 				timeLength = Double.parseDouble(playerOne.getSettings().get(4));
 				playerColour = playerOne.getSettings().get(5);
+
+				if(playerColour.equals("W")){
+					playerTwo.setColour("B");
+				}
+				else if(playerColour.equals("Q")){
+					isQuit(playerColour);
+				}
+				else{
+					playerTwo.setColour("W");
+				}
+				
+				set.setTimer(timeLength);
 			}
 			playerOne.setColour(playerColour);
 			playerOne.Load();
 			
-			System.out.println("Begin Game! Press Q to quit at any point");
+			System.out.println("Begin Game! Press S to start or Q to quit at any point");
 			String start = s.nextLine().trim().toUpperCase();
 			isQuit(start);
 			
@@ -134,11 +155,12 @@ public class Interface {
 				
 				//Interface i = new Interface();
 				
-				System.out.println("Begin Game! Press Q to quit at any point");
+				System.out.println("Begin Game! Press S to start or Q to quit at any point");
 				String start = s.nextLine().trim().toUpperCase();
 				isQuit(start);
 				do{
-					play();
+					playTimed();
+					
 				}while(!start.equals("Q"));
 			}
 			else{
@@ -148,37 +170,7 @@ public class Interface {
 				String start = s.nextLine().trim().toUpperCase();
 				isQuit(start);
 				do{
-					System.out.println("Player One make a move! Select the piece you wish to move: ");
-					String piece = s.nextLine().trim().toUpperCase();
-					
-					isPieceValid(piece);
-					isQuit(piece);
-					
-					System.out.println("Player One select the square you wish to move to: ");
-					String square = s.nextLine().trim().toUpperCase();
-					
-					isSquareValid(square);
-					isQuit(square);	
-					
-					if(playerOne.makeMove(piece, square)){
-						board.updateInterface(piece, square);
-					}
-					
-					System.out.println("Player Two make a move! Select the piece you wish to move: ");
-					piece = s.nextLine().trim().toUpperCase();
-					
-					isPieceValid(piece);
-					isQuit(piece);
-					
-					System.out.println("Player Two select the square you wish to move to: ");
-					square = s.nextLine().trim().toUpperCase();
-					
-					isSquareValid(square);
-					isQuit(square);	
-					
-					if(playerTwo.makeMove(piece, square)){
-						board.updateInterface(piece, square);
-					}
+					play();
 				}
 				while(!start.equals("Q"));
 			}
@@ -286,21 +278,12 @@ public class Interface {
 			board.updateInterface(piece, square);
 		}
 		
-		System.out.println("check above for error");
-		
-		String AIMove = AI.getMove();
-		String AIPiece = AI.getPiece().getID();
-		
-		if(AI.possibleMoves()){
-			board.updateInterface(AIMove, AIPiece);
-		}
-		else{
-			System.out.println("check above for error");
-		}
+
+		updateInterface(piece, square);
 	}
 	
-	public static void play(){
-		Interface board = new Interface();
+	public static void playTimed(){
+
 		System.out.println("Player One make a move! Select the piece you wish to move: ");		
 		String piece = s.nextLine().trim().toUpperCase();
 		
@@ -313,15 +296,16 @@ public class Interface {
 		
 		isSquareValid(square);
 		
-		isQuit(square);	
+		isQuit(square);
 		
 		System.out.println(set.getTime());
 		if(set.getTime() >= timeLength){
 			set.clearTimer();
 			System.out.println("You have run out of time. Player Two make a move.");
-		}else{
+		}
+		else{
 			if(playerOne.makeMove(piece, square)){
-				board.updateInterface(piece, square);
+				updateInterface(piece, square);
 				set.clearTimer();
 			}
 		}
@@ -344,13 +328,49 @@ public class Interface {
 		if(set.getTime() >= timeLength){
 			set.clearTimer();
 			System.out.println("You have run out of time. Player Two make a move.");
-		}else{
+		}
+		else{
 			if(playerTwo.makeMove(piece, square)){
-				board.updateInterface(piece, square);
+				updateInterface(piece, square);
 				set.clearTimer();
 			}
 		}
 	}
+	
+	public static void play(){
+		System.out.println("Player One make a move! Select the piece you wish to move: ");		
+		String piece = s.nextLine().trim().toUpperCase();
+		
+		isPieceValid(piece);
+		
+		isQuit(piece);
+		
+		System.out.println("Player One select the square you wish to move to: ");
+		String square = s.nextLine().trim().toUpperCase();
+		
+		isSquareValid(square);
+		
+		isQuit(square);	
+		
+		updateInterface(piece, square);
+		
+		System.out.println("Player Two make a move! Select the piece you wish to move: ");
+		piece = s.nextLine().trim().toUpperCase();
+
+		isPieceValid(piece);
+		
+		isQuit(piece);
+		
+		System.out.println("Player Two select the square you wish to move to: ");
+		square = s.nextLine().trim().toUpperCase();
+		
+		isSquareValid(square);
+		
+		isQuit(square);
+		
+		updateInterface(piece, square);
+	}
+	
 	public static void printInterface(){
 		System.out.println("         Kamisado");
 		System.out.println("   A  B  C  D  E  F  G  H");
@@ -399,7 +419,7 @@ public class Interface {
 				}
 				gameSettings.add(opOption);
 				gameSettings.add(time);
-				if(timeLength != -1){
+				if(timeLength != 0){
 					gameSettings.add(String.valueOf(timeLength));
 				}
 				gameSettings.add(playerColour);

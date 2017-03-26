@@ -6,8 +6,10 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Stack;
 
 public class CurrentState implements Serializable{
+	Stack<CurrentState> states = new Stack<CurrentState>();
 	ArrayList<String> gamesSettings = new ArrayList();
 	Settings timer;
 	String[] positions;
@@ -22,6 +24,7 @@ public class CurrentState implements Serializable{
 	}
 	
 	public boolean gameOver(Piece p){
+		states.add(this);
 		if(p.getID().startsWith("W") && p.getPiecePosition().charAt(1) == 0){
 			return true;
 		}
@@ -85,6 +88,7 @@ public class CurrentState implements Serializable{
 			ObjectInputStream in= new ObjectInputStream(new FileInputStream("savedGame.txt"));
 			savedState = (CurrentState) in.readObject();
 			this.setCurrentState(savedState.getTime(), savedState.getBoard(), savedState.getPieces());
+			this.storeSettings(savedState.getSettings());
 		}
 		catch(IOException e){
 			System.out.println("Input Stream failed");
@@ -96,4 +100,14 @@ public class CurrentState implements Serializable{
 	public Square getLastLandedOn(){
 		return lastLandedOn;
 	}
+	public void undo(){
+		try{
+			states.pop();
+			states.pop();
+		}
+		catch(Exception e){
+			System.out.println("Not enough moves to undo");
+		}
+	}
+	
 }
