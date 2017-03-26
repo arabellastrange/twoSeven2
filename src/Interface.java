@@ -3,30 +3,40 @@ import java.util.Scanner;
 
 public class Interface {
 	ArrayList<String> updatedSquares = new ArrayList<String>();
-	ArrayList<String> gameSettings = new ArrayList<String>();
-	ArrayList<String> allSquares = new ArrayList<String>(); // make a list of all squares and print them out if you, then print out all the updated squares, in a square is in both all squares and updated squares then clear it in all squares
+	static ArrayList<String> gameSettings = new ArrayList<String>();
+	static ArrayList<String> allSquares = new ArrayList<String>(); // make a list of all squares and print them out if you, then print out all the updated squares, in a square is in both all squares and updated squares then clear it in all squares
 	static Scanner s = new Scanner(System.in);
 	static Player playerOne = new Player();
 	static String playerOneName;
 	static String playerTwoName;
 	static String opOption;
 	static String time;
+	static double timeLength; // add to array
 	static String playerColour;
+	static Player playerTwo = new Player();
+	static Settings set = new Settings();
 	
 	public static void main(String[] args){
-		
-		Settings set = new Settings();
-		Player playerTwo = new Player();
+		System.out.println("Do you wish to load saved game? [Y/N]");
+		String load = s.nextLine().trim().toUpperCase();
+		if(load.equals("Y")){
+			playerOneName = playerOne.getSettings().get(0); //name
+			opOption = playerOne.getSettings().get(1); //opponent 
+			time = playerOne.getSettings().get(2); // check options and split depeneding 
+			playerColour = playerOne.getSettings().get(3);
+			playerOne.Load();
+			System.out.println("Begin Game! Press Q to quit at any point");
+			String start = s.nextLine().trim().toUpperCase();
+			isQuit(start);
+			do{
+				play();
+			}while(!start.equals("Q"));
+		}
 		
 		System.out.println("Welcome to Kamisado, please enter your name: ");
 		playerOneName = s.nextLine().trim().toUpperCase();
 		playerOne.setName(playerOneName);
 		
-		System.out.println("Do you wish to load saved game? [Y/N]");
-		String load = s.nextLine().trim().toUpperCase();
-		if(load.equals("Y")){
-			playerOne.Load();
-		}
 		
 		System.out.println("Do you wish to play against AI [selelct A] or human [select H]?");
 		opOption = s.nextLine().trim().toUpperCase();
@@ -38,9 +48,11 @@ public class Interface {
 			
 			if(lvl.equals("E")){
 				System.out.println("Easy");
+				playAI();
 			}
 			else if(lvl.equals("D")){
 				System.out.println("Difficult");
+				playAI();
 			}
 			else{
 				System.out.println("That is not a valid option");
@@ -78,8 +90,8 @@ public class Interface {
 			if(time.equals("Y")){
 				
 				System.out.println("Set the timer value you would like to use (in seconds): ");
-				double length = s.nextDouble();
-				set.setTimer(length);
+				timeLength = s.nextDouble();
+				set.setTimer(timeLength);
 				
 				Interface i = new Interface();
 				
@@ -87,55 +99,7 @@ public class Interface {
 				String start = s.nextLine().trim().toUpperCase();
 				isQuit(start);
 				do{
-					System.out.println("Player One make a move! Select the piece you wish to move: ");		
-					String piece = s.nextLine().trim().toUpperCase();
-					
-					isPieceValid(piece);
-					
-					isQuit(piece);
-					
-					System.out.println("Player One select the square you wish to move to: ");
-					String square = s.nextLine().trim().toUpperCase();
-					
-					isSquareValid(square);
-					
-					isQuit(square);	
-					
-					System.out.println(set.getTime());
-					if(set.getTime() >= length){
-						set.clearTimer();
-						System.out.println("You have run out of time. Player Two make a move.");
-					}else{
-						if(playerOne.makeMove(piece, square)){
-							i.updateInterface(piece, square);
-							set.clearTimer();
-						}
-					}
-					
-					System.out.println("Player Two make a move! Select the piece you wish to move: ");
-					piece = s.nextLine().trim().toUpperCase();
-
-					isPieceValid(piece);
-					
-					isQuit(piece);
-					
-					System.out.println("Player Two select the square you wish to move to: ");
-					square = s.nextLine().trim().toUpperCase();
-					
-					isSquareValid(square);
-					
-					isQuit(square);	
-					
-					System.out.println(set.getTime());
-					if(set.getTime() >= length){
-						set.clearTimer();
-						System.out.println("You have run out of time. Player Two make a move.");
-					}else{
-						if(playerTwo.makeMove(piece, square)){
-							i.updateInterface(piece, square);
-							set.clearTimer();
-						}
-					}
+					play();
 				}while(!start.equals("Q"));
 			}
 			else{
@@ -264,7 +228,85 @@ public class Interface {
 		printInterface();
 	}
 	
-	public void printInterface(){
+	public static void playAI(){
+		System.out.println("Select the piece you wish to move: ");		
+		String piece = s.nextLine().trim().toUpperCase();
+		
+		isPieceValid(piece);
+		
+		isQuit(piece);
+		
+		System.out.println("Player One select the square you wish to move to: ");
+		String square = s.nextLine().trim().toUpperCase();
+		
+		isSquareValid(square);
+		
+		isQuit(square);
+		
+		System.out.println(set.getTime());
+		if(set.getTime() >= timeLength){
+			set.clearTimer();
+			System.out.println("You have run out of time. Player Two make a move.");
+		}else{
+			if(playerOne.makeMove(piece, square)){
+				updateInterface(piece, square);
+				set.clearTimer();
+			}
+		}
+	}
+	
+	public static void play(){
+		System.out.println("Player One make a move! Select the piece you wish to move: ");		
+		String piece = s.nextLine().trim().toUpperCase();
+		
+		isPieceValid(piece);
+		
+		isQuit(piece);
+		
+		System.out.println("Player One select the square you wish to move to: ");
+		String square = s.nextLine().trim().toUpperCase();
+		
+		isSquareValid(square);
+		
+		isQuit(square);	
+		
+		System.out.println(set.getTime());
+		if(set.getTime() >= timeLength){
+			set.clearTimer();
+			System.out.println("You have run out of time. Player Two make a move.");
+		}else{
+			if(playerOne.makeMove(piece, square)){
+				updateInterface(piece, square);
+				set.clearTimer();
+			}
+		}
+		
+		System.out.println("Player Two make a move! Select the piece you wish to move: ");
+		piece = s.nextLine().trim().toUpperCase();
+
+		isPieceValid(piece);
+		
+		isQuit(piece);
+		
+		System.out.println("Player Two select the square you wish to move to: ");
+		square = s.nextLine().trim().toUpperCase();
+		
+		isSquareValid(square);
+		
+		isQuit(square);	
+		
+		System.out.println(set.getTime());
+		if(set.getTime() >= timeLength){
+			set.clearTimer();
+			System.out.println("You have run out of time. Player Two make a move.");
+		}else{
+			if(playerTwo.makeMove(piece, square)){
+				updateInterface(piece, square);
+				set.clearTimer();
+			}
+		}
+	}
+	public static void printInterface(){
 		System.out.println("         Kamisado");
 		System.out.println("   A  B  C  D  E  F  G  H");
 		int i = 0;
@@ -278,7 +320,7 @@ public class Interface {
 		}
 	}
 	
-	public void updateInterface(String piece, String square){
+	public static void updateInterface(String piece, String square){
 		Coordinates coord = new Coordinates();
 		coord.stringToXY(square);
 		int newx = coord.getX();
@@ -306,6 +348,11 @@ public class Interface {
 			System.out.println("Do you wish to save your game before exit? [Y/N]: ");
 			String save = s.nextLine().trim().toUpperCase();
 			if(save.equals("Y")){
+				gameSettings.add(playerOneName);
+				gameSettings.add(opOption);
+				gameSettings.add(time);
+				gameSettings.add(playerColour);
+				playerOne.storeSettings(gameSettings);
 				playerOne.Save();
 			}
 			System.out.println("Goodbye");

@@ -1,7 +1,15 @@
+import java.util.ArrayList;
+
 public class Driver {
 	Coordinates co = new Coordinates();
 	Observer observer = new Observer();
 	
+	public void storeSettings(ArrayList<String> settings){
+		observer.getCurrentState().storeSettings(settings);
+	}
+	public ArrayList<String> getSettings(){
+		return observer.getCurrentState().getSettings();
+	}
 	public void Save(){
 		observer.getCurrentState().saveCurrentState();
 	}

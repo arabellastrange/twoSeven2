@@ -5,9 +5,10 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class CurrentState implements Serializable{
-	
+	ArrayList<String> gamesSettings = new ArrayList();
 	Settings timer;
 	String[] positions;
 	Square lastLandedOn = new Square("Default", "Defualt", false);
@@ -71,6 +72,13 @@ public class CurrentState implements Serializable{
 		} 
 	}
 	
+	public void storeSettings(ArrayList<String> settings){
+		gamesSettings = settings;
+	}
+	
+	public ArrayList<String> getSettings(){
+		return gamesSettings;
+	}
 	public void loadCurrentState(){
 		CurrentState savedState = new CurrentState();
 		try{
