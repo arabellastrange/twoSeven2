@@ -88,6 +88,7 @@ public class CurrentState implements Serializable{
 			ObjectInputStream in= new ObjectInputStream(new FileInputStream("savedGame.txt"));
 			savedState = (CurrentState) in.readObject();
 			this.setCurrentState(savedState.getTime(), savedState.getBoard(), savedState.getPieces());
+			this.storeSettings(savedState.getSettings());
 		}
 		catch(IOException e){
 			System.out.println("Input Stream failed");

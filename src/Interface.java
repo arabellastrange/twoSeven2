@@ -21,6 +21,7 @@ public class Interface {
 		System.out.println("Do you wish to load saved game? [Y/N]");
 		String load = s.nextLine().trim().toUpperCase();
 		if(load.equals("Y")){
+			playerOne.Load();
 			if(playerOne.getSettings().size() == 3){
 				playerOneName = playerOne.getSettings().get(0); //name
 				opOption = playerOne.getSettings().get(1); //opponent 
@@ -151,7 +152,8 @@ public class Interface {
 				String start = s.nextLine().trim().toUpperCase();
 				isQuit(start);
 				do{
-					play();
+					playTimed();
+					
 				}while(!start.equals("Q"));
 			}
 			else{
@@ -265,19 +267,10 @@ public class Interface {
 		
 		isQuit(square);
 		
-		System.out.println(set.getTime());
-		if(set.getTime() >= timeLength){
-			set.clearTimer();
-			System.out.println("You have run out of time.");
-		}else{
-			if(playerOne.makeMove(piece, square)){
-				updateInterface(piece, square);
-				set.clearTimer();
-			}
-		}
+		updateInterface(piece, square);
 	}
 	
-	public static void play(){
+	public static void playTimed(){
 		System.out.println("Player One make a move! Select the piece you wish to move: ");		
 		String piece = s.nextLine().trim().toUpperCase();
 		
@@ -290,7 +283,7 @@ public class Interface {
 		
 		isSquareValid(square);
 		
-		isQuit(square);	
+		isQuit(square);
 		
 		System.out.println(set.getTime());
 		if(set.getTime() >= timeLength){
@@ -330,6 +323,41 @@ public class Interface {
 			}
 		}
 	}
+	
+	public static void play(){
+		System.out.println("Player One make a move! Select the piece you wish to move: ");		
+		String piece = s.nextLine().trim().toUpperCase();
+		
+		isPieceValid(piece);
+		
+		isQuit(piece);
+		
+		System.out.println("Player One select the square you wish to move to: ");
+		String square = s.nextLine().trim().toUpperCase();
+		
+		isSquareValid(square);
+		
+		isQuit(square);	
+		
+		updateInterface(piece, square);
+		
+		System.out.println("Player Two make a move! Select the piece you wish to move: ");
+		piece = s.nextLine().trim().toUpperCase();
+
+		isPieceValid(piece);
+		
+		isQuit(piece);
+		
+		System.out.println("Player Two select the square you wish to move to: ");
+		square = s.nextLine().trim().toUpperCase();
+		
+		isSquareValid(square);
+		
+		isQuit(square);
+		
+		updateInterface(piece, square);
+	}
+	
 	public static void printInterface(){
 		System.out.println("         Kamisado");
 		System.out.println("   A  B  C  D  E  F  G  H");
