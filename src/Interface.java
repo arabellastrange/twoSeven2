@@ -6,12 +6,13 @@ public class Interface {
 	ArrayList<String> allSquares = new ArrayList<String>(); // make a list of all squares and print them out if you, then print out all the updated squares, in a square is in both all squares and updated squares then clear it in all squares
 	
 	public static void main(String[] args){
-		String account;
+		String account; 
 		String option;
 		String playerColour;
 		Settings set = new Settings();
 		Player playerOne = new Player();
 		Player playerTwo = new Player();
+		ArtificialOpponent AI = new ArtificialOpponent();
 		
 		System.out.println("Welcome to Kamisado, please enter your name: ");
 		Scanner s = new Scanner(System.in);
@@ -22,9 +23,70 @@ public class Interface {
 		option = s.nextLine().trim().toUpperCase();
 		
 		if(option.equals("A")){
-
-			System.out.println("You are playing agint AI");		
-
+			System.out.println("You are playing agint AI");	
+			System.out.println("Player one select your colour! [White or Black]");
+			playerColour = s.nextLine().trim().toUpperCase();
+			playerOne.setColour(playerColour);
+			
+			if(playerColour.equals("W")){
+				AI.setColour("B");
+			}
+			else if(playerColour.equals("Q")){
+				isQuit(playerColour);
+			}
+			else{
+				AI.setColour("W");
+			}
+			Interface i = new Interface();
+			
+			System.out.println("Begin Game! Press Q to quit at any point");
+			option = s.nextLine().trim().toUpperCase();
+			isQuit(option);
+			do{
+				System.out.println("Player One make a move! Select the piece you wish to move: ");		
+				String piece = s.nextLine().trim().toUpperCase();
+				
+				if(piece.startsWith("W") || piece.startsWith("Bl")){
+					isQuit(piece);
+				}
+				else{
+					System.out.println("This is not a valid piece ID. The piece id should be either 'W' or 'Bl' followed by the piece number.");
+					System.out.println("Please try again:");
+					piece = s.nextLine().trim().toUpperCase();
+					isQuit(piece);
+				}
+				
+				System.out.println("Player One select the square you wish to move to: ");
+				String square = s.nextLine().trim().toUpperCase();
+				
+				if(square.matches("(A|B|C|D|E|F|G|H|Q).*")){
+					isQuit(square);
+				}
+				else{
+					System.out.println("Square numbers are coordinates ranging from A0 to H7. Please try again:");
+					square = s.nextLine().trim().toUpperCase();
+					isQuit(square);
+				}
+				
+				if(playerOne.makeMove(piece, square)){
+					i.updateInterface(piece, square);
+				}
+				else{
+					System.out.println("check above for error");
+				}
+				
+				String AIMove = AI.getMove();
+				String AIPiece = AI.getPiece().getID();
+				
+				if(AI.possibleMoves()){
+					i.updateInterface(AIMove, AIPiece);
+				}
+				else{
+					System.out.println("check above for error");
+				}
+				
+			}while(!option.equals("Q"));
+		
 		}
 		else if(option.equals("H")){
 			System.out.println("You are playing against another human! Player two, enter your name: ");
