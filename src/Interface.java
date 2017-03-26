@@ -116,6 +116,8 @@ public class Interface {
 			else{
 				System.out.println("That is not a valid option");
 			}
+			
+			Interface board = new Interface();
 
 		}
 		else if(opOption.equals("H")){
@@ -148,7 +150,7 @@ public class Interface {
 			time = s.nextLine().trim().toUpperCase();
 			
 			if(time.equals("Y")){
-				
+				Interface board = new Interface();
 				System.out.println("Set the timer value you would like to use (in seconds): ");
 				timeLength = s.nextDouble();
 				set.setTimer(timeLength);
@@ -277,13 +279,22 @@ public class Interface {
 		if(playerOne.makeMove(piece, square)){
 			board.updateInterface(piece, square);
 		}
-		
-
+	
 		updateInterface(piece, square);
+		
+		String AIMove = AI.getMove();
+		String AIPiece = AI.getPiece().getID();
+		
+		if(AI.possibleMoves()){
+			updateInterface(AIMove, AIPiece);
+		}
+		else{
+			System.out.println("check above for error");
+		}
 	}
 	
 	public static void playTimed(){
-
+		
 		System.out.println("Player One make a move! Select the piece you wish to move: ");		
 		String piece = s.nextLine().trim().toUpperCase();
 		
