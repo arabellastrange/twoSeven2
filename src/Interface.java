@@ -18,10 +18,11 @@ public class Interface {
 	static String playerColour;
 	static Player playerTwo = new Player();
 	static Settings set = new Settings();
+	static ArtificialOpponent AI = new ArtificialOpponent();
 	
 	public static void main(String[] args){
 
-		ArtificialOpponent AI = new ArtificialOpponent();
+		
 
 		System.out.println("Do you wish to load saved game? [Y/N]");
 		String load = s.nextLine().trim().toUpperCase();
@@ -131,7 +132,7 @@ public class Interface {
 				timeLength = s.nextDouble();
 				set.setTimer(timeLength);
 				
-				Interface i = new Interface();
+				//Interface i = new Interface();
 				
 				System.out.println("Begin Game! Press Q to quit at any point");
 				String start = s.nextLine().trim().toUpperCase();
@@ -267,6 +268,7 @@ public class Interface {
 	}
 	
 	public static void playAI(){
+		Interface board = new Interface();
 		System.out.println("Select the piece you wish to move: ");		
 		String piece = s.nextLine().trim().toUpperCase();
 		
@@ -278,22 +280,27 @@ public class Interface {
 		String square = s.nextLine().trim().toUpperCase();
 		
 		isSquareValid(square);
+		isQuit(square);	
 		
-		isQuit(square);
+		if(playerOne.makeMove(piece, square)){
+			board.updateInterface(piece, square);
+		}
 		
-		System.out.println(set.getTime());
-		if(set.getTime() >= timeLength){
-			set.clearTimer();
-			System.out.println("You have run out of time. Player Two make a move.");
-		}else{
-			if(playerOne.makeMove(piece, square)){
-				updateInterface(piece, square);
-				set.clearTimer();
-			}
+		System.out.println("check above for error");
+		
+		String AIMove = AI.getMove();
+		String AIPiece = AI.getPiece().getID();
+		
+		if(AI.possibleMoves()){
+			board.updateInterface(AIMove, AIPiece);
+		}
+		else{
+			System.out.println("check above for error");
 		}
 	}
 	
 	public static void play(){
+		Interface board = new Interface();
 		System.out.println("Player One make a move! Select the piece you wish to move: ");		
 		String piece = s.nextLine().trim().toUpperCase();
 		
@@ -314,7 +321,7 @@ public class Interface {
 			System.out.println("You have run out of time. Player Two make a move.");
 		}else{
 			if(playerOne.makeMove(piece, square)){
-				updateInterface(piece, square);
+				board.updateInterface(piece, square);
 				set.clearTimer();
 			}
 		}
@@ -339,7 +346,7 @@ public class Interface {
 			System.out.println("You have run out of time. Player Two make a move.");
 		}else{
 			if(playerTwo.makeMove(piece, square)){
-				updateInterface(piece, square);
+				board.updateInterface(piece, square);
 				set.clearTimer();
 			}
 		}
@@ -371,7 +378,7 @@ public class Interface {
 			allSquares.set(sqIndex, newSq);
 		}
 		else if(piece.startsWith("B")){
-			String newSq = allSquares.get(sqIndex ).replace("|_|","|•|");
+			String newSq = allSquares.get(sqIndex).replace("|_|","|•|");
 
 			allSquares.set(sqIndex, newSq);
 		}
