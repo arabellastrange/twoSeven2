@@ -3,25 +3,35 @@ import java.util.Scanner;
 
 public class Interface {
 	ArrayList<String> updatedSquares = new ArrayList<String>();
+	ArrayList<String> gameSettings = new ArrayList<String>();
 	ArrayList<String> allSquares = new ArrayList<String>(); // make a list of all squares and print them out if you, then print out all the updated squares, in a square is in both all squares and updated squares then clear it in all squares
 	static Scanner s = new Scanner(System.in);
 	static Player playerOne = new Player();
+	static String playerOneName;
+	static String playerTwoName;
+	static String opOption;
+	static String time;
+	static String playerColour;
 	
 	public static void main(String[] args){
-		String account;
-		String option;
-		String playerColour;
+		
 		Settings set = new Settings();
 		Player playerTwo = new Player();
 		
 		System.out.println("Welcome to Kamisado, please enter your name: ");
-		account = s.nextLine().trim().toUpperCase();
-		playerOne.setName(account);
+		playerOneName = s.nextLine().trim().toUpperCase();
+		playerOne.setName(playerOneName);
+		
+		System.out.println("Do you wish to load saved game? [Y/N]");
+		String load = s.nextLine().trim().toUpperCase();
+		if(load.equals("Y")){
+			playerOne.Load();
+		}
 		
 		System.out.println("Do you wish to play against AI [selelct A] or human [select H]?");
-		option = s.nextLine().trim().toUpperCase();
+		opOption = s.nextLine().trim().toUpperCase();
 		
-		if(option.equals("A")){
+		if(opOption.equals("A")){
 			System.out.println("You are playing against AI");		
 			System.out.println("Select a difficulty level ([E]asy or [D]ifficult): ");
 			String lvl = s.nextLine().trim().toUpperCase();
@@ -36,16 +46,16 @@ public class Interface {
 				System.out.println("That is not a valid option");
 			}
 		}
-		else if(option.equals("H")){
+		else if(opOption.equals("H")){
 			System.out.println("You are playing against another human! Player two, enter your name: ");
-			account = s.nextLine().trim().toUpperCase();
-			if(playerOne.getName().equals(account)){
+			playerTwoName = s.nextLine().trim().toUpperCase();
+			if(playerOne.getName().equals(playerTwoName)){
 				System.out.println("Both players cannot use the same name. Please enter a unique account name:");
-				account = s.nextLine().trim().toUpperCase();
-				playerTwo.setName(account);			
+				playerTwoName = s.nextLine().trim().toUpperCase();
+				playerTwo.setName(playerTwoName);			
 			}
 			else{
-				playerTwo.setName(account);
+				playerTwo.setName(playerTwoName);
 			}
 		
 			System.out.println("Player one select your colour! [White or Black]");
@@ -63,7 +73,7 @@ public class Interface {
 			}
 			
 			System.out.println("Do you wish to play in speed mode? [Y/N]");
-			String time = s.nextLine().trim().toUpperCase();
+			time = s.nextLine().trim().toUpperCase();
 			
 			if(time.equals("Y")){
 				
@@ -74,8 +84,8 @@ public class Interface {
 				Interface i = new Interface();
 				
 				System.out.println("Begin Game! Press Q to quit at any point");
-				option = s.nextLine().trim().toUpperCase();
-				isQuit(option);
+				String start = s.nextLine().trim().toUpperCase();
+				isQuit(start);
 				do{
 					System.out.println("Player One make a move! Select the piece you wish to move: ");		
 					String piece = s.nextLine().trim().toUpperCase();
@@ -126,14 +136,14 @@ public class Interface {
 							set.clearTimer();
 						}
 					}
-				}while(!option.equals("Q"));
+				}while(!start.equals("Q"));
 			}
 			else{
 				Interface board = new Interface();
 
 				System.out.println("Begin Game! Press S to start or Q to quit at any point");
-				option = s.nextLine().trim().toUpperCase();
-				isQuit(option);
+				String start = s.nextLine().trim().toUpperCase();
+				isQuit(start);
 				do{
 					System.out.println("Player One make a move! Select the piece you wish to move: ");
 					String piece = s.nextLine().trim().toUpperCase();
@@ -167,7 +177,7 @@ public class Interface {
 						board.updateInterface(piece, square);
 					}
 				}
-				while(!option.equals("Q"));
+				while(!start.equals("Q"));
 			}
 		}
 		else{

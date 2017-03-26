@@ -31,6 +31,9 @@ public class Player {
 	public void Save(){
 		d.Save();
 	}
+	public void Load(){
+		d.Load();
+	}
 	public boolean makeMove(String fromPiece, String toSquare){
 		return d.checkMove(fromPiece, toSquare, getColour());
 	}

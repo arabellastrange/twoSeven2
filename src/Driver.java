@@ -6,6 +6,10 @@ public class Driver {
 		observer.getCurrentState().saveCurrentState();
 	}
 	
+	public void Load(){
+		observer.getCurrentState().loadCurrentState();
+	}
+	
 	public boolean checkMove(String fromPiece, String toSquare, String pColour){
 		if(checkValid(fromPiece, toSquare)){
 			Square last = observer.getCurrentState().getLastLandedOn();

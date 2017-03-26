@@ -44,6 +44,10 @@ public class CurrentState implements Serializable{
 		return board;
 	}
 	
+	public Settings getTime(){
+		return timer;
+	}
+	
 	public void setCurrentState(Settings time, Board boards, GamePieces piecesUsed){
 		Settings timer = time;
 		Board board = boards;
@@ -72,6 +76,7 @@ public class CurrentState implements Serializable{
 		try{
 			ObjectInputStream in= new ObjectInputStream(new FileInputStream("savedGame.txt"));
 			savedState = (CurrentState) in.readObject();
+			this.setCurrentState(savedState.getTime(), savedState.getBoard(), savedState.getPieces());
 		}
 		catch(IOException e){
 			System.out.println("Input Stream failed");
