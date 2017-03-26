@@ -1,17 +1,20 @@
+import java.awt.List;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.Stack;
 
 public class Interface {
 	ArrayList<String> updatedSquares = new ArrayList<String>();
+	static Stack<String> moves = new Stack<String>();
 	static ArrayList<String> gameSettings = new ArrayList<String>();
 	static ArrayList<String> allSquares = new ArrayList<String>(); // make a list of all squares and print them out if you, then print out all the updated squares, in a square is in both all squares and updated squares then clear it in all squares
 	static Scanner s = new Scanner(System.in);
 	static Player playerOne = new Player();
 	static String playerOneName;
-	static String playerTwoName;
+	static String playerTwoName; // add to array 
 	static String opOption;
 	static String time;
-	static double timeLength; // add to array
+	static double timeLength = -1; // add to array
 	static String playerColour;
 	static Player playerTwo = new Player();
 	static Settings set = new Settings();
@@ -20,17 +23,46 @@ public class Interface {
 		System.out.println("Do you wish to load saved game? [Y/N]");
 		String load = s.nextLine().trim().toUpperCase();
 		if(load.equals("Y")){
-			playerOneName = playerOne.getSettings().get(0); //name
-			opOption = playerOne.getSettings().get(1); //opponent 
-			time = playerOne.getSettings().get(2); // check options and split depeneding 
-			playerColour = playerOne.getSettings().get(3);
+			if(playerOne.getSettings().size() == 3){
+				playerOneName = playerOne.getSettings().get(0); //name
+				opOption = playerOne.getSettings().get(1); //opponent 
+				time = playerOne.getSettings().get(2); // check options and split depeneding 
+				playerColour = playerOne.getSettings().get(3);
+			}
+			else if(playerOne.getSettings().size() == 4){
+				playerOneName = playerOne.getSettings().get(0);
+				playerTwoName = playerOne.getSettings().get(1);
+				opOption = playerOne.getSettings().get(2);
+				time = playerOne.getSettings().get(3);
+				playerColour = playerOne.getSettings().get(4); //works as long as no one plays speed mode in AI lol
+			}
+			else{
+				playerOneName = playerOne.getSettings().get(0);
+				playerTwoName = playerOne.getSettings().get(1);
+				opOption = playerOne.getSettings().get(2);
+				time = playerOne.getSettings().get(3);
+				timeLength = Double.parseDouble(playerOne.getSettings().get(4));
+				playerColour = playerOne.getSettings().get(5);
+			}
+			playerOne.setColour(playerColour);
 			playerOne.Load();
+			
 			System.out.println("Begin Game! Press Q to quit at any point");
 			String start = s.nextLine().trim().toUpperCase();
 			isQuit(start);
-			do{
-				play();
-			}while(!start.equals("Q"));
+			
+			if(opOption.equals("H")){
+				do{
+					play();
+				}while(!start.equals("Q"));
+			}
+			
+			else if(opOption.equals("A")){
+				do{
+					playAI();
+				}while(!start.equals("Q"));
+			}
+			
 		}
 		
 		System.out.println("Welcome to Kamisado, please enter your name: ");
@@ -349,8 +381,14 @@ public class Interface {
 			String save = s.nextLine().trim().toUpperCase();
 			if(save.equals("Y")){
 				gameSettings.add(playerOneName);
+				if(!playerTwoName.isEmpty()){
+					gameSettings.add(playerTwoName);
+				}
 				gameSettings.add(opOption);
 				gameSettings.add(time);
+				if(timeLength != -1){
+					gameSettings.add(String.valueOf(timeLength));
+				}
 				gameSettings.add(playerColour);
 				playerOne.storeSettings(gameSettings);
 				playerOne.Save();
