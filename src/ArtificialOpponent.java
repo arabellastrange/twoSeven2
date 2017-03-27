@@ -4,7 +4,7 @@ public class ArtificialOpponent {
 	String playerName;
 	String last;
 	Piece AIPiece;
-	GamePieces pieces;
+	GamePieces pieces = new GamePieces();
 	Observer observer = new Observer();
 	CurrentState currentState = new CurrentState();
 	Driver d;
@@ -12,7 +12,7 @@ public class ArtificialOpponent {
 	String move = null;
 	
 	public ArtificialOpponent(){
-		playerColour = "Default";
+		playerColour = "Black";
 		playerName = "AI";
 	}
 	
@@ -25,14 +25,20 @@ public class ArtificialOpponent {
 	}
 	
 	public Piece getPiece(){
-		Square last = observer.getCurrentState().getLastLandedOn(); //gets the last landed on square
-		String lastCol = last.getColour(); //gets the colour of that square
+		String lastCol;
+		if(observer.getCurrentState().getLastLandedOn().equals("Default")){
+			Square last = observer.getCurrentState().getLastLandedOn(); //gets the last landed on square
+			lastCol = last.getColour(); //gets the colour of that square
+		}
+		else{
+			lastCol = "Green";
+		}
 		String AiId = null;
 		Piece p[] = pieces.getPieces();
 		for(Piece i: p){
 			if(i.getColour().equals(lastCol)){
 				AIPiece = pieces.getPiece(i.getID());
-				if(AIPiece.getColour().equals(playerColour)){
+				if(AIPiece.getID().startsWith(playerColour)){
 					AiId = i.getID(); //get id of piece that has same colour as last landed on square
 					AIPiece = pieces.getPiece(AiId);
 				}
