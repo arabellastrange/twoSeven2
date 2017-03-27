@@ -1,4 +1,6 @@
-public class Square {
+import java.io.Serializable;
+
+public class Square implements Serializable{
 	String colour;
 	String position;
 	Boolean empty;
