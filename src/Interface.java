@@ -21,67 +21,70 @@ public class Interface {
 		System.out.println("Do you wish to load saved game? [Y/N]");
 		String load = s.nextLine().trim().toUpperCase();
 		if(load.equals("Y")){
-			playerOne.Load();
-			if(playerOne.getSettings().size() == 3){
-				playerOneName = playerOne.getSettings().get(0); //name
-				opOption = playerOne.getSettings().get(1); //opponent 
-				time = playerOne.getSettings().get(2); // check options and split depeneding 
-				playerColour = playerOne.getSettings().get(3);
-			}
-			else if(playerOne.getSettings().size() == 4){
-				playerOneName = playerOne.getSettings().get(0);
-				playerTwoName = playerOne.getSettings().get(1);
-				opOption = playerOne.getSettings().get(2);
-				time = playerOne.getSettings().get(3);
-				playerColour = playerOne.getSettings().get(4); //works as long as no one plays speed mode in AI lol
-
-				if(playerColour.equals("W")){
-					playerTwo.setColour("B");
+			if(playerOne.Load()){
+				if(playerOne.getSettings().size() == 3){
+					playerOneName = playerOne.getSettings().get(0); //name
+					opOption = playerOne.getSettings().get(1); //opponent 
+					time = playerOne.getSettings().get(2); // check options and split depeneding 
+					playerColour = playerOne.getSettings().get(3);
 				}
-				else if(playerColour.equals("Q")){
-					isQuit(playerColour);
+				else if(playerOne.getSettings().size() == 4){
+					playerOneName = playerOne.getSettings().get(0);
+					playerTwoName = playerOne.getSettings().get(1);
+					opOption = playerOne.getSettings().get(2);
+					time = playerOne.getSettings().get(3);
+					playerColour = playerOne.getSettings().get(4); //works as long as no one plays speed mode in AI lol
+
+					if(playerColour.equals("W")){
+						playerTwo.setColour("B");
+					}
+					else if(playerColour.equals("Q")){
+						isQuit(playerColour);
+					}
+					else{
+						playerTwo.setColour("W");
+					}
 				}
 				else{
-					playerTwo.setColour("W");
-				}
-			}
-			else{
-				playerOneName = playerOne.getSettings().get(0);
-				playerTwoName = playerOne.getSettings().get(1);
-				opOption = playerOne.getSettings().get(2);
-				time = playerOne.getSettings().get(3);
-				timeLength = Double.parseDouble(playerOne.getSettings().get(4));
-				playerColour = playerOne.getSettings().get(5);
+					playerOneName = playerOne.getSettings().get(0);
+					playerTwoName = playerOne.getSettings().get(1);
+					opOption = playerOne.getSettings().get(2);
+					time = playerOne.getSettings().get(3);
+					timeLength = Double.parseDouble(playerOne.getSettings().get(4));
+					playerColour = playerOne.getSettings().get(5);
 
-				if(playerColour.equals("W")){
-					playerTwo.setColour("B");
-				}
-				else if(playerColour.equals("Q")){
-					isQuit(playerColour);
-				}
-				else{
-					playerTwo.setColour("W");
+					if(playerColour.equals("W")){
+						playerTwo.setColour("B");
+					}
+					else if(playerColour.equals("Q")){
+						isQuit(playerColour);
+					}
+					else{
+						playerTwo.setColour("W");
+					}
+					
+					set.setTimer(timeLength);
 				}
 				
-				set.setTimer(timeLength);
-			}
-			playerOne.setColour(playerColour);
-			playerOne.Load();
-			
-			System.out.println("Begin Game! Press S to start or Q to quit at any point");
-			String start = s.nextLine().trim().toUpperCase();
-			isQuit(start);
-			
-			if(opOption.equals("H")){
-				do{
-					play();
-				}while(!start.equals("Q"));
-			}
-			
-			else if(opOption.equals("A")){
-				do{
-					playAI();
-				}while(!start.equals("Q"));
+				playerOne.setColour(playerColour);
+				playerOne.Load();
+				
+				System.out.println("Begin Game! Press S to start or Q to quit at any point");
+				String start = s.nextLine().trim().toUpperCase();
+				isQuit(start);
+				
+				if(opOption.equals("H")){
+					do{
+						play();
+					}while(!start.equals("Q"));
+				}
+				
+				else if(opOption.equals("A")){
+					do{
+						playAI();
+					}while(!start.equals("Q"));
+				}
+				
 			}
 			
 		}
