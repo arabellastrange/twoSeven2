@@ -7,6 +7,7 @@ public class ArtificialOpponent {
 	GamePieces pieces = new GamePieces();
 	Observer observer = new Observer();
 	CurrentState currentState = new CurrentState();
+	Coordinates co = new Coordinates();
 	Driver d;
 	
 	String move = null;
@@ -56,15 +57,18 @@ public class ArtificialOpponent {
 		int x = 0;
 		int y = 0;
 		
+		co.stringToXY(AIPiece.getPiecePosition());
+		x = co.getX();
+		y = co.getY();
 		//find piece belonging to AI that is same colour as last landed on square
 		
 		
 		getPiece();
-		Coordinates co = new Coordinates();
+		
 		co.stringToXY(AIPiece.getPiecePosition()); //get coordinates of correct AI piece
-		String forwardSquare = co.XYtoString(x, y + 1); //AI move forward
-		String leftDiagonalSquare = co.XYtoString(x - 1, y + 1); //AI move left diagonal
-		String rightDiagonalSquare = co.XYtoString(x + 1, y + 1); //AI move right diagonal
+		String forwardSquare = co.XYtoString(x, y - 1); //AI move forward
+		String leftDiagonalSquare = co.XYtoString(x - 1, y - 1); //AI move left diagonal
+		String rightDiagonalSquare = co.XYtoString(x + 1, y - 1); //AI move right diagonal
 		
 		if(d.checkMove(AIPiece.getPiecePosition(), forwardSquare, playerColour)){ //if forward move is okay, do that
 			move = forwardSquare;
