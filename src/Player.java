@@ -33,8 +33,8 @@ public class Player {
 	public void Save(){
 		d.Save();
 	}
-	public void Load(){
-		d.Load();
+	public boolean Load(){
+		return d.Load();
 	}
 	public void storeSettings(ArrayList<String> settings){
 		d.storeSettings(settings);
@@ -46,6 +46,10 @@ public class Player {
 	
 	public boolean makeMove(String fromPiece, String toSquare){
 		return d.checkMove(fromPiece, toSquare, getColour());
+	}
+	
+	public boolean UndoMove(){
+		return d.Undo();
 	}
 		
 }

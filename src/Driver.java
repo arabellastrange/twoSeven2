@@ -14,10 +14,12 @@ public class Driver {
 		observer.getCurrentState().saveCurrentState();
 	}
 	
-	public void Load(){
-		observer.getCurrentState().loadCurrentState();
+	public boolean Load(){
+		return observer.getCurrentState().loadCurrentState();
 	}
-	
+	public boolean Undo(){
+		return observer.getCurrentState().undoMove();
+	}
 	public boolean checkMove(String fromPiece, String toSquare, String pColour){
 		if(checkValid(fromPiece, toSquare)){
 			Square last = observer.getCurrentState().getLastLandedOn();
