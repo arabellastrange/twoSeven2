@@ -12,7 +12,6 @@ public class CurrentState implements Serializable{
 	Stack<CurrentState> states = new Stack<CurrentState>();
 	ArrayList<String> gamesSettings = new ArrayList();
 	Settings timer;
-	String[] positions;
 	Square lastLandedOn = new Square("Default", "Defualt", false);
 	GamePieces pieces;
 	Board board;
@@ -59,14 +58,12 @@ public class CurrentState implements Serializable{
 		
 	}
 	public void saveCurrentState(){
-		CurrentState savedState = new CurrentState();
-		savedState.setCurrentState(timer, this.getBoard(), this.getPieces());
 		try{
 			File save = new File("savedGame.txt");
 			save.createNewFile();
 			FileOutputStream fout = new FileOutputStream(save, false); 
 			ObjectOutputStream out = new ObjectOutputStream(fout);
-			out.writeObject(savedState);  
+			out.writeObject(this);  
 			out.flush();
 			System.out.println("File saved successfully");
 		}
@@ -85,8 +82,11 @@ public class CurrentState implements Serializable{
 	public void loadCurrentState(){
 		CurrentState savedState = new CurrentState();
 		try{
-			ObjectInputStream in= new ObjectInputStream(new FileInputStream("savedGame.txt"));
+			FileInputStream inFile = new FileInputStream("savedGame.txt");
+			ObjectInputStream in= new ObjectInputStream(inFile);
 			savedState = (CurrentState) in.readObject();
+			in.close();
+			inFile.close();
 			this.setCurrentState(savedState.getTime(), savedState.getBoard(), savedState.getPieces());
 			this.storeSettings(savedState.getSettings());
 		}
