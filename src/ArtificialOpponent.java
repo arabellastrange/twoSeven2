@@ -1,9 +1,8 @@
 import java.util.ArrayList;
 public class ArtificialOpponent {
-	String playerColour;
+	String AIColour;
 	String playerName;
 	String last;
-	Piece AIPiece;
 	GamePieces pieces = new GamePieces();
 	Observer observer = new Observer();
 	CurrentState currentState = new CurrentState();
@@ -13,16 +12,16 @@ public class ArtificialOpponent {
 	String move = null;
 	
 	public ArtificialOpponent(){
-		playerColour = "Black";
+		AIColour = "B";
 		playerName = "AI";
 	}
 	
 	public String getAIColour(){
-		return playerColour;
+		return AIColour;
 	}
 	
 	public void setColour(String colour){
-		playerColour = colour;
+		AIColour = colour;
 	}
 	
 	public Piece getPiece(){
@@ -34,51 +33,36 @@ public class ArtificialOpponent {
 		else{
 			lastCol = "Green";
 		}
-		String AiId = null;
+		String AiId;
 		Piece p[] = pieces.getPieces();
 		for(Piece i: p){
-			if(i.getColour().equals(lastCol)){
-				AIPiece = pieces.getPiece(i.getID());
-				if(AIPiece.getID().startsWith(playerColour)){
-					AiId = i.getID(); //get id of piece that has same colour as last landed on square
-					AIPiece = pieces.getPiece(AiId);
+			if(i.getID().startsWith("B")){
+				if(i.getColour().equals(lastCol)){
+					return i;
 				}
 			}
 		}
-		return AIPiece;
+		return null;
 	}
 	
 	public boolean possibleMoves(){
-//		Boolean forwardBlocked = false;
-//		Boolean leftDiagonalBlocked = false;
-//		Boolean rightDiagonalBlocked = false;
-		
-		
-		int x = 0;
-		int y = 0;
-		
-		co.stringToXY(AIPiece.getPiecePosition());
-		x = co.getX();
-		y = co.getY();
+		co.stringToXY(getPiece().getPiecePosition());
+		int x = co.getX();
+		int y = co.getY();
 		//find piece belonging to AI that is same colour as last landed on square
+		String forwardSquare = co.XYtoString(x, y + 1); //AI move forward
+		String leftDiagonalSquare = co.XYtoString(x - 1, y + 1); //AI move left diagonal
+		String rightDiagonalSquare = co.XYtoString(x + 1, y + 1); //AI move right diagonal
 		
-		
-		getPiece();
-		
-		co.stringToXY(AIPiece.getPiecePosition()); //get coordinates of correct AI piece
-		String forwardSquare = co.XYtoString(x, y - 1); //AI move forward
-		String leftDiagonalSquare = co.XYtoString(x - 1, y - 1); //AI move left diagonal
-		String rightDiagonalSquare = co.XYtoString(x + 1, y - 1); //AI move right diagonal
-		
-		if(d.checkMove(AIPiece.getPiecePosition(), forwardSquare, playerColour)){ //if forward move is okay, do that
+		if(d.checkMove(getPiece().getPiecePosition(), forwardSquare, AIColour)){ //if forward move is okay, do that
 			move = forwardSquare;
 			return true;
 		}
-		else if(d.checkMove(AIPiece.getPiecePosition(), leftDiagonalSquare, playerColour)){ //if not and left diagonal is, do that
+		else if(d.checkMove(getPiece().getPiecePosition(), leftDiagonalSquare, AIColour)){ //if not and left diagonal is, do that
 			move = leftDiagonalSquare;
 			return true;
 		}
-		else if(d.checkMove(AIPiece.getPiecePosition(), rightDiagonalSquare, playerColour)){ //if not and right is, do that
+		else if(d.checkMove(getPiece().getPiecePosition(), rightDiagonalSquare, AIColour)){ //if not and right is, do that
 			move = rightDiagonalSquare;
 			return true;
 		}

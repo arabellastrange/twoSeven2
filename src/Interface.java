@@ -273,7 +273,7 @@ public class Interface {
 	}
 	
 	public static void playAI(){
-
+		Interface i = new Interface();
 		System.out.println("Do you wish to undo previous move? [Y/N]");
 		if(s.nextLine().trim().toUpperCase().equals("Y")){
 			playerOne.UndoMove();
@@ -297,10 +297,11 @@ public class Interface {
 				updateInterface(piece, square);
 			}
 		
-		String AIMove = AI.getMove();
-		String AIPiece = AI.getPiece().getID();
+		
 		
 		if(AI.possibleMoves()){
+			String AIMove = AI.getMove();
+			String AIPiece = AI.getPiece().getID();
 			updateInterface(AIMove, AIPiece);
 		}
 	}
