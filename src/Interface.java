@@ -72,12 +72,19 @@ public class Interface {
 				String start = s.nextLine().trim().toUpperCase();
 				isQuit(start);
 				
+				Interface i = new Interface();
 				printInterface();
 				
 				if(opOption.equals("H")){
-					do{
-						play();
-					}while(!start.equals("Q"));
+					if(time.equals("Y")){
+						playTimed();
+					}
+					else{
+						do{
+							play();
+						}while(!start.equals("Q"));
+					}
+					
 				}
 				
 				else if(opOption.equals("A")){
@@ -257,21 +264,30 @@ public class Interface {
 	}
 	
 	public static void playAI(){
-		System.out.println("Select the piece you wish to move: ");		
-		String piece = s.nextLine().trim().toUpperCase();
+		System.out.println("Do you wish to undo previous move? [Y/N]");
+		if(s.nextLine().trim().toUpperCase().equals("Y")){
+			playerOne.UndoMove();
+			printInterface();
+		}
+		else{
+			System.out.println("Select the piece you wish to move: ");		
+			String piece = s.nextLine().trim().toUpperCase();
 		
-		isPieceValid(piece);
+			isPieceValid(piece);
 		
-		isQuit(piece);
+			isQuit(piece);
 		
-		System.out.println("Player One select the square you wish to move to: ");
-		String square = s.nextLine().trim().toUpperCase();
+			System.out.println("Player One select the square you wish to move to: ");
+			String square = s.nextLine().trim().toUpperCase();
 		
-		isSquareValid(square);
+			isSquareValid(square);
 		
-		isQuit(square);
+			isQuit(square);
+			
+			updateInterface(piece, square);
+		}
 		
-		updateInterface(piece, square);
+		
 	}
 	
 	public static void playTimed(){
@@ -389,7 +405,7 @@ public class Interface {
 			allSquares.set(sqIndex, newSq);
 		}
 		else if(piece.startsWith("B")){
-			String newSq = allSquares.get(sqIndex ).replace("|_|","|•|");
+			String newSq = allSquares.get(sqIndex).replace("|_|","|•|");
 
 			allSquares.set(sqIndex, newSq);
 		}
