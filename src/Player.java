@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class Player {
 	String playerColour;
 	String playerName;
@@ -28,8 +30,26 @@ public class Player {
 		return playerColour;
 	}
 	
+	public void Save(){
+		d.Save();
+	}
+	public boolean Load(){
+		return d.Load();
+	}
+	public void storeSettings(ArrayList<String> settings){
+		d.storeSettings(settings);
+	}
+	
+	public ArrayList<String> getSettings(){
+		return d.getSettings();
+	}
+	
 	public boolean makeMove(String fromPiece, String toSquare){
 		return d.checkMove(fromPiece, toSquare, getColour());
+	}
+	
+	public boolean UndoMove(){
+		return d.Undo();
 	}
 		
 }
