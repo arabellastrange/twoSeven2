@@ -76,12 +76,19 @@ public class Interface {
 				String start = s.nextLine().trim().toUpperCase();
 				isQuit(start);
 				
+				Interface i = new Interface();
 				printInterface();
 				
 				if(opOption.equals("H")){
-					do{
-						play();
-					}while(!start.equals("Q"));
+					if(time.equals("Y")){
+						playTimed();
+					}
+					else{
+						do{
+							play();
+						}while(!start.equals("Q"));
+					}
+					
 				}
 				
 				else if(opOption.equals("A")){
@@ -266,25 +273,29 @@ public class Interface {
 	}
 	
 	public static void playAI(){
-		Interface board = new Interface();
-		System.out.println("Select the piece you wish to move: ");		
-		String piece = s.nextLine().trim().toUpperCase();
-		
-		isPieceValid(piece);
-		
-		isQuit(piece);
-		
-		System.out.println("Player One select the square you wish to move to: ");
-		String square = s.nextLine().trim().toUpperCase();
-		
-		isSquareValid(square);
-		isQuit(square);	
-		
-		if(playerOne.makeMove(piece, square)){
-			board.updateInterface(piece, square);
+
+		System.out.println("Do you wish to undo previous move? [Y/N]");
+		if(s.nextLine().trim().toUpperCase().equals("Y")){
+			playerOne.UndoMove();
+			printInterface();
 		}
-	
-		updateInterface(piece, square);
+		else{
+			System.out.println("Select the piece you wish to move: ");		
+			String piece = s.nextLine().trim().toUpperCase();
+
+		
+			isPieceValid(piece);
+		
+			isQuit(piece);
+		
+			System.out.println("Player One select the square you wish to move to: ");
+			String square = s.nextLine().trim().toUpperCase();
+			isSquareValid(square);
+			isQuit(square);	
+		
+			if(playerOne.makeMove(piece, square)){
+				updateInterface(piece, square);
+			}
 		
 		String AIMove = AI.getMove();
 		String AIPiece = AI.getPiece().getID();
@@ -292,9 +303,10 @@ public class Interface {
 		if(AI.possibleMoves()){
 			updateInterface(AIMove, AIPiece);
 		}
-		else{
-			System.out.println("check above for error");
-		}
+	}
+		
+		
+
 	}
 	
 	public static void playTimed(){
