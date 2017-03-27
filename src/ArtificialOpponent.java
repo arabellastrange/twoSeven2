@@ -15,7 +15,7 @@ public class ArtificialOpponent {
 		AIColour = "B";
 		playerName = "AI";
 	}
-	
+	   
 	public String getAIColour(){
 		return AIColour;
 	}
