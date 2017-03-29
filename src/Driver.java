@@ -94,6 +94,7 @@ public class Driver {
 		}
 		return false;
 	}
+
 	
 	public Boolean checkValid(String piece, String square){
 		if(Integer.parseInt(piece.substring(1)) > 8 || Integer.parseInt(piece.substring(1)) < 0){
@@ -107,6 +108,7 @@ public class Driver {
 		
 		return true;
 	}
+
 
 }
 
