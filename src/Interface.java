@@ -16,8 +16,12 @@ public class Interface {
 	static String playerColour;
 	static Player playerTwo = new Player();
 	static Settings set = new Settings();
+	static ArtificialOpponent AI = new ArtificialOpponent();
 	
 	public static void main(String[] args){
+
+		
+
 		System.out.println("Do you wish to load saved game? [Y/N]");
 		String load = s.nextLine().trim().toUpperCase();
 		if(load.equals("Y")){
@@ -96,6 +100,7 @@ public class Interface {
 			}
 			
 		}
+
 		
 		System.out.println("Welcome to Kamisado, please enter your name: ");
 		playerOneName = s.nextLine().trim().toUpperCase();
@@ -105,6 +110,7 @@ public class Interface {
 		System.out.println("Do you wish to play against AI [selelct A] or human [select H]?");
 		opOption = s.nextLine().trim().toUpperCase();
 		
+
 		if(opOption.equals("A")){
 			System.out.println("You are playing against AI");		
 			System.out.println("Select a difficulty level ([E]asy or [D]ifficult): ");
@@ -121,6 +127,9 @@ public class Interface {
 			else{
 				System.out.println("That is not a valid option");
 			}
+			
+			Interface board = new Interface();
+
 		}
 		else if(opOption.equals("H")){
 			System.out.println("You are playing against another human! Player two, enter your name: ");
@@ -152,12 +161,12 @@ public class Interface {
 			time = s.nextLine().trim().toUpperCase();
 			
 			if(time.equals("Y")){
-				
+				Interface board = new Interface();
 				System.out.println("Set the timer value you would like to use (in seconds): ");
 				timeLength = s.nextDouble();
 				set.setTimer(timeLength);
 				
-				Interface i = new Interface();
+				//Interface i = new Interface();
 				
 				System.out.println("Begin Game! Press S to start or Q to quit at any point");
 				String start = s.nextLine().trim().toUpperCase();
@@ -264,6 +273,7 @@ public class Interface {
 	}
 	
 	public static void playAI(){
+		Interface i = new Interface();
 		System.out.println("Do you wish to undo previous move? [Y/N]");
 		if(s.nextLine().trim().toUpperCase().equals("Y")){
 			playerOne.UndoMove();
@@ -272,6 +282,7 @@ public class Interface {
 		else{
 			System.out.println("Select the piece you wish to move: ");		
 			String piece = s.nextLine().trim().toUpperCase();
+
 		
 			isPieceValid(piece);
 		
@@ -279,18 +290,28 @@ public class Interface {
 		
 			System.out.println("Player One select the square you wish to move to: ");
 			String square = s.nextLine().trim().toUpperCase();
-		
 			isSquareValid(square);
+			isQuit(square);	
 		
-			isQuit(square);
-			
-			updateInterface(piece, square);
+			if(playerOne.makeMove(piece, square)){
+				updateInterface(piece, square);
+			}
+		
+		
+		
+		if(AI.possibleMoves()){
+			String AIMove = AI.getMove();
+			String AIPiece = AI.getPiece().getID();
+			updateInterface(AIMove, AIPiece);
 		}
+	}
 		
 		
+
 	}
 	
 	public static void playTimed(){
+		
 		System.out.println("Player One make a move! Select the piece you wish to move: ");		
 		String piece = s.nextLine().trim().toUpperCase();
 		
