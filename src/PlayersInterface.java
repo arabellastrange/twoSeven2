@@ -1,27 +1,27 @@
 import java.util.ArrayList;
 
-public class Driver {
+public class PlayersInterface {
 	Coordinates co = new Coordinates();
 	Observer observer = new Observer();
 	
-	public void storeSettings(ArrayList<String> settings){
-		observer.getCurrentState().storeSettings(settings);
-	}
-	public ArrayList<String> getSettings(){
-		return observer.getCurrentState().getSettings();
-	}
-	public void Save(){
-		observer.getCurrentState().saveCurrentState();
+	public void createPlayer(String playerType){
+		if(playerType.equals("H")){
+			HumanPlayer player = new HumanPlayer();
+		}
+		else if(playerType.equals("A")){
+			AIPlayer AI = new AIPlayer();
+		}
+		else{
+			System.out.println("Invalid player type");
+		}
 	}
 	
-	public boolean Load(){
-		return observer.getCurrentState().loadCurrentState();
-	}
-	public boolean Undo(){
+	public boolean undo(){
 		return observer.getCurrentState().undoMove();
 	}
-	public boolean checkMove(String fromPiece, String toSquare, String pColour){
-		if(checkValid(fromPiece, toSquare)){
+	
+	public boolean makeMove(String fromPiece, String toSquare, String pColour){
+		if(checkInRange(fromPiece, toSquare)){
 			Square last = observer.getCurrentState().getLastLandedOn();
 			Square movedTo = observer.getCurrentState().getBoard().getStringSquare(toSquare);
 			Piece piece = observer.getCurrentState().getPieces().getPiece(fromPiece);
@@ -96,7 +96,7 @@ public class Driver {
 	}
 
 	
-	public Boolean checkValid(String piece, String square){
+	public Boolean checkInRange(String piece, String square){
 		if(Integer.parseInt(piece.substring(1)) > 8 || Integer.parseInt(piece.substring(1)) < 0){
 			return false;
 		}

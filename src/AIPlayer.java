@@ -1,17 +1,11 @@
 import java.util.ArrayList;
-public class ArtificialOpponent {
+public class AIPlayer extends PlayersInterface {
 	String AIColour;
 	String playerName;
-	String last;
-	GamePieces pieces = new GamePieces();
-	Observer observer = new Observer();
-	CurrentState currentState = new CurrentState();
+	String move;
 	Coordinates co = new Coordinates();
-	Driver d;
 	
-	String move = null;
-	
-	public ArtificialOpponent(){
+	public AIPlayer(){
 		AIColour = "B";
 		playerName = "AI";
 	}
@@ -34,7 +28,7 @@ public class ArtificialOpponent {
 			lastCol = "Green";
 		}
 		String AiId;
-		Piece p[] = pieces.getPieces();
+		Piece p[] = observer.getCurrentState().getPieces().getPieces();
 		for(Piece i: p){
 			if(i.getID().startsWith("B")){
 				if(i.getColour().equals(lastCol)){
@@ -54,15 +48,15 @@ public class ArtificialOpponent {
 		String leftDiagonalSquare = co.XYtoString(x - 1, y + 1); //AI move left diagonal
 		String rightDiagonalSquare = co.XYtoString(x + 1, y + 1); //AI move right diagonal
 		
-		if(d.checkMove(getPiece().getPiecePosition(), forwardSquare, AIColour)){ //if forward move is okay, do that
+		if(makeMove(getPiece().getPiecePosition(), forwardSquare, AIColour)){ //if forward move is okay, do that
 			move = forwardSquare;
 			return true;
 		}
-		else if(d.checkMove(getPiece().getPiecePosition(), leftDiagonalSquare, AIColour)){ //if not and left diagonal is, do that
+		else if(makeMove(getPiece().getPiecePosition(), leftDiagonalSquare, AIColour)){ //if not and left diagonal is, do that
 			move = leftDiagonalSquare;
 			return true;
 		}
-		else if(d.checkMove(getPiece().getPiecePosition(), rightDiagonalSquare, AIColour)){ //if not and right is, do that
+		else if(makeMove(getPiece().getPiecePosition(), rightDiagonalSquare, AIColour)){ //if not and right is, do that
 			move = rightDiagonalSquare;
 			return true;
 		}
@@ -74,7 +68,6 @@ public class ArtificialOpponent {
 	}
 	
 	public String getMove(){
-		//possibleMoves();
 		return move;
 	}
 }

@@ -3,41 +3,40 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Interface {
+	static ReadWrite save = new ReadWrite();
 	ArrayList<String> updatedSquares = new ArrayList<String>();
 	static ArrayList<String> gameSettings = new ArrayList<String>();
 	static ArrayList<String> allSquares = new ArrayList<String>(); // make a list of all squares and print them out if you, then print out all the updated squares, in a square is in both all squares and updated squares then clear it in all squares
 	static Scanner s = new Scanner(System.in);
-	static Player playerOne = new Player();
+	static HumanPlayer playerOne = new HumanPlayer();
 	static String playerOneName;
 	static String playerTwoName; // add to array 
 	static String opOption;
 	static String time;
 	static double timeLength; // add to array
 	static String playerColour;
-	static Player playerTwo = new Player();
+	static HumanPlayer playerTwo = new HumanPlayer();
 	static Settings set = new Settings();
-	static ArtificialOpponent AI = new ArtificialOpponent();
+	static AIPlayer AI = new AIPlayer();
 	
 	public static void main(String[] args){
-
-		
 
 		System.out.println("Do you wish to load saved game? [Y/N]");
 		String load = s.nextLine().trim().toUpperCase();
 		if(load.equals("Y")){
-			if(playerOne.Load()){
-				if(playerOne.getSettings().size() == 4){
-					playerOneName = playerOne.getSettings().get(0); //name
-					opOption = playerOne.getSettings().get(1); //opponent 
-					time = playerOne.getSettings().get(2); // check options and split depeneding 
-					playerColour = playerOne.getSettings().get(3);
+			if(save.loadCurrentState()){
+				if(save.getSettings().size() == 4){
+					playerOneName = save.getSettings().get(0); //name
+					opOption = save.getSettings().get(1); //opponent 
+					time = save.getSettings().get(2); // check options and split depeneding 
+					playerColour = save.getSettings().get(3);
 				}
-				else if(playerOne.getSettings().size() == 5){
-					playerOneName = playerOne.getSettings().get(0);
-					playerTwoName = playerOne.getSettings().get(1);
-					opOption = playerOne.getSettings().get(2);
-					time = playerOne.getSettings().get(3);
-					playerColour = playerOne.getSettings().get(4); //works as long as no one plays speed mode in AI lol
+				else if(save.getSettings().size() == 5){
+					playerOneName = save.getSettings().get(0);
+					playerTwoName = save.getSettings().get(1);
+					opOption = save.getSettings().get(2);
+					time = save.getSettings().get(3);
+					playerColour = save.getSettings().get(4); //works as long as no one plays speed mode in AI lol
 
 					if(playerColour.equals("W")){
 						playerTwo.setColour("B");
@@ -50,12 +49,12 @@ public class Interface {
 					}
 				}
 				else{
-					playerOneName = playerOne.getSettings().get(0);
-					playerTwoName = playerOne.getSettings().get(1);
-					opOption = playerOne.getSettings().get(2);
-					time = playerOne.getSettings().get(3);
-					timeLength = Double.parseDouble(playerOne.getSettings().get(4));
-					playerColour = playerOne.getSettings().get(5);
+					playerOneName = save.getSettings().get(0);
+					playerTwoName = save.getSettings().get(1);
+					opOption = save.getSettings().get(2);
+					time = save.getSettings().get(3);
+					timeLength = Double.parseDouble(save.getSettings().get(4));
+					playerColour = save.getSettings().get(5);
 
 					if(playerColour.equals("W")){
 						playerTwo.setColour("B");
@@ -276,7 +275,7 @@ public class Interface {
 		Interface i = new Interface();
 		System.out.println("Do you wish to undo previous move? [Y/N]");
 		if(s.nextLine().trim().toUpperCase().equals("Y")){
-			playerOne.UndoMove();
+			playerOne.undoMove();
 			printInterface();
 		}
 		else{
@@ -439,8 +438,8 @@ public class Interface {
 		String quit = input.toUpperCase();
 		if(quit.equals("Q")){
 			System.out.println("Do you wish to save your game before exit? [Y/N]: ");
-			String save = s.nextLine().trim().toUpperCase();
-			if(save.equals("Y")){
+			String store = s.nextLine().trim().toUpperCase();
+			if(store.equals("Y")){
 				gameSettings.add(playerOneName);
 				if(!playerTwoName.isEmpty()){
 					gameSettings.add(playerTwoName);
@@ -451,8 +450,8 @@ public class Interface {
 					gameSettings.add(String.valueOf(timeLength));
 				}
 				gameSettings.add(playerColour);
-				playerOne.storeSettings(gameSettings);
-				playerOne.Save();
+				save.storeSettings(gameSettings);
+				save.saveCurrentState();
 			}
 			System.out.println("Goodbye");
 			System.exit(0);
