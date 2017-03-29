@@ -22,13 +22,13 @@ public class Interface {
 		String load = s.nextLine().trim().toUpperCase();
 		if(load.equals("Y")){
 			if(playerOne.Load()){
-				if(playerOne.getSettings().size() == 3){
+				if(playerOne.getSettings().size() == 4){
 					playerOneName = playerOne.getSettings().get(0); //name
 					opOption = playerOne.getSettings().get(1); //opponent 
 					time = playerOne.getSettings().get(2); // check options and split depeneding 
 					playerColour = playerOne.getSettings().get(3);
 				}
-				else if(playerOne.getSettings().size() == 4){
+				else if(playerOne.getSettings().size() == 5){
 					playerOneName = playerOne.getSettings().get(0);
 					playerTwoName = playerOne.getSettings().get(1);
 					opOption = playerOne.getSettings().get(2);
