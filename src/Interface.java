@@ -3,27 +3,28 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Interface {
-	static ReadWrite save = new ReadWrite();
 	ArrayList<String> updatedSquares = new ArrayList<String>();
 	static ArrayList<String> gameSettings = new ArrayList<String>();
 	static ArrayList<String> allSquares = new ArrayList<String>(); // make a list of all squares and print them out if you, then print out all the updated squares, in a square is in both all squares and updated squares then clear it in all squares
 	static Scanner s = new Scanner(System.in);
+	static Settings set = new Settings();
 	static HumanPlayer playerOne = new HumanPlayer();
+	static HumanPlayer playerTwo = new HumanPlayer();
+	static ReadWrite save = new ReadWrite();
+	
 	static String playerOneName;
 	static String playerTwoName; // add to array 
 	static String opOption;
 	static String time;
 	static double timeLength; // add to array
 	static String playerColour;
-	static HumanPlayer playerTwo = new HumanPlayer();
-	static Settings set = new Settings();
-	static AIPlayer AI = new AIPlayer();
 	
 	public static void main(String[] args){
 
 		System.out.println("Do you wish to load saved game? [Y/N]");
 		String load = s.nextLine().trim().toUpperCase();
 		if(load.equals("Y")){
+			ReadWrite save = new ReadWrite();
 			if(save.loadCurrentState()){
 				if(save.getSettings().size() == 4){
 					playerOneName = save.getSettings().get(0); //name
@@ -37,7 +38,6 @@ public class Interface {
 					opOption = save.getSettings().get(2);
 					time = save.getSettings().get(3);
 					playerColour = save.getSettings().get(4); //works as long as no one plays speed mode in AI lol
-
 					if(playerColour.equals("W")){
 						playerTwo.setColour("B");
 					}
@@ -55,7 +55,6 @@ public class Interface {
 					time = save.getSettings().get(3);
 					timeLength = Double.parseDouble(save.getSettings().get(4));
 					playerColour = save.getSettings().get(5);
-
 					if(playerColour.equals("W")){
 						playerTwo.setColour("B");
 					}
@@ -99,12 +98,12 @@ public class Interface {
 			}
 			
 		}
-
 		
+		Observer observer =  new Observer();
+		observer.createState();
 		System.out.println("Welcome to Kamisado, please enter your name: ");
 		playerOneName = s.nextLine().trim().toUpperCase();
 		playerOne.setName(playerOneName);
-		
 		
 		System.out.println("Do you wish to play against AI [selelct A] or human [select H]?");
 		opOption = s.nextLine().trim().toUpperCase();
@@ -131,6 +130,7 @@ public class Interface {
 
 		}
 		else if(opOption.equals("H")){
+			HumanPlayer playerTwo = new HumanPlayer();
 			System.out.println("You are playing against another human! Player two, enter your name: ");
 			playerTwoName = s.nextLine().trim().toUpperCase();
 			if(playerOne.getName().equals(playerTwoName)){
@@ -273,9 +273,11 @@ public class Interface {
 	
 	public static void playAI(){
 		Interface i = new Interface();
+		Observer observer =  new Observer();
+		AIPlayer AI = new AIPlayer();
 		System.out.println("Do you wish to undo previous move? [Y/N]");
 		if(s.nextLine().trim().toUpperCase().equals("Y")){
-			playerOne.undoMove();
+			observer.getCurrentState().undoMove();
 			printInterface();
 		}
 		else{
@@ -292,7 +294,7 @@ public class Interface {
 			isSquareValid(square);
 			isQuit(square);	
 		
-			if(playerOne.makeMove(piece, square)){
+			if(observer.getCurrentState().makeMove(piece, square, playerOne.getColour())){
 				updateInterface(piece, square);
 			}
 		
@@ -310,7 +312,7 @@ public class Interface {
 	}
 	
 	public static void playTimed(){
-		
+		Observer observer =  new Observer();
 		System.out.println("Player One make a move! Select the piece you wish to move: ");		
 		String piece = s.nextLine().trim().toUpperCase();
 		
@@ -331,7 +333,7 @@ public class Interface {
 			System.out.println("You have run out of time. Player Two make a move.");
 		}
 		else{
-			if(playerOne.makeMove(piece, square)){
+			if(observer.getCurrentState().makeMove(piece, square, playerOne.getColour())){
 				updateInterface(piece, square);
 				set.clearTimer();
 			}
@@ -357,7 +359,7 @@ public class Interface {
 			System.out.println("You have run out of time. Player Two make a move.");
 		}
 		else{
-			if(playerTwo.makeMove(piece, square)){
+			if(observer.getCurrentState().makeMove(piece, square, playerTwo.getColour())){
 				updateInterface(piece, square);
 				set.clearTimer();
 			}

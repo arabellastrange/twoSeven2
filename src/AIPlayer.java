@@ -1,5 +1,5 @@
 import java.util.ArrayList;
-public class AIPlayer extends PlayersInterface {
+public class AIPlayer {
 	String AIColour;
 	String playerName;
 	String move;
@@ -18,6 +18,7 @@ public class AIPlayer extends PlayersInterface {
 		AIColour = colour;
 	}
 	
+	// do u think it is possible to also move this to the current state/observer class?
 	public Piece getPiece(){
 		String lastCol;
 		if(observer.getCurrentState().getLastLandedOn().equals("Default")){

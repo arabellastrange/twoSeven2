@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-public class HumanPlayer extends PlayersInterface {
+public class HumanPlayer{
 	String playerColour;
 	String playerName;
 	
