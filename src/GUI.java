@@ -54,15 +54,12 @@ public class GUI extends Frame implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		String account = accountName.getText();
 		playerOne.setName(account);
-		//first.setVisible(false);
-		//close this window and open next one
 		welcome.setVisible(false);
 		choose(account);	
 	}
 	
 	public void choose(String account){
 		JPanel choice;
-		//first = new JFrame("Choose your opponent");
 		choice = new JPanel();
 		
 		JLabel message = new JLabel();
@@ -78,8 +75,7 @@ public class GUI extends Frame implements ActionListener {
 		choice.add(ai);
 		choice.setVisible(true);
 		first.add(choice);
-		
-		//first.setVisible(true);
+
 		first.setSize(350, 150);
 		first.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
