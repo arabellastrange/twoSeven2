@@ -10,7 +10,10 @@ public class Interface {
 	static Settings set = new Settings();
 	static HumanPlayer playerOne = new HumanPlayer();
 	static HumanPlayer playerTwo = new HumanPlayer();
+	static AIPlayer AI = new AIPlayer();
 	static ReadWrite save = new ReadWrite();
+	static Interface inter = new Interface();
+	static Observer observer;
 	
 	static String playerOneName;
 	static String playerTwoName; // add to array 
@@ -73,8 +76,7 @@ public class Interface {
 				System.out.println("Begin Game! Press S to start or Q to quit at any point");
 				String start = s.nextLine().trim().toUpperCase();
 				isQuit(start);
-				
-				Interface i = new Interface();
+
 				printInterface();
 				
 				if(opOption.equals("H")){
@@ -99,8 +101,10 @@ public class Interface {
 			
 		}
 		
-		Observer observer =  new Observer();
-		observer.createState();
+		observer =  new Observer();
+		
+		observer.getCurrentState().createState();
+		
 		System.out.println("Welcome to Kamisado, please enter your name: ");
 		playerOneName = s.nextLine().trim().toUpperCase();
 		playerOne.setName(playerOneName);
@@ -108,25 +112,40 @@ public class Interface {
 		System.out.println("Do you wish to play against AI [selelct A] or human [select H]?");
 		opOption = s.nextLine().trim().toUpperCase();
 		
-
 		if(opOption.equals("A")){
 			System.out.println("You are playing against AI");		
 			System.out.println("Select a difficulty level ([E]asy or [D]ifficult): ");
 			String lvl = s.nextLine().trim().toUpperCase();
 			
+			System.out.println("Player one select your colour! [White or Black]");
+			playerColour = s.nextLine().trim().toUpperCase();
+			playerOne.setColour(playerColour);
+			
+			if(playerColour.equals("W")){
+				AI.setColour("B");
+			}
+			else if(playerColour.equals("Q")){
+				isQuit(playerColour);
+			}
+			else{
+				AI.setColour("W");
+			}
+			
+			printInterface();
+			
 			if(lvl.equals("E")){
-				System.out.println("Easy");
+				//System.out.println("Easy");
 				playAI();
 			}
 			else if(lvl.equals("D")){
-				System.out.println("Difficult");
+				//System.out.println("Difficult");
 				playAI();
 			}
 			else{
 				System.out.println("That is not a valid option");
 			}
 			
-			Interface board = new Interface();
+			printInterface();
 
 		}
 		else if(opOption.equals("H")){
@@ -160,7 +179,7 @@ public class Interface {
 			time = s.nextLine().trim().toUpperCase();
 			
 			if(time.equals("Y")){
-				Interface board = new Interface();
+				printInterface();
 				System.out.println("Set the timer value you would like to use (in seconds): ");
 				timeLength = s.nextDouble();
 				set.setTimer(timeLength);
@@ -176,7 +195,7 @@ public class Interface {
 				}while(!start.equals("Q"));
 			}
 			else{
-				Interface board = new Interface();
+				printInterface();
 
 				System.out.println("Begin Game! Press S to start or Q to quit at any point");
 				String start = s.nextLine().trim().toUpperCase();
@@ -268,27 +287,11 @@ public class Interface {
 		allSquares.add("\u001b[1;44m|\u001b[0m°\u001b[1;44m|\u001b[0m"); // blue
 		allSquares.add("\u001b[1;45m|\u001b[0m°\u001b[1;45m|\u001b[0m"); // purple
 
-		printInterface();
+		//printInterface();
 	}
 	
 	public static void playAI(){
-		Interface i = new Interface();
 		Observer observer =  new Observer();
-		AIPlayer AI = new AIPlayer();
-		
-		System.out.println("Player one select your colour! [White or Black]");
-		playerColour = s.nextLine().trim().toUpperCase();
-		playerOne.setColour(playerColour);
-		
-		if(playerColour.equals("W")){
-			AI.setColour("B");
-		}
-		else if(playerColour.equals("Q")){
-			isQuit(playerColour);
-		}
-		else{
-			AI.setColour("W");
-		}
 		
 		System.out.println("Do you wish to undo previous move? [Y/N]");
 		if(s.nextLine().trim().toUpperCase().equals("Y")){
