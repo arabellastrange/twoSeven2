@@ -281,6 +281,20 @@ public class Interface {
 			printInterface();
 		}
 		else{
+			System.out.println("Player one select your colour! [White or Black]");
+			playerColour = s.nextLine().trim().toUpperCase();
+			playerOne.setColour(playerColour);
+			
+			if(playerColour.equals("W")){
+				AI.setColour("B");
+			}
+			else if(playerColour.equals("Q")){
+				isQuit(playerColour);
+			}
+			else{
+				AI.setColour("W");
+			}
+			
 			System.out.println("Select the piece you wish to move: ");		
 			String piece = s.nextLine().trim().toUpperCase();
 
@@ -294,9 +308,9 @@ public class Interface {
 			isSquareValid(square);
 			isQuit(square);	
 		
-			if(observer.getCurrentState().makeMove(piece, square, playerOne.getColour())){
+			//if(observer.getCurrentState().makeMove(piece, square, playerOne.getColour())){
 				updateInterface(piece, square);
-			}
+			//}
 		
 		
 		
