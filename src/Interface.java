@@ -11,6 +11,7 @@ public class Interface {
 	static HumanPlayer playerOne = new HumanPlayer();
 	static HumanPlayer playerTwo = new HumanPlayer();
 	static ReadWrite save = new ReadWrite();
+	static Observer observer = new Observer();
 	
 	static String playerOneName;
 	static String playerTwoName; // add to array 
@@ -273,7 +274,7 @@ public class Interface {
 	
 	public static void playAI(){
 		Interface i = new Interface();
-		Observer observer =  new Observer();
+		//Observer observer =  new Observer();
 		AIPlayer AI = new AIPlayer();
 		System.out.println("Do you wish to undo previous move? [Y/N]");
 		if(s.nextLine().trim().toUpperCase().equals("Y")){
@@ -308,9 +309,9 @@ public class Interface {
 			isSquareValid(square);
 			isQuit(square);	
 		
-			//if(observer.getCurrentState().makeMove(piece, square, playerOne.getColour())){
+			if(observer.getCurrentState().makeMove(piece, square, playerOne.getColour())){
 				updateInterface(piece, square);
-			//}
+			}
 		
 		
 		
@@ -395,7 +396,11 @@ public class Interface {
 		
 		isQuit(square);	
 		
-		updateInterface(piece, square);
+		//updateInterface(piece, square);
+		
+		if(observer.getCurrentState().makeMove(piece, square, playerOne.getColour())){
+			updateInterface(piece, square);
+		}
 		
 		System.out.println("Player Two make a move! Select the piece you wish to move: ");
 		piece = s.nextLine().trim().toUpperCase();
@@ -411,7 +416,11 @@ public class Interface {
 		
 		isQuit(square);
 		
-		updateInterface(piece, square);
+		//updateInterface(piece, square);
+		
+		if(observer.getCurrentState().makeMove(piece, square, playerTwo.getColour())){
+			updateInterface(piece, square);
+		}
 	}
 	
 	public static void printInterface(){
