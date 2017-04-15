@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Stack;
 
 public class CurrentState implements Serializable{
+	//make/ save players?? otherwise what is the point??
 	Stack<CurrentState> states = new Stack<CurrentState>();
 	Coordinates co = new Coordinates();
 	Settings timer;
