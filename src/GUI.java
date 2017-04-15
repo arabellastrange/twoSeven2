@@ -17,13 +17,13 @@ import java.awt.image.ImageObserver;
 import java.io.File;
 import java.io.IOException;
 
-public class Welcome extends Frame implements ActionListener {
+public class GUI extends Frame implements ActionListener {
 	Player playerOne = new Player();
 	JFrame first;
 	JPanel welcome;
 	JTextField accountName;
 	
-	public Welcome(){
+	public GUI(){
 		welcome();
 	}
 	
@@ -54,8 +54,33 @@ public class Welcome extends Frame implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		String account = accountName.getText();
 		playerOne.setName(account);
-		first.setVisible(false);
+		//first.setVisible(false);
 		//close this window and open next one
-		Choice gui = new Choice(account);	
+		welcome.setVisible(false);
+		choose(account);	
+	}
+	
+	public void choose(String account){
+		JPanel choice;
+		//first = new JFrame("Choose your opponent");
+		choice = new JPanel();
+		
+		JLabel message = new JLabel();
+		message.setText("Hi " + account + " do you wish to play against Human or AI?");
+		
+		JButton human = new JButton("Human");
+		JButton ai = new JButton("AI");
+		human.addActionListener(this);
+		ai.addActionListener(this);
+		
+		choice.add(message);
+		choice.add(human);
+		choice.add(ai);
+		choice.setVisible(true);
+		first.add(choice);
+		
+		//first.setVisible(true);
+		first.setSize(350, 150);
+		first.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 }
