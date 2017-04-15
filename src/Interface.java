@@ -275,56 +275,51 @@ public class Interface {
 		Interface i = new Interface();
 		Observer observer =  new Observer();
 		AIPlayer AI = new AIPlayer();
+		
+		System.out.println("Player one select your colour! [White or Black]");
+		playerColour = s.nextLine().trim().toUpperCase();
+		playerOne.setColour(playerColour);
+		
+		if(playerColour.equals("W")){
+			AI.setColour("B");
+		}
+		else if(playerColour.equals("Q")){
+			isQuit(playerColour);
+		}
+		else{
+			AI.setColour("W");
+		}
+		
 		System.out.println("Do you wish to undo previous move? [Y/N]");
 		if(s.nextLine().trim().toUpperCase().equals("Y")){
 			observer.getCurrentState().undoMove();
 			printInterface();
 		}
-		else{
-			System.out.println("Player one select your colour! [White or Black]");
-			playerColour = s.nextLine().trim().toUpperCase();
-			playerOne.setColour(playerColour);
-			
-			if(playerColour.equals("W")){
-				AI.setColour("B");
-			}
-			else if(playerColour.equals("Q")){
-				isQuit(playerColour);
-			}
-			else{
-				AI.setColour("W");
-			}
-			
-			System.out.println("Select the piece you wish to move: ");		
-			String piece = s.nextLine().trim().toUpperCase();
+		
+		System.out.println("Select the piece you wish to move: ");		
+		String piece = s.nextLine().trim().toUpperCase();
 
-		
-			isPieceValid(piece);
-		
-			isQuit(piece);
-		
-			System.out.println("Player One select the square you wish to move to: ");
-			String square = s.nextLine().trim().toUpperCase();
-			isSquareValid(square);
-			isQuit(square);	
-		
-			//if(observer.getCurrentState().makeMove(piece, square, playerOne.getColour())){
-				updateInterface(piece, square);
-			//}
-		
-		
-		
-		if(AI.possibleMoves()){
-			String AIMove = AI.getMove();
-			String AIPiece = AI.getPiece().getID();
-			updateInterface(AIMove, AIPiece);
-		}
-	}
-		
-		
-
-	}
 	
+		isPieceValid(piece);
+	
+		isQuit(piece);
+	
+		System.out.println("Player One select the square you wish to move to: ");
+		String square = s.nextLine().trim().toUpperCase();
+		isSquareValid(square);
+		isQuit(square);	
+		
+		updateInterface(piece, square);
+		
+		String AIMove = "";
+		String AIPiece = "";
+		if(AI.possibleMoves()){
+			AIMove = AI.getMove();
+			AIPiece = AI.getPiece().getID();	
+		}
+		updateInterface(AIMove, AIPiece);
+	}
+			
 	public static void playTimed(){
 		Observer observer =  new Observer();
 		System.out.println("Player One make a move! Select the piece you wish to move: ");		

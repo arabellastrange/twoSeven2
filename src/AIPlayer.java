@@ -5,7 +5,7 @@ public class AIPlayer {
 	String move;
 	Coordinates co = new Coordinates();
 	Observer observer = new Observer();
-	CurrentState cs = new CurrentState();
+	//CurrentState cs = new CurrentState();
 	
 	public AIPlayer(){
 		AIColour = "B";
