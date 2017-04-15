@@ -9,17 +9,27 @@ import java.util.ArrayList;
 import java.util.Stack;
 
 public class CurrentState implements Serializable{
+	//make/ save players?? otherwise what is the point??
 	Stack<CurrentState> states = new Stack<CurrentState>();
 	Coordinates co = new Coordinates();
 	Settings timer;
-	Square lastLandedOn = new Square("Default", "Defualt", false);
+	Square lastLandedOn; 	
 	GamePieces pieces;
 	Board board;
 	
 	public CurrentState(){
+		lastLandedOn = new Square("Default", "Defualt", false);
 		timer = new Settings();
 		pieces = new GamePieces();
 		board = new Board();
+	}
+	
+	public void createState(){
+		new CurrentState();
+	}
+	
+	public CurrentState getState(){
+		return this;
 	}
 	
 	public boolean gameOver(Piece p){
@@ -61,7 +71,7 @@ public class CurrentState implements Serializable{
 		try{
 			states.pop();
 			states.pop();
-			this.setCurrentState(states.peek().getTime(), states.peek().getBoard(), states.peek().getPieces());
+			setCurrentState(states.peek().getTime(), states.peek().getBoard(), states.peek().getPieces());
 			return true;
 		}
 		catch(Exception e){
