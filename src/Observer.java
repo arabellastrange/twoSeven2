@@ -1,13 +1,11 @@
-public class Observer {
-	
-	CurrentState now = new CurrentState();
-	
-	public Observer(){
-		now = getCurrentState();
-	}
+import java.io.Serializable;
+import java.util.ArrayList;
+
+public class Observer implements Serializable{
+	CurrentState cs = new CurrentState();
 	
 	public CurrentState getCurrentState(){
-		return now;
+		return cs.getState();
 	}
 }
 

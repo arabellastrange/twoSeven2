@@ -1,4 +1,6 @@
-public class GamePieces {
+import java.io.Serializable;
+
+public class GamePieces implements Serializable {
 	
 	Piece pieces[] = new Piece[16];
 	String colours[] = {"Brown", "Green", "Red", "Yellow", "Purple", "Maroon", "Navy", "Orange"};
@@ -8,7 +10,7 @@ public class GamePieces {
 		pieces = new Piece[16];
 		
 		for(int i = 0; i < 8; i++){
-			pieces[i] = new Piece(colours[7 - i], coord.getCoordinates(i), "BL" + i);
+			pieces[i] = new Piece(colours[7 - i], coord.getCoordinates(i), "B" + i);
 			
 		}
 		

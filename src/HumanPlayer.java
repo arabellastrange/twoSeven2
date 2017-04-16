@@ -1,15 +1,12 @@
-public class Player {
+import java.util.ArrayList;
+
+public class HumanPlayer{
 	String playerColour;
 	String playerName;
-	Driver d = new Driver();
 	
-	public Player(){
+	public HumanPlayer(){
 		playerName = "Default";
 		playerColour = "Default";
-	}
-	
-	public void getStats(){
-		
 	}
 	
 	public void setName(String name){
@@ -19,7 +16,6 @@ public class Player {
 	public String getName(){
 		return playerName;
 	}
-
 	
 	public void setColour(String colour){
 		playerColour = colour;
@@ -27,10 +23,6 @@ public class Player {
 	
 	public String getColour(){
 		return playerColour;
-	}
-	
-	public boolean makeMove(String fromPiece, String toSquare){
-		return d.checkMove(fromPiece, toSquare, getColour());
 	}
 		
 }

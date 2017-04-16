@@ -1,4 +1,6 @@
-public class Board {
+import java.io.Serializable;
+
+public class Board implements Serializable {
 //REMEmBER Y X NOT XY
 	Square squares[][] = new Square[8][8];
 	
@@ -117,5 +119,5 @@ public class Board {
 		}
 		return null;
 	}
-	
+
 }
