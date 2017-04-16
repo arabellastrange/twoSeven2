@@ -12,12 +12,9 @@ public class Interface {
 	static HumanPlayer playerTwo = new HumanPlayer();
 	static AIPlayer AI = new AIPlayer();
 	static ReadWrite save = new ReadWrite();
-<<<<<<< HEAD
-	static Observer observer = new Observer();
-=======
 	static Interface inter = new Interface();
 	static Observer observer;
->>>>>>> chadha
+
 	
 	static String playerOneName;
 	static String playerTwoName; // add to array 
@@ -306,44 +303,34 @@ public class Interface {
 		}
 
 		else{
-			System.out.println("Player one select your colour! [White or Black]");
-			playerColour = s.nextLine().trim().toUpperCase();
-			playerOne.setColour(playerColour);
+	
+			System.out.println("Select the piece you wish to move: ");		
+			String piece = s.nextLine().trim().toUpperCase();
+	
+		
+			isPieceValid(piece);
+		
+			isQuit(piece);
+		
+			System.out.println("Player One select the square you wish to move to: ");
+			String square = s.nextLine().trim().toUpperCase();
+			isSquareValid(square);
+			isQuit(square);	
 			
-			if(playerColour.equals("W")){
-				AI.setColour("B");
-			}
-			else if(playerColour.equals("Q")){
-				isQuit(playerColour);
-			}
-			else{
-				AI.setColour("W");
+			if(observer.getCurrentState().makeMove(piece, square, playerOne.getColour())){
+				updateInterface(piece, square);
 			}
 			
-
-		
-		System.out.println("Select the piece you wish to move: ");		
-		String piece = s.nextLine().trim().toUpperCase();
-
-	
-		isPieceValid(piece);
-	
-		isQuit(piece);
-	
-		System.out.println("Player One select the square you wish to move to: ");
-		String square = s.nextLine().trim().toUpperCase();
-		isSquareValid(square);
-		isQuit(square);	
-		
-		updateInterface(piece, square);
-		
-		String AIMove = "";
-		String AIPiece = "";
-		if(AI.possibleMoves()){
-			AIMove = AI.getMove();
-			AIPiece = AI.getPiece().getID();	
-		}
-		updateInterface(AIMove, AIPiece);
+			String AIMove = "";
+			String AIPiece = "";
+			if(AI.possibleMoves()){
+				AIMove = AI.getMove();
+				AIPiece = AI.getPiece().getID();	
+			}
+			
+			if(observer.getCurrentState().makeMove(piece, square, playerOne.getColour())){
+				updateInterface(piece, square);
+			}
 		}
 	}
 			
