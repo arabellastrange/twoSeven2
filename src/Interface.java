@@ -149,7 +149,6 @@ public class Interface {
 
 		}
 		else if(opOption.equals("H")){
-			HumanPlayer playerTwo = new HumanPlayer();
 			System.out.println("You are playing against another human! Player two, enter your name: ");
 			playerTwoName = s.nextLine().trim().toUpperCase();
 			if(playerOne.getName().equals(playerTwoName)){
@@ -308,11 +307,18 @@ public class Interface {
 		isQuit(piece);
 	
 		System.out.println("Player One select the square you wish to move to: ");
+		
 		String square = s.nextLine().trim().toUpperCase();
+		
 		isSquareValid(square);
 		isQuit(square);	
 		
-		updateInterface(piece, square);
+		if(observer.getCurrentState().makeMove(piece, square, playerOne.getColour())){
+			updateInterface(piece, square);
+		}
+		else{
+			printInterface();
+		}
 		
 		String AIMove = "";
 		String AIPiece = "";
@@ -393,7 +399,12 @@ public class Interface {
 		
 		isQuit(square);	
 		
-		updateInterface(piece, square);
+		if(observer.getCurrentState().makeMove(piece, square, playerOne.getColour())){
+			updateInterface(piece, square);
+		}
+		else{
+			printInterface();
+		}
 		
 		System.out.println("Player Two make a move! Select the piece you wish to move: ");
 		piece = s.nextLine().trim().toUpperCase();
@@ -409,7 +420,13 @@ public class Interface {
 		
 		isQuit(square);
 		
-		updateInterface(piece, square);
+		if(observer.getCurrentState().makeMove(piece, square, playerTwo.getColour())){
+			updateInterface(piece, square);
+		}
+		else{
+			printInterface();
+		}
+		
 	}
 	
 	public static void printInterface(){
