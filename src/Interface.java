@@ -322,9 +322,9 @@ public class Interface {
 		
 		String AIMove = "";
 		String AIPiece = "";
-		if(AI.possibleMoves()){
-			AIMove = AI.getMove();
-			AIPiece = AI.getPiece().getID();	
+		if(observer.getCurrentState().makeAIMove(AI.getAIColour())){
+			AIMove = observer.getCurrentState().getAIMove();
+			AIPiece = observer.getCurrentState().getFreePiece().getID();	
 		}
 		updateInterface(AIMove, AIPiece);
 	}
