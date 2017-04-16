@@ -1,10 +1,6 @@
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
 import java.util.ArrayList;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -20,6 +16,8 @@ import java.io.IOException;
 public class GUI extends Frame implements ActionListener {
 	Player playerOne = new Player();
 	Player playerTwo = new Player();
+	Player AI = new Player();
+	
 	JFrame screen;
 	JLabel updates;	
 	
@@ -55,10 +53,11 @@ public class GUI extends Frame implements ActionListener {
 		welcome.setVisible(true);
 		
 		screen.add(welcome);
-		//screen.add(updates); --> overwrite panel deal with it
+		//screen.add(updates); --> overwrites welcome panel deal with it
 		screen.setVisible(true);
 		//screen.setSize(300, 150);
 		screen.pack();
+		screen.setBackground(Color.darkGray);
 		screen.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 	}
@@ -104,8 +103,21 @@ public class GUI extends Frame implements ActionListener {
 		JButton easy = new JButton("Easy");
 		JButton hard = new JButton("Hard");
 		
-		easy.addActionListener(this);
-		hard.addActionListener(this);
+		easy.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// call easy ai
+				diffculty.setVisible(false);
+				drawBoard();
+			}
+		});
+		
+		hard.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//call difficult ai
+				diffculty.setVisible(false);
+				drawBoard();
+			}
+		});
 		
 		diffculty.add(message);
 		diffculty.add(easy);
@@ -129,6 +141,7 @@ public class GUI extends Frame implements ActionListener {
 				playerTwo.setName(account);
 				playertwo.setVisible(false);
 				updates.setText("Player two created!");	
+				drawBoard();
 			}
 		});
 		
@@ -138,6 +151,49 @@ public class GUI extends Frame implements ActionListener {
 		playertwo.setVisible(true);
 		screen.add(playertwo);
 		
+	}
+	
+	public void drawBoard(){
+		JPanel gameScreen = new JPanel();
+		JPanel board = null;
+		JPanel extra = null;
+		
+		JToolBar toolbar = new JToolBar();
+		toolbar.add(new JButton("New Game"));
+		toolbar.add(new JButton("Settings"));
+		toolbar.add(new JButton("Reset")); 
+	    toolbar.add(new JButton("Undo"));
+	    toolbar.add(new JButton("Save"));
+	    toolbar.add(new JButton("Quit"));
+	    toolbar.setVisible(true);
+	    toolbar.setFloatable(false);
+	    try {
+	    	final BufferedImage gboard = ImageIO.read(new File("cutsomGameBoard.jpg"));
+	    	final BufferedImage featPanel = ImageIO.read(new File("extraPanel.png"));
+	    	board = new JPanel(){
+	            protected void paintComponent(Graphics g) {
+	                super.paintComponent(g);
+	                g.drawImage(gboard, 0, 0, null);
+	            }
+			};
+			extra = new JPanel(){
+				protected void paintComponent(Graphics g) {
+	                super.paintComponent(g);
+	                g.drawImage(featPanel, 0, 0, null);
+	            }
+			};
+			board.setSize(480, 480);
+			extra.setSize(480, 320);
+		}
+	    catch (IOException e) {
+			e.printStackTrace();
+		}
+
+	    gameScreen.add(toolbar, BorderLayout.PAGE_START);
+	    gameScreen.add(board, BorderLayout.EAST);
+	    gameScreen.add(extra, BorderLayout.WEST);
+	    gameScreen.setVisible(true);
+	    screen.add(gameScreen);
 	}
 
 	@Override
