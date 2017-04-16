@@ -14,9 +14,9 @@ import java.io.File;
 import java.io.IOException;
 
 public class GUI extends Frame implements ActionListener {
-	Player playerOne = new Player();
-	Player playerTwo = new Player();
-	Player AI = new Player();
+	HumanPlayer playerOne = new HumanPlayer();
+	HumanPlayer playerTwo = new HumanPlayer();
+	AIPlayer AI = new AIPlayer();
 	
 	JFrame screen;
 	JLabel updates;	
