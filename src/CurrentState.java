@@ -16,6 +16,7 @@ public class CurrentState implements Serializable{
 	Square lastLandedOn; 	
 	GamePieces pieces;
 	Board board;
+	String AImove;
 	
 	public CurrentState(){
 		lastLandedOn = new Square("Default", "Defualt", false);
@@ -78,6 +79,53 @@ public class CurrentState implements Serializable{
 			System.out.println("Not enough moves to undo");
 			return false;
 		}
+	}
+	public Piece getFreePiece(){
+		String lastCol;
+		Square last = getLastLandedOn(); //gets the last landed on square
+		lastCol = last.getColour(); //gets the colour of that square
+
+		Piece p[] = getPieces().getPieces();
+		for(Piece i: p){
+			if(i.getID().startsWith("B")){
+				if(i.getColour().equals(lastCol)){
+					return i;
+				}
+			}
+		}
+		return null;
+	}
+	
+	public boolean makeAIMove(String AIColour){
+		co.stringToXY(getFreePiece().getPiecePosition());
+		int x = co.getX();
+		int y = co.getY();
+		//find piece belonging to AI that is same colour as last landed on square
+		String forwardSquare = co.XYtoString(x, y + 1); //AI move forward
+		String leftDiagonalSquare = co.XYtoString(x - 1, y + 1); //AI move left diagonal
+		String rightDiagonalSquare = co.XYtoString(x + 1, y + 1); //AI move right diagonal
+		
+		if(makeMove(getFreePiece().getPiecePosition(), forwardSquare, AIColour)){ //if forward move is okay, do that
+			AImove = forwardSquare;
+			return true;
+		}
+		else if(makeMove(getFreePiece().getPiecePosition(), leftDiagonalSquare, AIColour)){ //if not and left diagonal is, do that
+			AImove = leftDiagonalSquare;
+			return true;
+		}
+		else if(makeMove(getFreePiece().getPiecePosition(), rightDiagonalSquare, AIColour)){ //if not and right is, do that
+			AImove = rightDiagonalSquare;
+			return true;
+		}
+		else{
+			System.out.println("The AI couldn't make any legal moves."); //else return message and move on
+			return false;
+		}
+			
+	}
+	
+	public String getAIMove(){
+		return AImove;
 	}
 	
 	public boolean makeMove(String fromPiece, String toSquare, String pColour){
