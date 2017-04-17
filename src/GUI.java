@@ -231,12 +231,11 @@ public class GUI extends Frame implements ActionListener {
 	    	bPieces.add(ImageIO.read(new File("rev-brown.png")));
 	    	bPieces.add(ImageIO.read(new File("rev-green.png")));
 	    	bPieces.add(ImageIO.read(new File("rev-orange.png")));
-	    	bPieces.add(ImageIO.read(new File("rev-lighOrange.png")));
+	    	bPieces.add(ImageIO.read(new File("rev-yellow.png")));
 	    	bPieces.add(ImageIO.read(new File("rev-lilac.png")));
 	    	bPieces.add(ImageIO.read(new File("rev-maroon.png")));
 	    	bPieces.add(ImageIO.read(new File("rev-navy.png")));
-	    	
-	    	bPieces.add(ImageIO.read(new File("rev-yellow.png")));
+	    	bPieces.add(ImageIO.read(new File("rev-lighOrange.png")));
 	    	
 	    	board = new JPanel(){
 	            protected void paintComponent(Graphics g) {
@@ -249,7 +248,7 @@ public class GUI extends Frame implements ActionListener {
 	                	x += 60;
 	                }
 	                x = 5;
-	                y = 450;
+	                y = 425;
 	                for(int i = 0; i <8; i++){
 	                	g.drawImage(bPieces.get(i), x, y, this);
 	                	x += 60;
@@ -272,7 +271,7 @@ public class GUI extends Frame implements ActionListener {
 	            }
 			};
 			board.setSize(480, 480);
-			extra.setSize(320, 480);
+			extra.setSize(480, 320);
 			
 		}
 	    catch (IOException e) {
