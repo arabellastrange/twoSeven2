@@ -216,15 +216,21 @@ public class GUI extends Frame implements ActionListener {
 	    	board = new JPanel(){
 	            protected void paintComponent(Graphics g) {
 	                super.paintComponent(g);
-	               // g = gboard.getGraphics();
 	                g.drawImage(gboard, 0, 0, this);
+	            }
+	            @Override
+	            public Dimension getPreferredSize() {
+	                return new Dimension(480, 480);
 	            }
 			};
 			extra = new JPanel(){
 				protected void paintComponent(Graphics g) {
 	                super.paintComponent(g);
-	                //g = featPanel.getGraphics();
 	                g.drawImage(featPanel, 0, 0, this);
+	            }
+				@Override
+	            public Dimension getPreferredSize() {
+	                return new Dimension(480, 320);
 	            }
 			};
 			board.setSize(480, 480);
@@ -236,8 +242,8 @@ public class GUI extends Frame implements ActionListener {
 		}
 
 	    gameScreen.add(toolbar, BorderLayout.PAGE_START);
-	    gameScreen.add(board, BorderLayout.EAST);
-	    gameScreen.add(extra, BorderLayout.WEST);
+	    gameScreen.add(board);
+	    gameScreen.add(extra);
 	    gameScreen.setVisible(true);
 	    screen.add(gameScreen);
 	}
