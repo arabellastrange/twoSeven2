@@ -14,6 +14,8 @@ import java.io.File;
 import java.io.IOException;
 
 public class GUI extends Frame implements ActionListener {
+	Observer observer;
+	ReadWrite rw = new ReadWrite();
 	HumanPlayer playerOne = new HumanPlayer();
 	HumanPlayer playerTwo = new HumanPlayer();
 	AIPlayer AI = new AIPlayer();
@@ -157,14 +159,55 @@ public class GUI extends Frame implements ActionListener {
 		JPanel gameScreen = new JPanel();
 		JPanel board = null;
 		JPanel extra = null;
+		JButton newGame = new JButton("New Game");
+		JButton settings = new JButton("Settings");
+		JButton reset = new JButton("Reset");
+		JButton undo = new JButton("Undo");
+		JButton save = new JButton("Save");
+		JButton quit = new JButton("Quit");
 		
 		JToolBar toolbar = new JToolBar();
-		toolbar.add(new JButton("New Game"));
-		toolbar.add(new JButton("Settings"));
-		toolbar.add(new JButton("Reset")); 
-	    toolbar.add(new JButton("Undo"));
-	    toolbar.add(new JButton("Save"));
-	    toolbar.add(new JButton("Quit"));
+		
+		toolbar.add(newGame);
+		newGame.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				drawBoard();
+			}
+		});
+		toolbar.add(settings);
+		settings.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//drawBoard();
+			}
+		});
+		toolbar.add(reset); 
+		reset.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				drawBoard();
+			}
+		});
+	    toolbar.add(undo);
+	    undo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				observer.getCurrentState().undoMove();
+			}
+		});
+	    toolbar.add(save);
+	    save.addActionListener(new ActionListener(){
+	    	public void actionPerformed(ActionEvent e){
+				//rw.storeSettings(gameSettings);
+				rw.saveCurrentState();
+	    	}
+	    });
+	    toolbar.add(quit);
+	    quit.addActionListener(new ActionListener(){
+	    	public void actionPerformed(ActionEvent e){
+				//rw.storeSettings(gameSettings);
+	    		updates.setText("Goodbye");
+				System.exit(0);
+	    	}
+	    });
+	    
 	    toolbar.setVisible(true);
 	    toolbar.setFloatable(false);
 	    try {
@@ -173,17 +216,20 @@ public class GUI extends Frame implements ActionListener {
 	    	board = new JPanel(){
 	            protected void paintComponent(Graphics g) {
 	                super.paintComponent(g);
-	                g.drawImage(gboard, 0, 0, null);
+	               // g = gboard.getGraphics();
+	                g.drawImage(gboard, 0, 0, this);
 	            }
 			};
 			extra = new JPanel(){
 				protected void paintComponent(Graphics g) {
 	                super.paintComponent(g);
-	                g.drawImage(featPanel, 0, 0, null);
+	                //g = featPanel.getGraphics();
+	                g.drawImage(featPanel, 0, 0, this);
 	            }
 			};
 			board.setSize(480, 480);
 			extra.setSize(480, 320);
+			
 		}
 	    catch (IOException e) {
 			e.printStackTrace();
@@ -194,6 +240,17 @@ public class GUI extends Frame implements ActionListener {
 	    gameScreen.add(extra, BorderLayout.WEST);
 	    gameScreen.setVisible(true);
 	    screen.add(gameScreen);
+	}
+	
+	public void gameOver(){
+		JPanel congrats = new JPanel();
+		JLabel message = new JLabel();
+		message.setText("Congrats! You won.");
+		
+		congrats.add(message);
+		congrats.setVisible(true);
+		screen.add(congrats);
+		System.exit(0);
 	}
 
 	@Override
