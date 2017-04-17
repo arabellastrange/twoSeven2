@@ -168,6 +168,9 @@ public class GUI extends Frame implements ActionListener {
 		
 		JToolBar toolbar = new JToolBar();
 		
+		ArrayList<BufferedImage> wPieces = new ArrayList<BufferedImage>();
+		ArrayList<BufferedImage> bPieces = new ArrayList<BufferedImage>();
+		
 		toolbar.add(newGame);
 		newGame.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -213,15 +216,50 @@ public class GUI extends Frame implements ActionListener {
 	    try {
 	    	final BufferedImage gboard = ImageIO.read(new File("cutsomGameBoard.jpg"));
 	    	final BufferedImage featPanel = ImageIO.read(new File("extraPanel.png"));
+	    	
+	    	//load white game pieces
+	    	wPieces.add(ImageIO.read(new File("rect-lightOrange.png")));
+	    	wPieces.add(ImageIO.read(new File("rect-navy.png")));
+	    	wPieces.add(ImageIO.read(new File("rect-maroon.png")));	
+	    	wPieces.add(ImageIO.read(new File("rect-lilac.png")));
+	    	wPieces.add(ImageIO.read(new File("rect-yellow.png")));
+	    	wPieces.add(ImageIO.read(new File("rect-orange.png")));
+	    	wPieces.add(ImageIO.read(new File("rect-green.png")));
+	    	wPieces.add(ImageIO.read(new File("rect-brown.png")));
+
+	    	//load black game pieces
+	    	bPieces.add(ImageIO.read(new File("rev-brown.png")));
+	    	bPieces.add(ImageIO.read(new File("rev-green.png")));
+	    	bPieces.add(ImageIO.read(new File("rev-orange.png")));
+	    	bPieces.add(ImageIO.read(new File("rev-lighOrange.png")));
+	    	bPieces.add(ImageIO.read(new File("rev-lilac.png")));
+	    	bPieces.add(ImageIO.read(new File("rev-maroon.png")));
+	    	bPieces.add(ImageIO.read(new File("rev-navy.png")));
+	    	
+	    	bPieces.add(ImageIO.read(new File("rev-yellow.png")));
+	    	
 	    	board = new JPanel(){
 	            protected void paintComponent(Graphics g) {
 	                super.paintComponent(g);
 	                g.drawImage(gboard, 0, 0, this);
+	                int x = 5;
+	                int y = 5;
+	                for(int i = 0; i <8; i++){
+	                	g.drawImage(wPieces.get(i), x, y, this);
+	                	x += 60;
+	                }
+	                x = 5;
+	                y = 450;
+	                for(int i = 0; i <8; i++){
+	                	g.drawImage(bPieces.get(i), x, y, this);
+	                	x += 60;
+	                }
 	            }
 	            @Override
 	            public Dimension getPreferredSize() {
 	                return new Dimension(480, 480);
 	            }
+	            
 			};
 			extra = new JPanel(){
 				protected void paintComponent(Graphics g) {
@@ -234,7 +272,7 @@ public class GUI extends Frame implements ActionListener {
 	            }
 			};
 			board.setSize(480, 480);
-			extra.setSize(480, 320);
+			extra.setSize(320, 480);
 			
 		}
 	    catch (IOException e) {
@@ -242,8 +280,8 @@ public class GUI extends Frame implements ActionListener {
 		}
 
 	    gameScreen.add(toolbar, BorderLayout.PAGE_START);
-	    gameScreen.add(board);
-	    gameScreen.add(extra);
+	    gameScreen.add(board, BorderLayout.LINE_END);
+	    gameScreen.add(extra, BorderLayout.LINE_START);
 	    gameScreen.setVisible(true);
 	    screen.add(gameScreen);
 	}
