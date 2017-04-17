@@ -324,8 +324,9 @@ public class GUI extends Frame implements ActionListener {
 		JButton set = new JButton("Set");
 		set.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-					double time = Integer.valueOf(timeSecs.getText());
+					double time = Integer.valueOf(timeSecs.getText()); //doesnt handle unexpected input well yet
 					settings.setVisible(false);
+					settings.dispose();
 			}
 		});
 		
