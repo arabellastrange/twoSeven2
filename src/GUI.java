@@ -32,6 +32,7 @@ public class GUI extends Frame implements ActionListener {
 		final JTextField accountName = new JTextField(20);
 		updates = new JLabel();
 		updates.setText("Watch this sace for feedback through out your game!");
+		updates.setForeground(Color.WHITE);
 		screen = new JFrame("Welcome");
 		JPanel welcome =  new JPanel();
 		
@@ -48,18 +49,20 @@ public class GUI extends Frame implements ActionListener {
 		
 		JLabel message = new JLabel();
 		message.setText("Welcome to Kamisado, please enter your name");
+		message.setForeground(Color.WHITE);
 		
 		welcome.add(message);
 		welcome.add(accountName);
 		welcome.add(start);
 		welcome.setVisible(true);
+		welcome.setBackground(Color.darkGray);
 		
 		screen.add(welcome);
 		//screen.add(updates); --> overwrites welcome panel deal with it
 		screen.setVisible(true);
 		//screen.setSize(300, 150);
 		screen.pack();
-		screen.setBackground(Color.darkGray);
+		//screen.getContentPane().setBackground(Color.darkGray);
 		screen.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 	}
@@ -70,6 +73,7 @@ public class GUI extends Frame implements ActionListener {
 		
 		JLabel message = new JLabel();
 		message.setText("Hi " + account + " do you wish to play against Human or AI?");
+		message.setForeground(Color.WHITE);
 		
 		JButton human = new JButton("Human");
 		JButton ai = new JButton("AI");
@@ -95,6 +99,8 @@ public class GUI extends Frame implements ActionListener {
 		choice.add(human);
 		choice.add(ai);
 		choice.setVisible(true);
+		choice.setBackground(Color.DARK_GRAY);
+		
 		screen.add(choice);
 	}
 	
@@ -102,6 +108,8 @@ public class GUI extends Frame implements ActionListener {
 		JPanel diffculty = new JPanel();
 		JLabel message = new JLabel();
 		message.setText("Select a diffculty level!");
+		message.setForeground(Color.WHITE);
+		
 		JButton easy = new JButton("Easy");
 		JButton hard = new JButton("Hard");
 		
@@ -125,6 +133,8 @@ public class GUI extends Frame implements ActionListener {
 		diffculty.add(easy);
 		diffculty.add(hard);
 		diffculty.setVisible(true);
+		diffculty.setBackground(Color.DARK_GRAY);
+		
 		screen.add(diffculty);
 		
 	}
@@ -135,6 +145,7 @@ public class GUI extends Frame implements ActionListener {
 		
 		JLabel message = new JLabel();
 		message.setText("Player two please enter you name: ");
+		message.setForeground(Color.WHITE);
 		
 		JButton next = new JButton("Next");
 		next.addActionListener(new ActionListener() {
@@ -151,6 +162,8 @@ public class GUI extends Frame implements ActionListener {
 		playertwo.add(oppName);
 		playertwo.add(next);
 		playertwo.setVisible(true);
+		playertwo.setBackground(Color.DARK_GRAY);
+		
 		screen.add(playertwo);
 		
 	}
@@ -180,7 +193,7 @@ public class GUI extends Frame implements ActionListener {
 		toolbar.add(settings);
 		settings.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//drawBoard();
+				settings();
 			}
 		});
 		toolbar.add(reset); 
@@ -193,6 +206,7 @@ public class GUI extends Frame implements ActionListener {
 	    undo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				observer.getCurrentState().undoMove();
+				updates.setText("Move undoed");
 			}
 		});
 	    toolbar.add(save);
@@ -200,6 +214,7 @@ public class GUI extends Frame implements ActionListener {
 	    	public void actionPerformed(ActionEvent e){
 				//rw.storeSettings(gameSettings);
 				rw.saveCurrentState();
+				updates.setText("Game saved");
 	    	}
 	    });
 	    toolbar.add(quit);
@@ -258,6 +273,7 @@ public class GUI extends Frame implements ActionListener {
 	            public Dimension getPreferredSize() {
 	                return new Dimension(480, 480);
 	            }
+	            //call interface()?? maybe
 	            
 			};
 			extra = new JPanel(){
@@ -267,21 +283,20 @@ public class GUI extends Frame implements ActionListener {
 	            }
 				@Override
 	            public Dimension getPreferredSize() {
-	                return new Dimension(480, 320);
+	                return new Dimension(480, 480);
 	            }
 			};
-			board.setSize(480, 480);
-			extra.setSize(480, 320);
 			
 		}
 	    catch (IOException e) {
 			e.printStackTrace();
 		}
 
-	    gameScreen.add(toolbar, BorderLayout.PAGE_START);
-	    gameScreen.add(board, BorderLayout.LINE_END);
+	    gameScreen.add(toolbar, BorderLayout.PAGE_START); 
 	    gameScreen.add(extra, BorderLayout.LINE_START);
+	    gameScreen.add(board, BorderLayout.LINE_END);
 	    gameScreen.setVisible(true);
+	    gameScreen.setBackground(Color.DARK_GRAY);
 	    screen.add(gameScreen);
 	}
 	
@@ -289,11 +304,41 @@ public class GUI extends Frame implements ActionListener {
 		JPanel congrats = new JPanel();
 		JLabel message = new JLabel();
 		message.setText("Congrats! You won.");
+		message.setForeground(Color.WHITE);
 		
 		congrats.add(message);
 		congrats.setVisible(true);
+		congrats.setBackground(Color.DARK_GRAY);
 		screen.add(congrats);
 		System.exit(0);
+	}
+	
+	public void settings(){
+		JFrame settings = new JFrame("Settings");
+		JPanel timer = new JPanel();
+		JLabel message = new JLabel();
+		message.setText("Enter the timer value you would like to use (in seconds):");
+		message.setForeground(Color.WHITE);
+		
+		final JTextField timeSecs = new JTextField(5);
+		JButton set = new JButton("Set");
+		set.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+					double time = Integer.valueOf(timeSecs.getText());
+					settings.setVisible(false);
+			}
+		});
+		
+		timer.add(message);
+		timer.add(timeSecs);
+		timer.add(set);
+		timer.setBackground(Color.DARK_GRAY);
+		
+		settings.add(timer);
+		settings.pack();
+		settings.setBackground(Color.darkGray);
+		settings.setVisible(true);
+		settings.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
 	@Override
