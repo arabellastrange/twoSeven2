@@ -42,12 +42,12 @@ public class Coordinates implements Serializable {
 		int finalX = x;
 		int finalY = y;
 		if(playerColour == 'W'){
-			if(startY > finalY){
+			if(startY > finalY && finalY - startY == finalX - startX || startY > finalY && finalX == startX){
 				return true;
 			}
 		}
 		else if(playerColour == 'B'){
-			if(startY < finalY){
+			if(startY < finalY && finalY - startY == finalX - startX  || startY < finalY && finalX == startX){
 				return true;
 			}
 		}

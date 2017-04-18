@@ -10,6 +10,7 @@ import java.util.Stack;
 
 public class CurrentState implements Serializable{
 	//make/ save players?? otherwise what is the point??
+	ArrayList<String> gamesSettings = new ArrayList();
 	Stack<CurrentState> states = new Stack<CurrentState>();
 	Coordinates co = new Coordinates();
 	Settings timer;
@@ -23,6 +24,7 @@ public class CurrentState implements Serializable{
 		timer = new Settings();
 		pieces = new GamePieces();
 		board = new Board();
+
 	}
 	
 	public void createState(){
@@ -62,17 +64,20 @@ public class CurrentState implements Serializable{
 		return timer;
 	}
 	
-	public void setCurrentState(Settings time, Board boards, GamePieces piecesUsed){
+	public void setCurrentState(Settings time, Board boards, GamePieces piecesUsed, ArrayList<String> Settings, Square last){
 		timer = time;
 		board = boards;
 		pieces = piecesUsed;
+		gamesSettings = Settings;
+		lastLandedOn = last;
+		
 		
 	}
 	public boolean undoMove(){
 		try{
 			states.pop();
 			states.pop();
-			setCurrentState(states.peek().getTime(), states.peek().getBoard(), states.peek().getPieces());
+			setCurrentState(states.peek().getTime(), states.peek().getBoard(), states.peek().getPieces(), states.peek().getSettings(), states.peek().getLastLandedOn());
 			return true;
 		}
 		catch(Exception e){
@@ -97,7 +102,8 @@ public class CurrentState implements Serializable{
 	}
 	
 	public boolean makeAIMove(String AIColour){
-		co.stringToXY(getFreePiece().getPiecePosition());
+		Piece free = getFreePiece();
+		co.stringToXY(free.getPiecePosition());
 		int x = co.getX();
 		int y = co.getY();
 		//find piece belonging to AI that is same colour as last landed on square
@@ -105,15 +111,15 @@ public class CurrentState implements Serializable{
 		String leftDiagonalSquare = co.XYtoString(x - 1, y + 1); //AI move left diagonal
 		String rightDiagonalSquare = co.XYtoString(x + 1, y + 1); //AI move right diagonal
 		
-		if(makeMove(getFreePiece().getPiecePosition(), forwardSquare, AIColour)){ //if forward move is okay, do that
+		if(makeMove(free.getID(), forwardSquare, AIColour)){ //if forward move is okay, do that
 			AImove = forwardSquare;
 			return true;
 		}
-		else if(makeMove(getFreePiece().getPiecePosition(), leftDiagonalSquare, AIColour)){ //if not and left diagonal is, do that
+		else if(makeMove(free.getID(), leftDiagonalSquare, AIColour)){ //if not and left diagonal is, do that
 			AImove = leftDiagonalSquare;
 			return true;
 		}
-		else if(makeMove(getFreePiece().getPiecePosition(), rightDiagonalSquare, AIColour)){ //if not and right is, do that
+		else if(makeMove(free.getID(), rightDiagonalSquare, AIColour)){ //if not and right is, do that
 			AImove = rightDiagonalSquare;
 			return true;
 		}
@@ -124,6 +130,13 @@ public class CurrentState implements Serializable{
 			
 	}
 	
+	public void storeSettings(ArrayList<String> settings){
+		gamesSettings = settings;
+	}
+	
+	public ArrayList<String> getSettings(){
+		return gamesSettings;
+	}
 	public String getAIMove(){
 		return AImove;
 	}
@@ -132,9 +145,12 @@ public class CurrentState implements Serializable{
 		if(checkInRange(fromPiece, toSquare)){
 			Square last = getLastLandedOn();
 			Square movedTo = getBoard().getStringSquare(toSquare);
-			Piece piece = getPieces().getPiece(fromPiece);
-			char movingPieceID = piece.getID().charAt(0); 
+			GamePieces pieces = getPieces();
+			Piece piece = pieces.getPiece(fromPiece);
+			char movingPieceID = piece.getID().charAt(0);
 			String movingPieceColour = piece.getColour();
+			
+			//System.out.println(movedTo.empty);
 			
 			if(movingPieceID == pColour.charAt(0)){
 				if(last.getColour().equals("Default")){
@@ -162,7 +178,7 @@ public class CurrentState implements Serializable{
 					}
 				}
 				else if(movingPieceColour.equals(last.getColour())){
-					if(toSquare.isEmpty()){
+					if(!toSquare.isEmpty()){
 						if(co.isMoveForward(piece.getPiecePosition(), toSquare, movingPieceID)){
 							getLastLandedOn().setSquareColour(movedTo.getColour());
 							getLastLandedOn().setOccupied();

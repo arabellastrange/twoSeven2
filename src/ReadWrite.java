@@ -7,7 +7,6 @@ import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
 public class ReadWrite {
-	ArrayList<String> gamesSettings = new ArrayList();
 	Observer o = new Observer();
 	
 	public void saveCurrentState(){
@@ -16,7 +15,7 @@ public class ReadWrite {
 			save.createNewFile();
 			FileOutputStream fout = new FileOutputStream(save, false); 
 			ObjectOutputStream out = new ObjectOutputStream(fout);
-			out.writeObject(this);  
+			out.writeObject(o.getCurrentState());  
 			out.flush();
 			System.out.println("File saved successfully");
 		}
@@ -25,21 +24,13 @@ public class ReadWrite {
 		} 
 	}
 	
-	public void storeSettings(ArrayList<String> settings){
-		gamesSettings = settings;
-	}
-	
-	public ArrayList<String> getSettings(){
-		return gamesSettings;
-	}
-	
 	public boolean loadCurrentState(){
 		CurrentState savedState = new CurrentState();
 		try{
 			ObjectInputStream in = new ObjectInputStream(new FileInputStream("savedGame.txt"));
 			savedState = (CurrentState) in.readObject();
-			o.getCurrentState().setCurrentState(savedState.getTime(), savedState.getBoard(), savedState.getPieces());
-			storeSettings(getSettings());
+			o.getCurrentState().setCurrentState(savedState.getTime(), savedState.getBoard(), savedState.getPieces(), savedState.getSettings(), savedState.getLastLandedOn());
+			o.getCurrentState().storeSettings(o.getCurrentState().getSettings());
 			return true;
 		}
 		catch(IOException e){

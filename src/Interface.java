@@ -30,18 +30,18 @@ public class Interface {
 		if(load.equals("Y")){
 			ReadWrite save = new ReadWrite();
 			if(save.loadCurrentState()){
-				if(save.getSettings().size() == 4){
-					playerOneName = save.getSettings().get(0); //name
-					opOption = save.getSettings().get(1); //opponent 
-					time = save.getSettings().get(2); // check options and split depeneding 
-					playerColour = save.getSettings().get(3);
+				if(observer.getCurrentState().getSettings().size() == 4){
+					playerOneName = observer.getCurrentState().getSettings().get(0); //name
+					opOption = observer.getCurrentState().getSettings().get(1); //opponent 
+					time = observer.getCurrentState().getSettings().get(2); // check options and split depeneding 
+					playerColour = observer.getCurrentState().getSettings().get(3);
 				}
-				else if(save.getSettings().size() == 5){
-					playerOneName = save.getSettings().get(0);
-					playerTwoName = save.getSettings().get(1);
-					opOption = save.getSettings().get(2);
-					time = save.getSettings().get(3);
-					playerColour = save.getSettings().get(4); //works as long as no one plays speed mode in AI lol
+				else if(observer.getCurrentState().getSettings().size() == 5){
+					playerOneName = observer.getCurrentState().getSettings().get(0);
+					playerTwoName = observer.getCurrentState().getSettings().get(1);
+					opOption = observer.getCurrentState().getSettings().get(2);
+					time = observer.getCurrentState().getSettings().get(3);
+					playerColour = observer.getCurrentState().getSettings().get(4); //works as long as no one plays speed mode in AI lol
 					if(playerColour.equals("W")){
 						playerTwo.setColour("B");
 					}
@@ -53,12 +53,12 @@ public class Interface {
 					}
 				}
 				else{
-					playerOneName = save.getSettings().get(0);
-					playerTwoName = save.getSettings().get(1);
-					opOption = save.getSettings().get(2);
-					time = save.getSettings().get(3);
-					timeLength = Double.parseDouble(save.getSettings().get(4));
-					playerColour = save.getSettings().get(5);
+					playerOneName = observer.getCurrentState().getSettings().get(0);
+					playerTwoName = observer.getCurrentState().getSettings().get(1);
+					opOption = observer.getCurrentState().getSettings().get(2);
+					time = observer.getCurrentState().getSettings().get(3);
+					timeLength = Double.parseDouble(observer.getCurrentState().getSettings().get(4));
+					playerColour = observer.getCurrentState().getSettings().get(5);
 					if(playerColour.equals("W")){
 						playerTwo.setColour("B");
 					}
@@ -82,7 +82,10 @@ public class Interface {
 				
 				if(opOption.equals("H")){
 					if(time.equals("Y")){
-						playTimed();
+						do{
+							playTimed();
+						}
+						while(!start.equals("Q"));
 					}
 					else{
 						do{
@@ -136,11 +139,23 @@ public class Interface {
 			
 			if(lvl.equals("E")){
 				//System.out.println("Easy");
-				playAI();
+				System.out.println("Begin Game! Press S to start or Q to quit at any point");
+				String start = s.nextLine().trim().toUpperCase();
+				isQuit(start);
+				do{
+					playAI();
+				}
+				while(!start.equals("Q"));
 			}
 			else if(lvl.equals("D")){
 				//System.out.println("Difficult");
-				playAI();
+				System.out.println("Begin Game! Press S to start or Q to quit at any point");
+				String start = s.nextLine().trim().toUpperCase();
+				isQuit(start);
+				do{
+					playAI();
+				}
+				while(!start.equals("Q"));
 			}
 			else{
 				System.out.println("That is not a valid option");
@@ -306,6 +321,9 @@ public class Interface {
 			System.out.println("Select the piece you wish to move: ");		
 			String piece = s.nextLine().trim().toUpperCase();
 	
+			isPieceValid(piece);
+			isQuit(piece);	
+			
 			System.out.println("Player One select the square you wish to move to: ");
 			
 			String square = s.nextLine().trim().toUpperCase();
@@ -313,20 +331,22 @@ public class Interface {
 			isSquareValid(square);
 			isQuit(square);	
 			
-		if(observer.getCurrentState().makeMove(piece, square, playerOne.getColour())){
-			updateInterface(piece, square);
+			if(observer.getCurrentState().makeMove(piece, square, playerOne.getColour())){
+				updateInterface(piece, square);
+			}
+			else{
+				printInterface();
+			}
+			
+			String AIMove = "";
+			String AIPiece = "";
+			if(observer.getCurrentState().makeAIMove(AI.getAIColour())){
+				AIMove = observer.getCurrentState().getAIMove();
+				AIPiece = observer.getCurrentState().getFreePiece().getID();
+				updateInterface(AIPiece, AIMove);
+	
+			}
 		}
-		else{
-			printInterface();
-		}
-		
-		String AIMove = "";
-		String AIPiece = "";
-		if(observer.getCurrentState().makeAIMove(AI.getAIColour())){
-			AIMove = observer.getCurrentState().getAIMove();
-			AIPiece = observer.getCurrentState().getFreePiece().getID();	
-
-		}}
 	}
 			
 	public static void playTimed(){
@@ -484,7 +504,7 @@ public class Interface {
 					gameSettings.add(String.valueOf(timeLength));
 				}
 				gameSettings.add(playerColour);
-				save.storeSettings(gameSettings);
+				observer.getCurrentState().storeSettings(gameSettings);
 				save.saveCurrentState();
 			}
 			System.out.println("Goodbye");

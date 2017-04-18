@@ -1,5 +1,6 @@
+import java.io.Serializable;
 import java.util.ArrayList;
-public class AIPlayer {
+public class AIPlayer implements Serializable{
 	String AIColour;
 	String playerName;
 	
