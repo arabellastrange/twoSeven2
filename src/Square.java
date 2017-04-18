@@ -9,7 +9,7 @@ public class Square implements Serializable{
 		colour = squareColour;
 		position = squarePosition;
 		empty = squareEmpty;
-	}
+	} 
 	
 	public String getColour(){
 		return colour;
@@ -23,7 +23,7 @@ public class Square implements Serializable{
 		colour = squareColour;
 	}
 	
-	//TO DO -- i dont know if this acually works?? dont u have to loop thru all pieces
+	//TO DO -- i don't know if this actually works?? don't u have to loop thru all pieces
 	public boolean isEmpty(){
 		return empty;
 	}

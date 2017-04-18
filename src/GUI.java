@@ -415,7 +415,7 @@ public class GUI extends Frame implements ActionListener {
 	}
 	
 	public void save(){
-		gameInterface.storeSettings(gameSettings);
+		gameInterface.store(gameSettings);
 	}
 	
 	public void movePiece(){

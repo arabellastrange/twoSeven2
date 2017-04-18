@@ -3,19 +3,18 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Interface {
+
 	Settings set = new Settings();
 	AIPlayer AI = new AIPlayer();
 	ReadWrite save = new ReadWrite();
 	Observer observer = new Observer();
 
 	public ArrayList<String> loadGame(){
-		
 		if(save.loadCurrentState()){
 			observer.getCurrentState().createState();
-			return save.getSettings();
-		}
+			return observer.getCurrentState().getSettings();
+			}
 		return null;
-		
 	}
 	
 	public void playAI(String piece, String square, String playColour){
@@ -31,11 +30,11 @@ public class Interface {
 		String AIPiece = "";
 		if(observer.getCurrentState().makeAIMove(AI.getAIColour())){
 			AIMove = observer.getCurrentState().getAIMove();
-			AIPiece = observer.getCurrentState().getFreePiece().getID();	
+			AIPiece = observer.getCurrentState().getFreePiece().getID();
+			//updateInterface(AIPiece, AIMove);
 		}
-		//updateInterface(AIMove, AIPiece);
 	}
-			
+	
 	public void playTimed(String piece, String square, String playColour, double timeLength){
 		//deal with settings class
 		observer.getCurrentState().createState();
@@ -57,14 +56,14 @@ public class Interface {
 			//updateInterface(piece, square);
 		}
 		else{
-			//printInterface();
+			//printInterface();	
+			//back to orignal square
 		}
-		
 	}
 	
-	public void storeSettings(ArrayList<String> settings){
-		save.storeSettings(settings);
+
+	public void store(ArrayList<String> settings){
+		observer.getCurrentState().storeSettings(settings);
 		save.saveCurrentState();
 	}
-	
 }

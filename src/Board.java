@@ -29,29 +29,34 @@ public class Board implements Serializable {
 	
 	public void colourBoard(){
 		for(int i = 0; i < 8; i++){
-			getSquare(i,i).setSquareColour(colours[7]);	
+			getSquare(i,i).setSquareColour("Orange");	
 //			System.out.println("Postion of square A0 is " + getStringSquare("A0").getSquarePosition());
-//			System.out.println("Coloring Square ["+ i + "] [" + i + "] position: " + squares[i][i].getSquarePosition());
+    		//System.out.println("Coloring Square ["+ i + "] [" + i + "] position: " + squares[i][i].getSquarePosition());
 			}
-	
-		for(int i = 7; i >= 0; i--){
-			getSquare(i,i).setSquareColour(colours[1]);		
+		
+		int  m = 7;
+		for(int i = 0; i < 8; i++){		
+				getSquare(i,m).setSquareColour("Brown");
+			    //System.out.println("Coloring Square ["+ i + "] [" + m + "] position: " + squares[i][m].getSquarePosition());
+			    m--;
 		}
 		
 		String start = getSquare(0,3).getSquarePosition();
 		String currentPosition = start;	
 		for(int i = 0; i < 4; i++){
 			Square s = getStringSquare(currentPosition);
-			s.setSquareColour(colours[4]);
+			//System.out.println("Coloring Square ["+ i + "] [" + i + "] position: " + getStringSquare(currentPosition).getSquarePosition());
+			s.setSquareColour("Purple");
 			String nextPosition = coord.moveDiagonalLeftDown(currentPosition);
-			currentPosition = nextPosition; 	
+			currentPosition = nextPosition;
 		}
 		
 		start = getSquare(7,4).getSquarePosition();
 		currentPosition = start;
 		for(int i = 0; i < 4; i++){
-			getStringSquare(currentPosition).setSquareColour(colours[4]);
-			String nextPosition = coord.moveDiagonalLeftDown(currentPosition);
+			getStringSquare(currentPosition).setSquareColour("Purple");
+			//System.out.println("Coloring Square ["+ i + "] [" + i + "] position: " + getStringSquare(currentPosition).getSquarePosition());
+			String nextPosition = coord.moveDiagonalRightUp(currentPosition);
 			currentPosition = nextPosition; 	
 		}
 		
@@ -59,7 +64,8 @@ public class Board implements Serializable {
 		currentPosition = start;
 		for(int i = 0; i < 4; i++){
 			getStringSquare(currentPosition).setSquareColour("Yellow");
-			String nextPosition = coord.moveDiagonalLeftUp(currentPosition);
+			//System.out.println("Coloring Square ["+ i + "] [" + i + "] position: " + getStringSquare(currentPosition).getSquarePosition());
+			String nextPosition = coord.moveDiagonalRightDown(currentPosition);
 			currentPosition = nextPosition; 	
 		}
 		
@@ -67,6 +73,7 @@ public class Board implements Serializable {
 		currentPosition = start;
 		for(int i = 0; i < 4; i++){
 			getStringSquare(currentPosition).setSquareColour("Yellow");
+			//System.out.println("Coloring Square ["+ i + "] [" + i + "] position: " + getStringSquare(currentPosition).getSquarePosition());
 			String nextPosition = coord.moveDiagonalRightDown(currentPosition);
 			currentPosition = nextPosition; 	
 		}
@@ -89,7 +96,7 @@ public class Board implements Serializable {
 		getSquare(7,6).setSquareColour("Navy");
 		getSquare(0,5).setSquareColour("Red");
 		getSquare(1,0).setSquareColour("Red");
-		getSquare(2,4).setSquareColour("Red");
+		getSquare(2,3).setSquareColour("Red");
 		getSquare(3,6).setSquareColour("Red");
 		getSquare(4,1).setSquareColour("Red");
 		getSquare(5,4).setSquareColour("Red");

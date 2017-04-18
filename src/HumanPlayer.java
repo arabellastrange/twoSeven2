@@ -1,6 +1,7 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class HumanPlayer{
+public class HumanPlayer implements Serializable{
 	String playerColour;
 	String playerName;
 	
