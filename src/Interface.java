@@ -228,14 +228,14 @@ public class Interface {
 	
 	public Interface(){
 
-		allSquares.add("\u001b[1;45m|\u001b[0m•\u001b[1;45m|\u001b[0m"); // purple
-		allSquares.add("\u001b[1;44m|\u001b[0m•\u001b[1;44m|\u001b[0m"); // blue
-		allSquares.add("\u001b[1;46m|\u001b[0m•\u001b[1;46m|\u001b[0m"); // cyan
-		allSquares.add("\u001b[0;47m|\u001b[0m•\u001b[0;47m|\u001b[0m"); // pink
-		allSquares.add("\u001b[1;43m|\u001b[0m•\u001b[1;43m|\u001b[0m"); // yellow
-		allSquares.add("\u001b[1;41m|\u001b[0m•\u001b[1;41m|\u001b[0m"); // red
-		allSquares.add("\u001b[1;42m|\u001b[0m•\u001b[1;42m|\u001b[0m"); // green
-		allSquares.add("\u001b[1;40m|\u001b[0m•\u001b[1;40m|\u001b[0m"); // black
+		allSquares.add("\u001b[1;45m|•|\u001b[0m"); // purple
+		allSquares.add("\u001b[1;44m|•|\u001b[0m"); // blue
+		allSquares.add("\u001b[1;46m|•|\u001b[0m"); // cyan
+		allSquares.add("\u001b[0;47m|•|\u001b[0m"); // pink
+		allSquares.add("\u001b[1;43m|•|\u001b[0m"); // yellow
+		allSquares.add("\u001b[1;41m|•|\u001b[0m"); // red
+		allSquares.add("\u001b[1;42m|•|\u001b[0m"); // green
+		allSquares.add("\u001b[1;40m|•|\u001b[0m"); // black
 
 
 		allSquares.add("\u001b[1;41m|_|\u001b[0m"); // row 1
@@ -293,14 +293,14 @@ public class Interface {
 		allSquares.add("\u001b[1;41m|_|\u001b[0m");
 		
 
-		allSquares.add("\u001b[1;40m|\u001b[0m°\u001b[1;40m|\u001b[0m"); // black
-		allSquares.add("\u001b[1;42m|\u001b[0m°\u001b[1;42m|\u001b[0m"); // green
-		allSquares.add("\u001b[1;41m|\u001b[0m°\u001b[1;41m|\u001b[0m"); // red
-		allSquares.add("\u001b[1;43m|\u001b[0m°\u001b[1;43m|\u001b[0m"); // yellow
-		allSquares.add("\u001b[1;47m|\u001b[0m°\u001b[1;47m|\u001b[0m"); // pink
-		allSquares.add("\u001b[1;46m|\u001b[0m°\u001b[1;46m|\u001b[0m"); // cyan
-		allSquares.add("\u001b[1;44m|\u001b[0m°\u001b[1;44m|\u001b[0m"); // blue
-		allSquares.add("\u001b[1;45m|\u001b[0m°\u001b[1;45m|\u001b[0m"); // purple
+		allSquares.add("\u001b[1;40m|°|\u001b[0m"); // black
+		allSquares.add("\u001b[1;42m|°|\u001b[0m"); // green
+		allSquares.add("\u001b[1;41m|°|\u001b[0m"); // red
+		allSquares.add("\u001b[1;43m|°|\u001b[0m"); // yellow
+		allSquares.add("\u001b[1;47m|°|\u001b[0m"); // pink
+		allSquares.add("\u001b[1;46m|°|\u001b[0m"); // cyan
+		allSquares.add("\u001b[1;44m|°|\u001b[0m"); // blue
+		allSquares.add("\u001b[1;45m|°|\u001b[0m"); // purple
 
 		//printInterface();
 	}
@@ -311,7 +311,9 @@ public class Interface {
 		
 
 		System.out.println("Do you wish to undo previous move? [Y/N]");
-		if(s.nextLine().trim().toUpperCase().equals("Y")){
+		String in = s.nextLine().trim().toUpperCase();
+		isQuit(in);
+		if(in.equals("Y")){
 			observer.getCurrentState().undoMove();
 			printInterface();
 		}

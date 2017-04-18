@@ -47,7 +47,7 @@ public class Coordinates implements Serializable {
 			}
 		}
 		else if(playerColour == 'B'){
-			if(startY < finalY && finalY - startY == finalX - startX  || startY < finalY && finalX == startX){
+			if(startY < finalY && startY - finalY == finalX - startX  || startY < finalY && finalX == startX){
 				return true;
 			}
 		}
@@ -110,7 +110,4 @@ public class Coordinates implements Serializable {
 	public int getY(){
 		return y;
 	}
-	
-
 }
-
