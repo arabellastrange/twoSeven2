@@ -3,7 +3,6 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Interface {
-
 	Settings set = new Settings();
 	AIPlayer AI = new AIPlayer();
 	ReadWrite save = new ReadWrite();

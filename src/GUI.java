@@ -28,7 +28,7 @@ public class GUI extends Frame implements ActionListener, MouseMotionListener, M
 	ArrayList<BufferedImage> draggedPieces = new ArrayList<BufferedImage>();
 	ArrayList<BufferedImage> wPieces = new ArrayList<BufferedImage>();
 	ArrayList<BufferedImage> bPieces = new ArrayList<BufferedImage>();
-	BufferedImage dragged = new BufferedImage(0, 0, 0);
+	BufferedImage dragged;
 	Point lastLoc;
 	int piY;
 	int piX;
@@ -307,14 +307,14 @@ public class GUI extends Frame implements ActionListener, MouseMotionListener, M
 	        		}
 	                
 	        		//draw rect pieces
-	        		for(int i = 392; i < 860; i+= 60){	
-	        			Rectangle b = new Rectangle(i, 450, 40, 40);
+	        		for(int i = 5; i < 480; i+= 60){	
+	        			Rectangle b = new Rectangle(i, 425, 40, 40);
 	        			gamePieces.add(b);
 	        			g2.draw(b);
 	        		}
 	        		
-	        		for(int i = 392; i < 860; i+= 60){
-	        			Rectangle w = new Rectangle(i, 30, 40, 40);
+	        		for(int i = 5; i < 480; i+= 60){
+	        			Rectangle w = new Rectangle(i, 5, 40, 40);
 	        			gamePieces.add(w);
 	        			g2.draw(w);
 	        		}
@@ -323,43 +323,7 @@ public class GUI extends Frame implements ActionListener, MouseMotionListener, M
 	            @Override
 	            public Dimension getPreferredSize() {
 	                return new Dimension(480, 480);
-	            }
-	            
-	            //call interface()?? maybe
-	            
-	        	public void mousePressed(MouseEvent e) {      
-	               for(BufferedImage img: wPieces){
-	            	   for(Rectangle r: gamePieces){
-	                	   if(r.contains(e.getPoint())){
-	                		   dragged = img;
-	                		   lastLoc = e.getPoint();
-	                		   break;
-	                	   }
-	            	   }
-	               }
-	            }
-
-	        	public void mouseReleased(MouseEvent e) {
-	        		//if(movePiece()){
-	        			piX = e.getX(); 
-		        		piY = e.getY();
-		        		draggedPieces.add(dragged);
-		        		dragged = null;
-		                lastLoc = null;	
-	        		//}
-	        	}
-	        	
-	        	public void mouseDragged(MouseEvent e, Graphics g) {
-	        		if (dragged != null) {
-	        			Graphics2D g2 = (Graphics2D) g;
-	        			AffineTransform at = new AffineTransform();
-	                    at.translate(e.getX() - lastLoc.x, e.getY() - lastLoc.y);
-	                    lastLoc = e.getPoint();
-	                    g2.drawImage(dragged, at, null);
-	                }
-	        		
-	        	}
-	            
+	            }   
 			};
 			extra = new JPanel(){
 				protected void paintComponent(Graphics g) {
@@ -471,10 +435,8 @@ public class GUI extends Frame implements ActionListener, MouseMotionListener, M
 			
 			timerSettings.setTimer(timeLength);
 			gameMode = "T";
-		}
-		
+		}		
 		playerOne.setColour(playerColour);
-
 	}
 	
 	public void save(){
@@ -493,51 +455,69 @@ public class GUI extends Frame implements ActionListener, MouseMotionListener, M
 		}
 	}
 
-	@Override
+
 	public void actionPerformed(ActionEvent arg0) {
-		// TODO Auto-generated method stub
 		
 	}
-
-	@Override
+	
 	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
+
 		
 	}
 
-	@Override
 	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
 		
 	}
 
-	@Override
 	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
 		
 	}
 
-	@Override
 	public void mouseMoved(MouseEvent arg0) {
-		// TODO Auto-generated method stub
 		
 	}
 
-	@Override
-	public void mousePressed(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mouseReleased(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mouseDragged(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void mousePressed(MouseEvent e) {      
+        for(BufferedImage img: wPieces){
+     	   for(Rectangle r: gamePieces){
+         	   if(r.contains(e.getPoint())){
+         		   System.out.println("in");
+         		   dragged = img;
+         		   lastLoc = e.getPoint();
+         		   break;
+         	   }
+         	   else{
+         		   System.out.println("in");
+         	   }
+     	   }
+        }
+     }
+ 	
+ 	//call interface()?? maybe
+	
+ 	public void mouseReleased(MouseEvent e) {
+ 		//if(gameInterface().movePiece()){
+ 			piX = e.getX(); 
+     		piY = e.getY();
+     		draggedPieces.add(dragged);
+     		dragged = null;
+             lastLoc = null;
+             System.out.println("release");
+ 		//}
+ 	}
+ 	
+ 	public void mouseDragged(MouseEvent e) {
+ 		System.out.println("X is: " + e.getX()); 
+ 		System.out.println("y is: " + e.getY());
+ 		Graphics g = this.getGraphics();
+			if (dragged != null) {
+				Graphics2D g2 = (Graphics2D) g;
+				AffineTransform at = new AffineTransform();
+				at.translate(e.getX() - lastLoc.x, e.getY() - lastLoc.y);
+				lastLoc = e.getPoint();
+				g2.drawImage(dragged, at, null);
+				System.out.println("dragged");
+			}	
+ 	}
+ 
 }
