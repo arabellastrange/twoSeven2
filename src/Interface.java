@@ -17,47 +17,46 @@ public class Interface {
 		return null;
 	}
 	
-	public void playAI(String piece, String square, String playColour){
+	public boolean playAI(String piece, String square, String playColour){
 		observer.getCurrentState().createState();
 		if(observer.getCurrentState().makeMove(piece, square, playColour)){
-			//updateInterface(piece, square);
+			String AIMove = "";
+			String AIPiece = "";
+			if(observer.getCurrentState().makeAIMove(AI.getAIColour())){
+				AIMove = observer.getCurrentState().getAIMove();
+				AIPiece = observer.getCurrentState().getFreePiece().getID();
+				return true;
+			}
 		}
 		else{
-			//printInterface();
+			return false;
 		}
-		
-		String AIMove = "";
-		String AIPiece = "";
-		if(observer.getCurrentState().makeAIMove(AI.getAIColour())){
-			AIMove = observer.getCurrentState().getAIMove();
-			AIPiece = observer.getCurrentState().getFreePiece().getID();
-			//updateInterface(AIPiece, AIMove);
-		}
+		return false;
 	}
 	
-	public void playTimed(String piece, String square, String playColour, double timeLength){
-		//deal with settings class
+	public boolean playTimed(String piece, String square, String playColour, double timeLength){
 		observer.getCurrentState().createState();
 		System.out.println(set.getTime());
 		if(set.getTime() >= timeLength){
 			set.clearTimer();
-			System.out.println("You have run out of time. Player Two make a move.");
+			return false;
 		}
 		else{
 			if(observer.getCurrentState().makeMove(piece, square, playColour)){
-				//updateInterface(piece, square);
 				set.clearTimer();
+				return true;
 			}
 		}
+		return false;
 	}
 	
-	public void play(String piece, String square, String playColour){
+	public boolean play(String piece, String square, String playColour){
 		if(observer.getCurrentState().makeMove(piece, square, playColour)){
-			//updateInterface(piece, square);
+			return true;
 		}
 		else{
-			//printInterface();	
-			//back to orignal square
+			return false;
+			//back to orignal square?
 		}
 	}
 	

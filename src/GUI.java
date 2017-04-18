@@ -8,18 +8,30 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
 import java.io.File;
 import java.io.IOException;
 
-public class GUI extends Frame implements ActionListener {
+public class GUI extends Frame implements ActionListener, MouseMotionListener, MouseListener {
+	private static final long serialVersionUID = 1L;
+	
 	Observer observer;
 	HumanPlayer playerOne = new HumanPlayer();
 	HumanPlayer playerTwo = new HumanPlayer();
 	AIPlayer AI = new AIPlayer();
 	Settings timerSettings = new Settings();
 	Interface gameInterface = new Interface();
+	
+	ArrayList<Rectangle> gamePieces =  new ArrayList<Rectangle>();
+	ArrayList<BufferedImage> draggedPieces = new ArrayList<BufferedImage>();
+	ArrayList<BufferedImage> wPieces = new ArrayList<BufferedImage>();
+	ArrayList<BufferedImage> bPieces = new ArrayList<BufferedImage>();
+	BufferedImage dragged = new BufferedImage(0, 0, 0);
+	Point lastLoc;
+	int piY;
+	int piX;
 	
 	ArrayList<String> gameSettings = new ArrayList<String>();
 	String playerOneName;
@@ -203,9 +215,6 @@ public class GUI extends Frame implements ActionListener {
 		
 		JToolBar toolbar = new JToolBar();
 		
-		ArrayList<BufferedImage> wPieces = new ArrayList<BufferedImage>();
-		ArrayList<BufferedImage> bPieces = new ArrayList<BufferedImage>();
-		
 		toolbar.add(loadGame);
 		loadGame.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -276,6 +285,7 @@ public class GUI extends Frame implements ActionListener {
 	    	
 	    	board = new JPanel(){
 	            protected void paintComponent(Graphics g) {
+	            	Graphics2D g2 = (Graphics2D) g;
 	                super.paintComponent(g);
 	                g.drawImage(gboard, 0, 0, this);
 	                int x = 5;
@@ -290,12 +300,65 @@ public class GUI extends Frame implements ActionListener {
 	                	g.drawImage(bPieces.get(i), x, y, this);
 	                	x += 60;
 	                }
+	                
+	                for(int i = 0; i < draggedPieces.size()-1; i++)
+	        			if(draggedPieces.get(i) != null){
+	        				g.drawImage(draggedPieces.get(i), piX, piY, this);
+	        		}
+	                
+	        		//draw rect pieces
+	        		for(int i = 392; i < 860; i+= 60){	
+	        			Rectangle b = new Rectangle(i, 450, 40, 40);
+	        			gamePieces.add(b);
+	        			g2.draw(b);
+	        		}
+	        		
+	        		for(int i = 392; i < 860; i+= 60){
+	        			Rectangle w = new Rectangle(i, 30, 40, 40);
+	        			gamePieces.add(w);
+	        			g2.draw(w);
+	        		}
+	                
 	            }
 	            @Override
 	            public Dimension getPreferredSize() {
 	                return new Dimension(480, 480);
 	            }
+	            
 	            //call interface()?? maybe
+	            
+	        	public void mousePressed(MouseEvent e) {      
+	               for(BufferedImage img: wPieces){
+	            	   for(Rectangle r: gamePieces){
+	                	   if(r.contains(e.getPoint())){
+	                		   dragged = img;
+	                		   lastLoc = e.getPoint();
+	                		   break;
+	                	   }
+	            	   }
+	               }
+	            }
+
+	        	public void mouseReleased(MouseEvent e) {
+	        		//if(movePiece()){
+	        			piX = e.getX(); 
+		        		piY = e.getY();
+		        		draggedPieces.add(dragged);
+		        		dragged = null;
+		                lastLoc = null;	
+	        		//}
+	        	}
+	        	
+	        	public void mouseDragged(MouseEvent e, Graphics g) {
+	        		if (dragged != null) {
+	        			Graphics2D g2 = (Graphics2D) g;
+	        			AffineTransform at = new AffineTransform();
+	                    at.translate(e.getX() - lastLoc.x, e.getY() - lastLoc.y);
+	                    lastLoc = e.getPoint();
+	                    g2.drawImage(dragged, at, null);
+	                }
+	        		
+	        	}
 	            
 			};
 			extra = new JPanel(){
@@ -418,20 +481,62 @@ public class GUI extends Frame implements ActionListener {
 		gameInterface.store(gameSettings);
 	}
 	
-	public void movePiece(){
+	public boolean movePiece(){
 		if(gameMode.equals("H")){
-			gameInterface.play(piece, square, playerColour);
+			return gameInterface.play(piece, square, playerColour);
 		}
 		else if(gameMode.equals("T")){
-			gameInterface.playTimed(piece, square, playerColour, timeLength);
+			return gameInterface.playTimed(piece, square, playerColour, timeLength);
 		}
 		else{
-			gameInterface.playAI(piece, square, playerColour);
+			return gameInterface.playAI(piece, square, playerColour);
 		}
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseMoved(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mousePressed(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseDragged(MouseEvent arg0) {
 		// TODO Auto-generated method stub
 		
 	}
