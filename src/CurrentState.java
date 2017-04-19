@@ -18,12 +18,14 @@ public class CurrentState implements Serializable{
 	GamePieces pieces;
 	Board board;
 	String AImove;
+	//AIPlayer AI;
 	
 	public CurrentState(){
 		lastLandedOn = new Square("Default", "Defualt", false);
 		timer = new Settings();
 		pieces = new GamePieces();
 		board = new Board();
+		//AI = new AIPlayer();
 
 	}
 	
@@ -85,7 +87,7 @@ public class CurrentState implements Serializable{
 			return false;
 		}
 	}
-	public Piece getFreePiece(){
+	public Piece getFreePiece(String AIColour){
 		String lastCol;
 		Square last = getLastLandedOn(); //gets the last landed on square
 		lastCol = last.getColour(); //gets the colour of that square
@@ -93,9 +95,18 @@ public class CurrentState implements Serializable{
 		if(lastCol.equals("Default")){
 			Piece p[] = getPieces().getPieces();
 			for(Piece i: p){
-				if(i.getID().startsWith("B")){
-					if(i.getColour().equals("Red")){
-						return i;
+				if(AIColour.equals("B")){
+					if(i.getID().startsWith("B")){
+						if(i.getColour().equals("Red")){
+							return i;
+						}
+					}
+				}	
+				else{
+					if(i.getID().startsWith("W")){
+						if(i.getColour().equals("Red")){
+							return i;
+						}
 					}
 				}
 			}
@@ -104,25 +115,45 @@ public class CurrentState implements Serializable{
 		else{
 			Piece p[] = getPieces().getPieces();
 			for(Piece i: p){
-				if(i.getID().startsWith("B")){
-					if(i.getColour().equals(lastCol)){
-						return i;
+				if(AIColour.equals("B")){
+					if(i.getID().startsWith("B")){
+						if(i.getColour().equals(lastCol)){
+							return i;
+						}
+					}
+				}
+				else{
+					if(i.getID().startsWith("W")){
+						if(i.getColour().equals(lastCol)){
+							return i;
+						}
 					}
 				}
 			}
-			return null;
+			return null;				
 		}
 	}
 	
 	public boolean makeAIMove(String AIColour){
-		Piece free = getFreePiece();
+		String forwardSquare;
+		String leftDiagonalSquare;
+		String rightDiagonalSquare;
+		
+		Piece free = getFreePiece(AIColour);
 		co.stringToXY(free.getPiecePosition());
 		int x = co.getX();
 		int y = co.getY();
 		//find piece belonging to AI that is same colour as last landed on square
-		String forwardSquare = co.XYtoString(x, y + 1); //AI move forward
-		String leftDiagonalSquare = co.XYtoString(x - 1, y + 1); //AI move left diagonal
-		String rightDiagonalSquare = co.XYtoString(x + 1, y + 1); //AI move right diagonal
+		if(AIColour.equals("B")){
+			forwardSquare = co.XYtoString(x, y + 1); //AI move forward
+			leftDiagonalSquare = co.XYtoString(x - 1, y + 1); //AI move left diagonal
+			rightDiagonalSquare = co.XYtoString(x + 1, y + 1); //AI move right diagonal
+		}
+		else{
+			forwardSquare = co.XYtoString(x, y - 1); //AI move forward
+			leftDiagonalSquare = co.XYtoString(x + 1, y - 1); //AI move left diagonal
+			rightDiagonalSquare = co.XYtoString(x - 1, y - 1); //AI move right diagonal
+		}
 		
 		if(makeMove(free.getID(), forwardSquare, AIColour)){ //if forward move is okay, do that
 			AImove = forwardSquare;

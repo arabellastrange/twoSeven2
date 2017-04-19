@@ -402,7 +402,7 @@ public class Interface {
 			String AIPiece = "";
 			if(observer.getCurrentState().makeAIMove(AI.getAIColour())){
 				AIMove = observer.getCurrentState().getAIMove();
-				AIPiece = observer.getCurrentState().getFreePiece().getID();
+				AIPiece = observer.getCurrentState().getFreePiece(AI.getAIColour()).getID();
 				updateInterface(AIPiece, AIMove);
 	
 			}
@@ -453,7 +453,7 @@ public class Interface {
 			String AIPiece = "";
 			if(observer.getCurrentState().makeAIMove(AI.getAIColour())){
 				AIMove = observer.getCurrentState().getAIMove();
-				AIPiece = observer.getCurrentState().getFreePiece().getID();
+				AIPiece = observer.getCurrentState().getFreePiece(AI.getAIColour()).getID();
 				updateInterface(AIPiece, AIMove);
 	
 			}
