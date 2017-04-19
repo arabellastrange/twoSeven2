@@ -7,38 +7,41 @@ public class Interface {
 	static ArrayList<String> gameSettings = new ArrayList<String>();
 	static ArrayList<String> allSquares = new ArrayList<String>(); // make a list of all squares and print them out if you, then print out all the updated squares, in a square is in both all squares and updated squares then clear it in all squares
 	static Scanner s = new Scanner(System.in);
-	static Player playerOne = new Player();
+	static Settings set = new Settings();
+	static HumanPlayer playerOne = new HumanPlayer();
+	static HumanPlayer playerTwo = new HumanPlayer();
+	static AIPlayer AI = new AIPlayer();
+	static ReadWrite save = new ReadWrite();
+	static Interface inter = new Interface();
+	static Observer observer;
+
+	
 	static String playerOneName;
 	static String playerTwoName; // add to array 
 	static String opOption;
 	static String time;
 	static double timeLength; // add to array
 	static String playerColour;
-	static Player playerTwo = new Player();
-	static Settings set = new Settings();
-	static ArtificialOpponent AI = new ArtificialOpponent();
 	
 	public static void main(String[] args){
-
-		
 
 		System.out.println("Do you wish to load saved game? [Y/N]");
 		String load = s.nextLine().trim().toUpperCase();
 		if(load.equals("Y")){
-			if(playerOne.Load()){
-				if(playerOne.getSettings().size() == 4){
-					playerOneName = playerOne.getSettings().get(0); //name
-					opOption = playerOne.getSettings().get(1); //opponent 
-					time = playerOne.getSettings().get(2); // check options and split depeneding 
-					playerColour = playerOne.getSettings().get(3);
+			ReadWrite save = new ReadWrite();
+			if(save.loadCurrentState()){
+				if(observer.getCurrentState().getSettings().size() == 4){
+					playerOneName = observer.getCurrentState().getSettings().get(0); //name
+					opOption = observer.getCurrentState().getSettings().get(1); //opponent 
+					time = observer.getCurrentState().getSettings().get(2); // check options and split depeneding 
+					playerColour = observer.getCurrentState().getSettings().get(3);
 				}
-				else if(playerOne.getSettings().size() == 5){
-					playerOneName = playerOne.getSettings().get(0);
-					playerTwoName = playerOne.getSettings().get(1);
-					opOption = playerOne.getSettings().get(2);
-					time = playerOne.getSettings().get(3);
-					playerColour = playerOne.getSettings().get(4); //works as long as no one plays speed mode in AI lol
-
+				else if(observer.getCurrentState().getSettings().size() == 5){
+					playerOneName = observer.getCurrentState().getSettings().get(0);
+					playerTwoName = observer.getCurrentState().getSettings().get(1);
+					opOption = observer.getCurrentState().getSettings().get(2);
+					time = observer.getCurrentState().getSettings().get(3);
+					playerColour = observer.getCurrentState().getSettings().get(4); //works as long as no one plays speed mode in AI lol
 					if(playerColour.equals("W")){
 						playerTwo.setColour("B");
 					}
@@ -50,13 +53,12 @@ public class Interface {
 					}
 				}
 				else{
-					playerOneName = playerOne.getSettings().get(0);
-					playerTwoName = playerOne.getSettings().get(1);
-					opOption = playerOne.getSettings().get(2);
-					time = playerOne.getSettings().get(3);
-					timeLength = Double.parseDouble(playerOne.getSettings().get(4));
-					playerColour = playerOne.getSettings().get(5);
-
+					playerOneName = observer.getCurrentState().getSettings().get(0);
+					playerTwoName = observer.getCurrentState().getSettings().get(1);
+					opOption = observer.getCurrentState().getSettings().get(2);
+					time = observer.getCurrentState().getSettings().get(3);
+					timeLength = Double.parseDouble(observer.getCurrentState().getSettings().get(4));
+					playerColour = observer.getCurrentState().getSettings().get(5);
 					if(playerColour.equals("W")){
 						playerTwo.setColour("B");
 					}
@@ -75,13 +77,15 @@ public class Interface {
 				System.out.println("Begin Game! Press S to start or Q to quit at any point");
 				String start = s.nextLine().trim().toUpperCase();
 				isQuit(start);
-				
-				Interface i = new Interface();
+
 				printInterface();
 				
 				if(opOption.equals("H")){
 					if(time.equals("Y")){
-						playTimed();
+						do{
+							playTimed();
+						}
+						while(!start.equals("Q"));
 					}
 					else{
 						do{
@@ -100,35 +104,122 @@ public class Interface {
 			}
 			
 		}
-
+		
+		observer =  new Observer();
+		
+		observer.getCurrentState().createState();
 		
 		System.out.println("Welcome to Kamisado, please enter your name: ");
 		playerOneName = s.nextLine().trim().toUpperCase();
 		playerOne.setName(playerOneName);
 		
-		
 		System.out.println("Do you wish to play against AI [selelct A] or human [select H]?");
 		opOption = s.nextLine().trim().toUpperCase();
 		
-
 		if(opOption.equals("A")){
-			System.out.println("You are playing against AI");		
-			System.out.println("Select a difficulty level ([E]asy or [D]ifficult): ");
-			String lvl = s.nextLine().trim().toUpperCase();
+			System.out.println("You are playing against AI");	
+			System.out.println("Would you like to play a speed game?");
+			String speed = s.nextLine().trim().toUpperCase();
 			
-			if(lvl.equals("E")){
-				System.out.println("Easy");
-				playAI();
-			}
-			else if(lvl.equals("D")){
-				System.out.println("Difficult");
-				playAI();
+			if(speed.equals("Y")){
+				System.out.println("Select a difficulty level ([E]asy or [D]ifficult): ");
+				String lvl = s.nextLine().trim().toUpperCase();
+				
+				System.out.println("Player one select your colour! [White or Black]");
+				playerColour = s.nextLine().trim().toUpperCase();
+				playerOne.setColour(playerColour);
+				
+				if(playerColour.equals("W")){
+					AI.setColour("B");
+				}
+				else if(playerColour.equals("Q")){
+					isQuit(playerColour);
+				}
+				else{
+					AI.setColour("W");
+				}
+				
+				printInterface();
+				
+				if(lvl.equals("E")){
+					
+					System.out.println("Set the timer value you would like to use (in seconds): ");
+					timeLength = s.nextDouble();
+					set.setTimer(timeLength);
+					
+					System.out.println("Begin Game! Press Q to quit at any point");
+					String start = s.nextLine().trim().toUpperCase();
+					isQuit(start);
+					do{
+						playTimedAI();
+					}
+					while(!start.equals("Q"));
+				}
+				else if(lvl.equals("D")){
+					System.out.println("Set the timer value you would like to use (in seconds): ");
+					timeLength = s.nextDouble();
+					set.setTimer(timeLength);
+					
+					System.out.println("Begin Game! Press Q to quit at any point");
+					String start = s.nextLine().trim().toUpperCase();
+					isQuit(start);
+					do{
+						playTimedAI();
+					}
+					while(!start.equals("Q"));
+				}
+				else{
+					System.out.println("That is not a valid option");
+				}
+				
+				printInterface();
 			}
 			else{
-				System.out.println("That is not a valid option");
-			}
-			
-			Interface board = new Interface();
+					System.out.println("Select a difficulty level ([E]asy or [D]ifficult): ");
+					String lvl = s.nextLine().trim().toUpperCase();
+					
+					System.out.println("Player one select your colour! [White or Black]");
+					playerColour = s.nextLine().trim().toUpperCase();
+					playerOne.setColour(playerColour);
+					
+					if(playerColour.equals("W")){
+						AI.setColour("B");
+					}
+					else if(playerColour.equals("Q")){
+						isQuit(playerColour);
+					}
+					else{
+						AI.setColour("W");
+					}
+					
+					printInterface();
+					
+					if(lvl.equals("E")){
+						//System.out.println("Easy");
+						System.out.println("Begin Game! Press S to start or Q to quit at any point");
+						String start = s.nextLine().trim().toUpperCase();
+						isQuit(start);
+						do{
+							playAI();
+						}
+						while(!start.equals("Q"));
+					}
+					else if(lvl.equals("D")){
+						//System.out.println("Difficult");
+						System.out.println("Begin Game! Press S to start or Q to quit at any point");
+						String start = s.nextLine().trim().toUpperCase();
+						isQuit(start);
+						do{
+							playAI();
+						}
+						while(!start.equals("Q"));
+					}
+					else{
+						System.out.println("That is not a valid option");
+					}
+					
+					printInterface();
+				}
 
 		}
 		else if(opOption.equals("H")){
@@ -161,7 +252,7 @@ public class Interface {
 			time = s.nextLine().trim().toUpperCase();
 			
 			if(time.equals("Y")){
-				Interface board = new Interface();
+				printInterface();
 				System.out.println("Set the timer value you would like to use (in seconds): ");
 				timeLength = s.nextDouble();
 				set.setTimer(timeLength);
@@ -177,7 +268,7 @@ public class Interface {
 				}while(!start.equals("Q"));
 			}
 			else{
-				Interface board = new Interface();
+				printInterface();
 
 				System.out.println("Begin Game! Press S to start or Q to quit at any point");
 				String start = s.nextLine().trim().toUpperCase();
@@ -195,14 +286,14 @@ public class Interface {
 	
 	public Interface(){
 
-		allSquares.add("\u001b[1;45m|\u001b[0m•\u001b[1;45m|\u001b[0m"); // purple
-		allSquares.add("\u001b[1;44m|\u001b[0m•\u001b[1;44m|\u001b[0m"); // blue
-		allSquares.add("\u001b[1;46m|\u001b[0m•\u001b[1;46m|\u001b[0m"); // cyan
-		allSquares.add("\u001b[0;47m|\u001b[0m•\u001b[0;47m|\u001b[0m"); // pink
-		allSquares.add("\u001b[1;43m|\u001b[0m•\u001b[1;43m|\u001b[0m"); // yellow
-		allSquares.add("\u001b[1;41m|\u001b[0m•\u001b[1;41m|\u001b[0m"); // red
-		allSquares.add("\u001b[1;42m|\u001b[0m•\u001b[1;42m|\u001b[0m"); // green
-		allSquares.add("\u001b[1;40m|\u001b[0m•\u001b[1;40m|\u001b[0m"); // black
+		allSquares.add("\u001b[1;45m|•|\u001b[0m"); // purple
+		allSquares.add("\u001b[1;44m|•|\u001b[0m"); // blue
+		allSquares.add("\u001b[1;46m|•|\u001b[0m"); // cyan
+		allSquares.add("\u001b[0;47m|•|\u001b[0m"); // pink
+		allSquares.add("\u001b[1;43m|•|\u001b[0m"); // yellow
+		allSquares.add("\u001b[1;41m|•|\u001b[0m"); // red
+		allSquares.add("\u001b[1;42m|•|\u001b[0m"); // green
+		allSquares.add("\u001b[1;40m|•|\u001b[0m"); // black
 
 
 		allSquares.add("\u001b[1;41m|_|\u001b[0m"); // row 1
@@ -260,58 +351,117 @@ public class Interface {
 		allSquares.add("\u001b[1;41m|_|\u001b[0m");
 		
 
-		allSquares.add("\u001b[1;40m|\u001b[0m°\u001b[1;40m|\u001b[0m"); // black
-		allSquares.add("\u001b[1;42m|\u001b[0m°\u001b[1;42m|\u001b[0m"); // green
-		allSquares.add("\u001b[1;41m|\u001b[0m°\u001b[1;41m|\u001b[0m"); // red
-		allSquares.add("\u001b[1;43m|\u001b[0m°\u001b[1;43m|\u001b[0m"); // yellow
-		allSquares.add("\u001b[1;47m|\u001b[0m°\u001b[1;47m|\u001b[0m"); // pink
-		allSquares.add("\u001b[1;46m|\u001b[0m°\u001b[1;46m|\u001b[0m"); // cyan
-		allSquares.add("\u001b[1;44m|\u001b[0m°\u001b[1;44m|\u001b[0m"); // blue
-		allSquares.add("\u001b[1;45m|\u001b[0m°\u001b[1;45m|\u001b[0m"); // purple
+		allSquares.add("\u001b[1;40m|°|\u001b[0m"); // black
+		allSquares.add("\u001b[1;42m|°|\u001b[0m"); // green
+		allSquares.add("\u001b[1;41m|°|\u001b[0m"); // red
+		allSquares.add("\u001b[1;43m|°|\u001b[0m"); // yellow
+		allSquares.add("\u001b[1;47m|°|\u001b[0m"); // pink
+		allSquares.add("\u001b[1;46m|°|\u001b[0m"); // cyan
+		allSquares.add("\u001b[1;44m|°|\u001b[0m"); // blue
+		allSquares.add("\u001b[1;45m|°|\u001b[0m"); // purple
 
-		printInterface();
+		//printInterface();
 	}
 	
 	public static void playAI(){
-		Interface i = new Interface();
+
+		Observer observer =  new Observer();
+		
+
 		System.out.println("Do you wish to undo previous move? [Y/N]");
-		if(s.nextLine().trim().toUpperCase().equals("Y")){
-			playerOne.UndoMove();
+		String in = s.nextLine().trim().toUpperCase();
+		isQuit(in);
+		if(in.equals("Y")){
+			observer.getCurrentState().undoMove();
 			printInterface();
 		}
+
 		else{
+	
 			System.out.println("Select the piece you wish to move: ");		
 			String piece = s.nextLine().trim().toUpperCase();
-
-		
+	
 			isPieceValid(piece);
-		
-			isQuit(piece);
-		
+			isQuit(piece);	
+			
 			System.out.println("Player One select the square you wish to move to: ");
+			
 			String square = s.nextLine().trim().toUpperCase();
+			
 			isSquareValid(square);
 			isQuit(square);	
-		
-			if(playerOne.makeMove(piece, square)){
+			
+			if(observer.getCurrentState().makeMove(piece, square, playerOne.getColour())){
 				updateInterface(piece, square);
 			}
-		
-		
-		
-		if(AI.possibleMoves()){
-			String AIMove = AI.getMove();
-			String AIPiece = AI.getPiece().getID();
-			updateInterface(AIMove, AIPiece);
+			else{
+				printInterface();
+			}
+			
+			String AIMove = "";
+			String AIPiece = "";
+			if(observer.getCurrentState().makeAIMove(AI.getAIColour())){
+				AIMove = observer.getCurrentState().getAIMove();
+				AIPiece = observer.getCurrentState().getFreePiece(AI.getAIColour()).getID();
+				updateInterface(AIPiece, AIMove);
+	
+			}
 		}
 	}
-		
+	
+	public static void playTimedAI(){
+
+		Observer observer =  new Observer();
 		
 
-	}
+		System.out.println("Do you wish to undo previous move? [Y/N]");
+		String in = s.nextLine().trim().toUpperCase();
+		isQuit(in);
+		if(in.equals("Y")){
+			observer.getCurrentState().undoMove();
+			printInterface();
+		}
+
+		else{
 	
+			System.out.println("Select the piece you wish to move: ");		
+			String piece = s.nextLine().trim().toUpperCase();
+	
+			isPieceValid(piece);
+			isQuit(piece);	
+			
+			System.out.println("Player One select the square you wish to move to: ");
+			
+			String square = s.nextLine().trim().toUpperCase();
+			
+			isSquareValid(square);
+			isQuit(square);
+			
+			System.out.println(set.getTime());
+			if(set.getTime() >= timeLength){
+				set.clearTimer();
+				System.out.println("You have run out of time. The AI will make a move.");
+			}
+			else{
+				if(observer.getCurrentState().makeMove(piece, square, playerOne.getColour())){
+					updateInterface(piece, square);
+					set.clearTimer();
+				}
+			}
+			
+			String AIMove = "";
+			String AIPiece = "";
+			if(observer.getCurrentState().makeAIMove(AI.getAIColour())){
+				AIMove = observer.getCurrentState().getAIMove();
+				AIPiece = observer.getCurrentState().getFreePiece(AI.getAIColour()).getID();
+				updateInterface(AIPiece, AIMove);
+	
+			}
+		}
+	}
+			
 	public static void playTimed(){
-		
+		Observer observer =  new Observer();
 		System.out.println("Player One make a move! Select the piece you wish to move: ");		
 		String piece = s.nextLine().trim().toUpperCase();
 		
@@ -332,7 +482,7 @@ public class Interface {
 			System.out.println("You have run out of time. Player Two make a move.");
 		}
 		else{
-			if(playerOne.makeMove(piece, square)){
+			if(observer.getCurrentState().makeMove(piece, square, playerOne.getColour())){
 				updateInterface(piece, square);
 				set.clearTimer();
 			}
@@ -358,7 +508,7 @@ public class Interface {
 			System.out.println("You have run out of time. Player Two make a move.");
 		}
 		else{
-			if(playerTwo.makeMove(piece, square)){
+			if(observer.getCurrentState().makeMove(piece, square, playerTwo.getColour())){
 				updateInterface(piece, square);
 				set.clearTimer();
 			}
@@ -380,7 +530,14 @@ public class Interface {
 		
 		isQuit(square);	
 		
-		updateInterface(piece, square);
+
+		if(observer.getCurrentState().makeMove(piece, square, playerOne.getColour())){
+			updateInterface(piece, square);
+		}
+		else{
+			printInterface();
+		}
+
 		
 		System.out.println("Player Two make a move! Select the piece you wish to move: ");
 		piece = s.nextLine().trim().toUpperCase();
@@ -396,7 +553,14 @@ public class Interface {
 		
 		isQuit(square);
 		
-		updateInterface(piece, square);
+		if(observer.getCurrentState().makeMove(piece, square, playerTwo.getColour())){
+			updateInterface(piece, square);
+		}
+		else{
+			printInterface();
+		}
+		
+
 	}
 	
 	public static void printInterface(){
@@ -439,8 +603,8 @@ public class Interface {
 		String quit = input.toUpperCase();
 		if(quit.equals("Q")){
 			System.out.println("Do you wish to save your game before exit? [Y/N]: ");
-			String save = s.nextLine().trim().toUpperCase();
-			if(save.equals("Y")){
+			String store = s.nextLine().trim().toUpperCase();
+			if(store.equals("Y")){
 				gameSettings.add(playerOneName);
 				if(!playerTwoName.isEmpty()){
 					gameSettings.add(playerTwoName);
@@ -451,8 +615,8 @@ public class Interface {
 					gameSettings.add(String.valueOf(timeLength));
 				}
 				gameSettings.add(playerColour);
-				playerOne.storeSettings(gameSettings);
-				playerOne.Save();
+				observer.getCurrentState().storeSettings(gameSettings);
+				save.saveCurrentState();
 			}
 			System.out.println("Goodbye");
 			System.exit(0);

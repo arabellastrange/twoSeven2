@@ -1,15 +1,11 @@
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class Observer implements Serializable{
-	
-	CurrentState now = new CurrentState();
-	
-	public Observer(){
-		now = getCurrentState();
-	}
+	CurrentState cs = new CurrentState();
 	
 	public CurrentState getCurrentState(){
-		return now;
+		return cs.getState();
 	}
 }
 
