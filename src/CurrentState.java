@@ -90,15 +90,28 @@ public class CurrentState implements Serializable{
 		Square last = getLastLandedOn(); //gets the last landed on square
 		lastCol = last.getColour(); //gets the colour of that square
 
-		Piece p[] = getPieces().getPieces();
-		for(Piece i: p){
-			if(i.getID().startsWith("B")){
-				if(i.getColour().equals(lastCol)){
-					return i;
+		if(lastCol.equals("Default")){
+			Piece p[] = getPieces().getPieces();
+			for(Piece i: p){
+				if(i.getID().startsWith("B")){
+					if(i.getColour().equals("Red")){
+						return i;
+					}
 				}
 			}
+			return null;
 		}
-		return null;
+		else{
+			Piece p[] = getPieces().getPieces();
+			for(Piece i: p){
+				if(i.getID().startsWith("B")){
+					if(i.getColour().equals(lastCol)){
+						return i;
+					}
+				}
+			}
+			return null;
+		}
 	}
 	
 	public boolean makeAIMove(String AIColour){
