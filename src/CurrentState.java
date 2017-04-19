@@ -174,6 +174,95 @@ public class CurrentState implements Serializable{
 			
 	}
 	
+	public boolean makeHardAIMove(String AIColour){
+		String forwardSquare = "";
+		String leftDiagonalSquare = "";
+		String rightDiagonalSquare = "";
+		
+		Piece free = getFreePiece(AIColour);
+		co.stringToXY(free.getPiecePosition());
+		int x = co.getX();
+		int y = co.getY();
+		
+		if(AIColour.equals("B")){
+			forwardSquare = co.moveDown(free.getPiecePosition());
+			leftDiagonalSquare = co.moveDiagonalLeftDown(free.getPiecePosition());
+			rightDiagonalSquare = co.moveDiagonalRightDown(free.getPiecePosition());
+			
+			int i = co.getY();
+			int j = co.getY(); //horizontals go too far, must update in loop???
+			int k = co.getY();
+			int m = co.getX();
+			int n = co.getX();
+			
+			while(!forwardSquare.isEmpty() && i < 6){
+				co.stringToXY(forwardSquare);
+				x = co.getX();
+				y = co.getY();
+				forwardSquare = co.XYtoString(x, y + 1); //AI move forward
+				i++;
+			}
+			while(!leftDiagonalSquare.isEmpty()  && j < 8 && m < 8){
+				co.stringToXY(leftDiagonalSquare);
+				x = co.getX();
+				y = co.getY();
+				leftDiagonalSquare = co.XYtoString(x - 1, y + 1); //AI move left diagonal
+				j++;
+				m++;
+			}
+			while(!rightDiagonalSquare.isEmpty()  && k < 8 && n >= 0){
+				co.stringToXY(rightDiagonalSquare);
+				x = co.getX();
+				y = co.getY();
+				rightDiagonalSquare = co.XYtoString(x + 1, y + 1); //AI move right diagonal
+				k++;
+				n--;
+			}
+		}
+		else{
+			forwardSquare = co.moveUp(free.getPiecePosition());
+			leftDiagonalSquare = co.moveDiagonalLeftUp(free.getPiecePosition());
+			rightDiagonalSquare = co.moveDiagonalRightUp(free.getPiecePosition());
+			
+			while(!forwardSquare.isEmpty() && co.getY() > 8){
+				co.stringToXY(forwardSquare);
+				x = co.getX();
+				y = co.getY();
+				forwardSquare = co.XYtoString(x, y - 1); //AI move forward
+			}
+			while(!leftDiagonalSquare.isEmpty() && co.getY() < 8 && co.getX() >= 0){
+				co.stringToXY(leftDiagonalSquare);
+				x = co.getX();
+				y = co.getY();
+				leftDiagonalSquare = co.XYtoString(x + 1, y - 1); //AI move left diagonal
+			}
+			while(!rightDiagonalSquare.isEmpty()  && co.getY() < 8 && co.getX() < 8){
+				co.stringToXY(rightDiagonalSquare);
+				x = co.getX();
+				y = co.getY();
+				rightDiagonalSquare = co.XYtoString(x - 1, y - 1); //AI move right diagonal
+			}
+		}
+		
+		if(makeMove(free.getID(), forwardSquare, AIColour)){ //if forward move is okay, do that
+			AImove = forwardSquare;
+			return true;
+		}
+		else if(makeMove(free.getID(), leftDiagonalSquare, AIColour)){ //if not and left diagonal is, do that
+			AImove = leftDiagonalSquare;
+			return true;
+		}
+		else if(makeMove(free.getID(), rightDiagonalSquare, AIColour)){ //if not and right is, do that
+			AImove = rightDiagonalSquare;
+			return true;
+		}
+		else{
+			System.out.println("The AI couldn't make any legal moves."); //else return message and move on
+			return false;
+		}
+		
+	}
+	
 	public void storeSettings(ArrayList<String> settings){
 		gamesSettings = settings;
 	}

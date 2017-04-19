@@ -22,6 +22,7 @@ public class Interface {
 	static String time;
 	static double timeLength; // add to array
 	static String playerColour;
+
 	
 	public static void main(String[] args){
 
@@ -33,7 +34,7 @@ public class Interface {
 				if(observer.getCurrentState().getSettings().size() == 4){
 					playerOneName = observer.getCurrentState().getSettings().get(0); //name
 					opOption = observer.getCurrentState().getSettings().get(1); //opponent 
-					time = observer.getCurrentState().getSettings().get(2); // check options and split depeneding 
+					time = observer.getCurrentState().getSettings().get(2); // check options and split depending 
 					playerColour = observer.getCurrentState().getSettings().get(3);
 				}
 				else if(observer.getCurrentState().getSettings().size() == 5){
@@ -118,7 +119,7 @@ public class Interface {
 		
 		if(opOption.equals("A")){
 			System.out.println("You are playing against AI");	
-			System.out.println("Would you like to play a speed game?");
+			System.out.println("Would you like to play a speed game? [Y/N]");
 			String speed = s.nextLine().trim().toUpperCase();
 			
 			if(speed.equals("Y")){
@@ -164,7 +165,7 @@ public class Interface {
 					String start = s.nextLine().trim().toUpperCase();
 					isQuit(start);
 					do{
-						playTimedAI();
+						playHardTimedAI();
 					}
 					while(!start.equals("Q"));
 				}
@@ -210,7 +211,7 @@ public class Interface {
 						String start = s.nextLine().trim().toUpperCase();
 						isQuit(start);
 						do{
-							playAI();
+							playHardAI();
 						}
 						while(!start.equals("Q"));
 					}
@@ -400,12 +401,61 @@ public class Interface {
 			
 			String AIMove = "";
 			String AIPiece = "";
+			
 			if(observer.getCurrentState().makeAIMove(AI.getAIColour())){
 				AIMove = observer.getCurrentState().getAIMove();
 				AIPiece = observer.getCurrentState().getFreePiece(AI.getAIColour()).getID();
 				updateInterface(AIPiece, AIMove);
 	
 			}
+			
+		}
+	}
+	
+	public static void playHardAI(){
+Observer observer =  new Observer();
+		
+
+		System.out.println("Do you wish to undo previous move? [Y/N]");
+		String in = s.nextLine().trim().toUpperCase();
+		isQuit(in);
+		if(in.equals("Y")){
+			observer.getCurrentState().undoMove();
+			printInterface();
+		}
+
+		else{
+	
+			System.out.println("Select the piece you wish to move: ");		
+			String piece = s.nextLine().trim().toUpperCase();
+	
+			isPieceValid(piece);
+			isQuit(piece);	
+			
+			System.out.println("Player One select the square you wish to move to: ");
+			
+			String square = s.nextLine().trim().toUpperCase();
+			
+			isSquareValid(square);
+			isQuit(square);	
+			
+			if(observer.getCurrentState().makeMove(piece, square, playerOne.getColour())){
+				updateInterface(piece, square);
+			}
+			else{
+				printInterface();
+			}
+			
+			String AIMove = "";
+			String AIPiece = "";
+			
+			if(observer.getCurrentState().makeHardAIMove(AI.getAIColour())){
+				AIMove = observer.getCurrentState().getAIMove();
+				AIPiece = observer.getCurrentState().getFreePiece(AI.getAIColour()).getID();
+				updateInterface(AIPiece, AIMove);
+	
+			}
+			
 		}
 	}
 	
@@ -452,6 +502,56 @@ public class Interface {
 			String AIMove = "";
 			String AIPiece = "";
 			if(observer.getCurrentState().makeAIMove(AI.getAIColour())){
+				AIMove = observer.getCurrentState().getAIMove();
+				AIPiece = observer.getCurrentState().getFreePiece(AI.getAIColour()).getID();
+				updateInterface(AIPiece, AIMove);
+	
+			}
+		}
+	}
+	
+	public static void playHardTimedAI(){
+Observer observer =  new Observer();
+		
+
+		System.out.println("Do you wish to undo previous move? [Y/N]");
+		String in = s.nextLine().trim().toUpperCase();
+		isQuit(in);
+		if(in.equals("Y")){
+			observer.getCurrentState().undoMove();
+			printInterface();
+		}
+
+		else{
+	
+			System.out.println("Select the piece you wish to move: ");		
+			String piece = s.nextLine().trim().toUpperCase();
+	
+			isPieceValid(piece);
+			isQuit(piece);	
+			
+			System.out.println("Player One select the square you wish to move to: ");
+			
+			String square = s.nextLine().trim().toUpperCase();
+			
+			isSquareValid(square);
+			isQuit(square);
+			
+			System.out.println(set.getTime());
+			if(set.getTime() >= timeLength){
+				set.clearTimer();
+				System.out.println("You have run out of time. The AI will make a move.");
+			}
+			else{
+				if(observer.getCurrentState().makeMove(piece, square, playerOne.getColour())){
+					updateInterface(piece, square);
+					set.clearTimer();
+				}
+			}
+			
+			String AIMove = "";
+			String AIPiece = "";
+			if(observer.getCurrentState().makeHardAIMove(AI.getAIColour())){
 				AIMove = observer.getCurrentState().getAIMove();
 				AIPiece = observer.getCurrentState().getFreePiece(AI.getAIColour()).getID();
 				updateInterface(AIPiece, AIMove);
