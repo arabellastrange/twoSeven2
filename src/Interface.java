@@ -18,6 +18,8 @@ public class Interface {
 	
 	public boolean playAI(String piece, String square, String playColour){
 		observer.getCurrentState().createState();
+		System.out.println("AI mode piece from interface " + piece);
+		System.out.println("AI mode square from interface " + square);
 		if(observer.getCurrentState().makeMove(piece, square, playColour)){
 			String AIMove = "";
 			String AIPiece = "";
@@ -34,6 +36,8 @@ public class Interface {
 	}
 	
 	public boolean playTimed(String piece, String square, String playColour, double timeLength){
+		System.out.println("timed mode piece from interace " + piece);
+		System.out.println("timed mode square from interface " + square);
 		observer.getCurrentState().createState();
 		System.out.println(set.getTime());
 		if(set.getTime() >= timeLength){
@@ -41,6 +45,8 @@ public class Interface {
 			return false;
 		}
 		else{
+			System.out.println("human mode piece from interface" + piece);
+	    	System.out.println("human mode square from interface" + square);
 			if(observer.getCurrentState().makeMove(piece, square, playColour)){
 				set.clearTimer();
 				return true;
@@ -55,9 +61,13 @@ public class Interface {
 		}
 		else{
 			return false;
-			//back to orignal square?
+			//back to original square?
 		}
 	}
+	
+//	public boolean isGameOver(){
+//		return observer.getCurrentState().gameOver();
+//	}
 	
 
 	public void store(ArrayList<String> settings){

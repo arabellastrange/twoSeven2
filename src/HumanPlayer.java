@@ -4,10 +4,15 @@ import java.util.ArrayList;
 public class HumanPlayer implements Serializable{
 	String playerColour;
 	String playerName;
+	boolean currentlyPlaying;
+	String status;
+	int points;
 	
 	public HumanPlayer(){
 		playerName = "Default";
 		playerColour = "Default";
+		currentlyPlaying = false;
+		status = "Player";
 	}
 	
 	public void setName(String name){
@@ -24,6 +29,26 @@ public class HumanPlayer implements Serializable{
 	
 	public String getColour(){
 		return playerColour;
+	}
+	
+	public void disablePlayer(){
+		currentlyPlaying = false;
+	}
+	
+	public void activatePlaye(){
+		currentlyPlaying = true;
+	}
+	
+	public boolean isActive(){
+		return currentlyPlaying;
+	}
+	
+	public void updateStatus(String newStatus){
+		status = newStatus;
+	}
+	
+	public void addPoints(int point){
+		points += point;
 	}
 		
 }

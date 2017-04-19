@@ -59,10 +59,12 @@ public class GUI extends Frame implements ActionListener, MouseMotionListener, M
 	public void welcome(){	
 		final JTextField accountName = new JTextField(20);
 		updates = new JLabel();
-		updates.setText("Watch this sace for feedback through out your game!");
+		updates.setText("Watch this space for feedback through out your game!");
 		updates.setForeground(Color.WHITE);
 		screen = new JFrame("Welcome");
+		
 		JPanel welcome =  new JPanel();
+		JPanel footer = new JPanel();
 		
 		JButton start = new JButton("Start");
 		start.addActionListener(new ActionListener() {
@@ -85,8 +87,12 @@ public class GUI extends Frame implements ActionListener, MouseMotionListener, M
 		welcome.setVisible(true);
 		welcome.setBackground(Color.darkGray);
 		
+		footer.add(updates);
+		footer.setVisible(true);
+		footer.setBackground(Color.darkGray);
+		
 		screen.add(welcome);
-		//screen.add(updates); --> overwrites welcome panel deal with it
+		screen.add(footer, BorderLayout.PAGE_END); //--> overwrites welcome panel deal with it?
 		screen.setVisible(true);
 		//screen.setSize(300, 150);
 		screen.pack();
@@ -146,7 +152,7 @@ public class GUI extends Frame implements ActionListener, MouseMotionListener, M
 				// call easy ai
 				aiDiff = "E";
 				diffculty.setVisible(false);
-				drawBoard();
+				chooseColour();
 			}
 		});
 		
@@ -155,7 +161,7 @@ public class GUI extends Frame implements ActionListener, MouseMotionListener, M
 				//call difficult ai
 				aiDiff = "D";
 				diffculty.setVisible(false);
-				drawBoard();
+				chooseColour();
 			}
 		});
 		
@@ -186,7 +192,7 @@ public class GUI extends Frame implements ActionListener, MouseMotionListener, M
 				playerTwo.setName(playerTwoName);
 				playertwo.setVisible(false);
 				updates.setText("Player two created!");	
-				drawBoard();
+				chooseColour();
 			}
 		});
 		
@@ -201,7 +207,46 @@ public class GUI extends Frame implements ActionListener, MouseMotionListener, M
 		screen.add(playertwo);
 		
 	}
-	//SET PLAYER COLOUR FIRST!!!!!
+	
+	public void chooseColour(){
+		JPanel colour = new JPanel();
+		JButton white = new JButton("White");
+		JButton black = new JButton("Black");
+		white.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				playerColour = "W";
+				playerOne.setColour(playerColour);
+				playerTwo.setColour("B");
+				AI.setColour("B");
+				colour.setVisible(false);
+				drawBoard();
+			}
+		});
+		
+		black.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				playerColour = "B";
+				playerOne.setColour(playerColour);
+				playerTwo.setColour("W");
+				AI.setColour("W");
+				colour.setVisible(false);
+				drawBoard();
+			}
+		});
+		
+		JLabel message = new JLabel();
+		message.setText(playerOneName + " choose your colour!");
+		message.setForeground(Color.white);
+		
+		colour.add(message);
+		colour.add(white);
+		colour.add(black);
+		colour.setBackground(Color.darkGray);
+		colour.setVisible(true);
+		screen.add(colour);
+		
+	}
+	
 	public void drawBoard(){
 		JPanel gameScreen = new JPanel();
 		JPanel board = null;
@@ -237,8 +282,14 @@ public class GUI extends Frame implements ActionListener, MouseMotionListener, M
 	    toolbar.add(undo);
 	    undo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				observer.getCurrentState().undoMove();
-				updates.setText("Move undoed");
+				if(gameMode.equals("A")){
+					observer.getCurrentState().undoMove();
+					updates.setText("Move undone");
+				}
+				else{
+					updates.setText("Sorry you cant undo moves in two player mode");
+				}
+				
 			}
 		});
 	    toolbar.add(save);
@@ -259,6 +310,9 @@ public class GUI extends Frame implements ActionListener, MouseMotionListener, M
 	    
 	    toolbar.setVisible(true);
 	    toolbar.setFloatable(false);
+	    Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+	    toolbar.setBounds(0, 0, screenSize.width, 100);
+	    
 	    try {
 	    	final BufferedImage gboard = ImageIO.read(new File("cutsomGameBoard.jpg"));
 	    	final BufferedImage featPanel = ImageIO.read(new File("extraPanel.png"));
@@ -340,13 +394,54 @@ public class GUI extends Frame implements ActionListener, MouseMotionListener, M
 	    catch (IOException e) {
 			e.printStackTrace();
 		}
-
+	    
+	    JPanel keyInput = new JPanel();
+	    
+	    JLabel message = new JLabel();
+	    message.setText("Enter the piece to move and the square to move to, comma seperated: ");
+	    message.setForeground(Color.white);
+	    
+	    JTextField pieceSquare = new JTextField(10);
+	    
+	    JButton move = new JButton("Move");
+	    move.addActionListener(new ActionListener(){
+	    	public void actionPerformed(ActionEvent e){
+	    		piece = pieceSquare.getText().substring(0,2);
+	    		square = pieceSquare.getText().substring(3,5);
+	    		System.out.println("Piece from text field " + piece);
+	    		System.out.println("Square from text field " + square);
+	    		if(movePiece()){
+	    			updates.setText("Success!");
+	    		}
+	    		switchPlayer();
+	    	}
+	    });
+	    
+	    keyInput.add(message);
+	    keyInput.add(pieceSquare);
+	    keyInput.add(move);
+	    keyInput.setBackground(Color.darkGray);
+	    keyInput.setVisible(true);
 	    gameScreen.add(toolbar, BorderLayout.PAGE_START); 
-	    gameScreen.add(extra, BorderLayout.LINE_START);
+	    //gameScreen.add(extra, BorderLayout.LINE_START);
 	    gameScreen.add(board, BorderLayout.LINE_END);
+	    gameScreen.add(keyInput, BorderLayout.LINE_END);
 	    gameScreen.setVisible(true);
 	    gameScreen.setBackground(Color.DARK_GRAY);
+	    gameScreen.setMinimumSize(new Dimension(520,520));
 	    screen.add(gameScreen);
+	}
+	
+	public void switchPlayer(){
+		//deactivate current player activate next player
+		if(gameMode.equals("H") || gameMode.equals("T") ){
+			updates.setText("Its " + playerTwoName + "'s turn");
+			playerColour = playerTwo.getColour();
+		}
+		else{
+			updates.setText("It's the AI's turn");
+			playerColour = AI.getAIColour();
+		}	
 	}
 	
 	public void gameOver(){
@@ -402,6 +497,12 @@ public class GUI extends Frame implements ActionListener, MouseMotionListener, M
 			opOption = gameSettings.get(1); //opponent 
 			time = gameSettings.get(2); // check options and split depeneding 
 			playerColour = gameSettings.get(3);
+			if(playerColour.equals("W")){
+				AI.setColour("B");
+			}
+			else{
+				AI.setColour("W");
+			}
 			gameMode = "A";
 		}
 		
@@ -445,15 +546,30 @@ public class GUI extends Frame implements ActionListener, MouseMotionListener, M
 	
 	public boolean movePiece(){
 		if(gameMode.equals("H")){
-			return gameInterface.play(piece, square, playerColour);
+			System.out.println("human mode piece from move piece method" + piece);
+	    	System.out.println("human mode square from move piece method" + square);
+			if(gameInterface.play(piece, square, playerColour)){
+				//return gameInterface.isGameOver(); that will return false even when move is valid sort it out
+				return true;
+			}
 		}
 		else if(gameMode.equals("T")){
-			return gameInterface.playTimed(piece, square, playerColour, timeLength);
+			System.out.println("timed mode piece from move piece method " + piece);
+	    	System.out.println("timed mode square from move piece method " + square);
+			if(gameInterface.playTimed(piece, square, playerColour, timeLength)){
+				
+				//return gameInterface.isGameOver(); 
+				return true;
+			}
 		}
 		else{
+			System.out.println("AI mode piece from move piece method " + piece);
+    		System.out.println("AI mode square from move square method " + square);
 			return gameInterface.playAI(piece, square, playerColour);
 		}
+		return false;
 	}
+
 
 
 	public void actionPerformed(ActionEvent arg0) {
@@ -483,6 +599,7 @@ public class GUI extends Frame implements ActionListener, MouseMotionListener, M
          	   if(r.contains(e.getPoint())){
          		   System.out.println("in");
          		   dragged = img;
+         		   //piece =  this one but to string
          		   lastLoc = e.getPoint();
          		   break;
          	   }
@@ -492,18 +609,19 @@ public class GUI extends Frame implements ActionListener, MouseMotionListener, M
      	   }
         }
      }
- 	
- 	//call interface()?? maybe
 	
  	public void mouseReleased(MouseEvent e) {
- 		//if(gameInterface().movePiece()){
  			piX = e.getX(); 
      		piY = e.getY();
-     		draggedPieces.add(dragged);
+     		//square = this one but to string
+     		
+     		//if(gameInterface().movePiece()){
+     			draggedPieces.add(dragged);
+     		//}
      		dragged = null;
-             lastLoc = null;
-             System.out.println("release");
- 		//}
+     		lastLoc = null;
+            System.out.println("release");
+ 		
  	}
  	
  	public void mouseDragged(MouseEvent e) {

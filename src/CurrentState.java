@@ -162,7 +162,8 @@ public class CurrentState implements Serializable{
 							getBoard().getStringSquare(piece.getPiecePosition()).clear();
 							piece.setPiecePosition(toSquare);
 							if(gameOver(piece)){
-								System.out.println("Congrats! You won!");
+								//System.out.println("Congrats! You won!");
+								//send message back to the GUI????
 								System.exit(0);
 							}
 							return true;
