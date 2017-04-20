@@ -9,8 +9,8 @@ import java.util.ArrayList;
 import java.util.Stack;
 
 public class CurrentState implements Serializable{
-	//make/ save players?? otherwise what is the point??
 	ArrayList<String> gamesSettings = new ArrayList();
+	ArrayList<Player> players = new ArrayList();
 	Stack<CurrentState> states = new Stack<CurrentState>();
 	Coordinates co = new Coordinates();
 	Settings timer;
@@ -236,6 +236,16 @@ public class CurrentState implements Serializable{
 		}
 		
 		return true;
+	}
+	
+	public void createPlayer(int playerID){
+		if(playerID == 1){
+			Player playerOne = new Player();
+			players.add(playerOne);
+		}
+		else if(playerID == 2){
+			
+		}
 	}
 	
 }
