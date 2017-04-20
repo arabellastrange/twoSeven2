@@ -390,19 +390,9 @@ public class CurrentState implements Serializable{
 		return true;
 	}
 	
-	public void createPlayer(int playerID){
-		if(playerID == 1){
-			Player playerOne = new Player();
-			players.add(1, playerOne);
-		}
-		else if(playerID == 2){
-			Player playerTwo = new Player();
-			players.add(2, playerTwo);
-		}
-		else{
-			Player AI = new Player();
-			players.add(0, AI);
-		}
+	public void createPlayer(){
+		Player player = new Player();
+		players.add(player);
 	}
 	
 	public Player getActivePlayer(){
@@ -416,13 +406,10 @@ public class CurrentState implements Serializable{
 	
 	public Player getPlayer(int playerID){
 		if(playerID == 1){
-			return players.get(1);
-		}
-		else if(playerID == 2){
-			return players.get(2);
+			return players.get(0);
 		}
 		else{
-			return players.get(0);
+			return players.get(1);
 		}
 	}
 	

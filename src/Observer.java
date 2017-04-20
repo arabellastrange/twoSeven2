@@ -7,6 +7,10 @@ public class Observer implements Serializable{
 	public CurrentState getCurrentState(){
 		return cs.getState();
 	}
+	
+	public void createState(){
+		cs.createState();
+	}
 }
 
 

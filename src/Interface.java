@@ -7,14 +7,10 @@ public class Interface {
 	//AIPlayer AI = new AIPlayer();
 	ReadWrite save = new ReadWrite();
 	Observer observer = new Observer();
-	
-	public Interface(){
-		observer.getCurrentState().createState();
-	}
 
 	public ArrayList<String> loadGame(){
 		if(save.loadCurrentState()){
-			observer.getCurrentState().createState();	
+			observer.createState();	
 		}
 		return observer.getCurrentState().getSettings();
 	}

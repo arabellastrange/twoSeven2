@@ -17,7 +17,7 @@ import java.io.IOException;
 public class GUI extends Frame implements ActionListener, MouseMotionListener, MouseListener {
 	private static final long serialVersionUID = 1L;
 	
-	Observer observer;
+	Observer observer = new Observer();
 	//HumanPlayer playerOne = new HumanPlayer();
 	//HumanPlayer playerTwo = new HumanPlayer();
 	//AIPlayer AI = new AIPlayer();
@@ -57,6 +57,7 @@ public class GUI extends Frame implements ActionListener, MouseMotionListener, M
 	
 	//One method per screen
 	public void welcome(){	
+		observer.createState();
 		final JTextField accountName = new JTextField(20);
 		updates = new JLabel();
 		updates.setText("Watch this space for feedback through out your game!");
@@ -70,7 +71,8 @@ public class GUI extends Frame implements ActionListener, MouseMotionListener, M
 		start.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				playerOneName = accountName.getText();
-				observer.getCurrentState().createPlayer(1);
+				CurrentState cs = observer.getCurrentState();
+				cs.createPlayer();
 				observer.getCurrentState().getPlayer(1).setName(playerOneName);
 				welcome.setVisible(false);
 				updates.setText("Player one created!");
@@ -118,7 +120,7 @@ public class GUI extends Frame implements ActionListener, MouseMotionListener, M
 				opOption = "H";
 				choice.setVisible(false);
 				updates.setText("You are playing against another human.");
-				observer.getCurrentState().createPlayer(2);
+				observer.getCurrentState().createPlayer();
 				playerTwo();
 			}
 		});
@@ -128,7 +130,7 @@ public class GUI extends Frame implements ActionListener, MouseMotionListener, M
 				opOption = "A";
 				choice.setVisible(false);
 				updates.setText("You are playing against AI");
-				observer.getCurrentState().createPlayer(0);
+				observer.getCurrentState().createPlayer();
 				diffculty();
 			}
 		});
@@ -193,7 +195,7 @@ public class GUI extends Frame implements ActionListener, MouseMotionListener, M
 		next.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				playerTwoName = oppName.getText();
-				observer.getCurrentState().createPlayer(2);
+				observer.getCurrentState().createPlayer();
 				observer.getCurrentState().getPlayer(2).setName(playerTwoName);
 				playertwo.setVisible(false);
 				updates.setText("Player two created!");	
@@ -418,12 +420,14 @@ public class GUI extends Frame implements ActionListener, MouseMotionListener, M
 	    		if(!gameMode.startsWith("A")){
 	    			if(movePiece()){
 	    				updates.setText("Success!");
+	    				switchPlayer();
 	    			}
-	    			switchPlayer();
+	    			
 	    		}
 	    		else{
 	    			if(moveAIPiece()){
 	    				updates.setText("Success!");
+	    				switchPlayer();
 	    			}
 	    		}
 	    		
@@ -450,7 +454,7 @@ public class GUI extends Frame implements ActionListener, MouseMotionListener, M
 		observer.getCurrentState().getActivePlayer().disablePlayer();
 		observer.getCurrentState().getPlayer(id).activatePlaye();
 		if(gameMode.equals("H") || gameMode.equals("T") ){
-			updates.setText("Its " + observer.getCurrentState().getActivePlayer() + "'s turn");
+			updates.setText("Its " + observer.getCurrentState().getActivePlayer().getName() + "'s turn");
 			playerColour = observer.getCurrentState().getActivePlayer().getColour();
 		}
 		else{
