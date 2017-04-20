@@ -18,6 +18,7 @@ public class CurrentState implements Serializable{
 	GamePieces pieces;
 	Board board;
 	String AImove;
+	int roundNumber = 1;
 	//AIPlayer AI;
 	
 	public CurrentState(){
@@ -37,17 +38,34 @@ public class CurrentState implements Serializable{
 		return this;
 	}
 	
-	public boolean gameOver(Piece p){
+	public boolean roundOver(Piece p){
 		states.add(this);
 		if(p.getID().startsWith("W") && p.getPiecePosition().charAt(1) == 0){
+			roundNumber++;
+			getActivePlayer().addPoints(1);
+			if(gameOver()){
+				System.exit(0);
+			}
 			return true;
 		}
 		else if(p.getID().startsWith("B") && p.getPiecePosition().charAt(1) == 7){
+			roundNumber++;
+			getActivePlayer().addPoints(1);
+			gameOver();
 			return true;
 		}
 		else{
 			return false;
 		}
+	}
+	
+	public boolean gameOver(){
+		for(int i = 0; i < players.size(); i++){
+			if(players.get(i).getPoints() == 3){
+				return true;
+			}
+		}
+		return false;
 	}
 		
 	public Piece getPiece(String id){
@@ -294,10 +312,11 @@ public class CurrentState implements Serializable{
 							getBoard().getStringSquare(toSquare).setOccupied();
 							getBoard().getStringSquare(piece.getPiecePosition()).clear();
 							piece.setPiecePosition(toSquare);
-							if(gameOver(piece)){
+							if(roundOver(piece)){
 								//System.out.println("Congrats! You won!");
 								//send message back to the GUI????
-								System.exit(0);
+								//System.exit(0);
+								
 							}
 							return true;
 						}
@@ -319,7 +338,7 @@ public class CurrentState implements Serializable{
 							getBoard().getStringSquare(toSquare).setOccupied();
 							getBoard().getStringSquare(piece.getPiecePosition()).clear();
 							piece.setPiecePosition(toSquare);
-							if(gameOver(piece)){
+							if(roundOver(piece)){
 								System.out.println("Congrats! You won!");
 								System.exit(0);
 							}
@@ -405,6 +424,15 @@ public class CurrentState implements Serializable{
 		else{
 			return players.get(0);
 		}
+	}
+	
+	public Player getNextPlayer(){
+		for(int i = 0; i < players.size(); i++){
+			if(!players.get(i).isActive()){
+				return players.get(i);
+			}
+		}
+		return null;
 	}
 	
 }

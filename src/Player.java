@@ -6,12 +6,25 @@ public class Player implements Serializable{
 	boolean currentlyPlaying;
 	String status;
 	int points;
+	int playerID; 
 	
 	public Player(){
 		playerName = "Default";
 		playerColour = "Default";
 		currentlyPlaying = false;
 		status = "Player";
+	}
+	
+	public int getPoints(){
+		return points;
+	}
+	
+	public void setPlayerID(int id){
+		playerID = id;
+	}
+	
+	public int getPlayerID(){
+		return playerID;
 	}
 	
 	public void setName(String name){

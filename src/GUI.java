@@ -74,6 +74,7 @@ public class GUI extends Frame implements ActionListener, MouseMotionListener, M
 				observer.getCurrentState().getPlayer(1).setName(playerOneName);
 				welcome.setVisible(false);
 				updates.setText("Player one created!");
+				observer.getCurrentState().getPlayer(1).activatePlaye();
 				choose(playerOneName);	
 			}
 		});
@@ -117,6 +118,7 @@ public class GUI extends Frame implements ActionListener, MouseMotionListener, M
 				opOption = "H";
 				choice.setVisible(false);
 				updates.setText("You are playing against another human.");
+				observer.getCurrentState().createPlayer(2);
 				playerTwo();
 			}
 		});
@@ -126,6 +128,7 @@ public class GUI extends Frame implements ActionListener, MouseMotionListener, M
 				opOption = "A";
 				choice.setVisible(false);
 				updates.setText("You are playing against AI");
+				observer.getCurrentState().createPlayer(0);
 				diffculty();
 			}
 		});
@@ -443,7 +446,9 @@ public class GUI extends Frame implements ActionListener, MouseMotionListener, M
 	}
 	
 	public void switchPlayer(){
-		//deactivate current player activate next player
+		int id = observer.getCurrentState().getNextPlayer().getPlayerID();
+		observer.getCurrentState().getActivePlayer().disablePlayer();
+		observer.getCurrentState().getPlayer(id).activatePlaye();
 		if(gameMode.equals("H") || gameMode.equals("T") ){
 			updates.setText("Its " + observer.getCurrentState().getActivePlayer() + "'s turn");
 			playerColour = observer.getCurrentState().getActivePlayer().getColour();
@@ -565,6 +570,7 @@ public class GUI extends Frame implements ActionListener, MouseMotionListener, M
 	    	System.out.println("human mode square from move piece method" + square);
 			if(gameInterface.play(piece, square, playerColour)){
 				//return gameInterface.isGameOver(); that will return false even when move is valid sort it out
+				switchPlayer();
 				return true;
 			}
 		}
@@ -573,6 +579,7 @@ public class GUI extends Frame implements ActionListener, MouseMotionListener, M
 	    	System.out.println("timed mode square from move piece method " + square);
 			if(gameInterface.playTimed(piece, square, playerColour, timeLength)){
 				//return gameInterface.isGameOver(); 
+				switchPlayer();
 				return true;
 			}
 		}
@@ -583,6 +590,7 @@ public class GUI extends Frame implements ActionListener, MouseMotionListener, M
 		if(gameMode.equals("A")){
 			if(gameInterface.play(piece, square, playerColour)){
 				//update interface here??
+				switchPlayer();
 				if(aiDiff.equals("E")){
 					return gameInterface.playAI(piece, square, playerColour);
 				}
@@ -593,6 +601,7 @@ public class GUI extends Frame implements ActionListener, MouseMotionListener, M
 		}
 		else{
 			if(gameInterface.playTimed(piece, square, playerColour, timeLength)){
+				switchPlayer();
 				if(aiDiff.equals("E")){
 					return gameInterface.playAI(piece, square, playerColour);
 				}
