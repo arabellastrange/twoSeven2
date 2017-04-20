@@ -18,9 +18,9 @@ public class GUI extends Frame implements ActionListener, MouseMotionListener, M
 	private static final long serialVersionUID = 1L;
 	
 	Observer observer;
-	HumanPlayer playerOne = new HumanPlayer();
-	HumanPlayer playerTwo = new HumanPlayer();
-	AIPlayer AI = new AIPlayer();
+	//HumanPlayer playerOne = new HumanPlayer();
+	//HumanPlayer playerTwo = new HumanPlayer();
+	//AIPlayer AI = new AIPlayer();
 	Settings timerSettings = new Settings();
 	Interface gameInterface = new Interface();
 	
@@ -70,7 +70,8 @@ public class GUI extends Frame implements ActionListener, MouseMotionListener, M
 		start.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				playerOneName = accountName.getText();
-				playerOne.setName(playerOneName);
+				observer.getCurrentState().createPlayer(1);
+				observer.getCurrentState().getPlayer(1).setName(playerOneName);
 				welcome.setVisible(false);
 				updates.setText("Player one created!");
 				choose(playerOneName);	
@@ -189,7 +190,8 @@ public class GUI extends Frame implements ActionListener, MouseMotionListener, M
 		next.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				playerTwoName = oppName.getText();
-				playerTwo.setName(playerTwoName);
+				observer.getCurrentState().createPlayer(2);
+				observer.getCurrentState().getPlayer(2).setName(playerTwoName);
 				playertwo.setVisible(false);
 				updates.setText("Player two created!");	
 				chooseColour();
@@ -215,9 +217,9 @@ public class GUI extends Frame implements ActionListener, MouseMotionListener, M
 		white.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				playerColour = "W";
-				playerOne.setColour(playerColour);
-				playerTwo.setColour("B");
-				AI.setColour("B");
+				observer.getCurrentState().getPlayer(1).setColour(playerColour);
+				observer.getCurrentState().getPlayer(2).setColour("B");
+				observer.getCurrentState().getPlayer(0).setColour("B");
 				colour.setVisible(false);
 				drawBoard();
 			}
@@ -226,9 +228,9 @@ public class GUI extends Frame implements ActionListener, MouseMotionListener, M
 		black.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				playerColour = "B";
-				playerOne.setColour(playerColour);
-				playerTwo.setColour("W");
-				AI.setColour("W");
+				observer.getCurrentState().getPlayer(1).setColour(playerColour);
+				observer.getCurrentState().getPlayer(2).setColour("W");
+				observer.getCurrentState().getPlayer(0).setColour("W");
 				colour.setVisible(false);
 				drawBoard();
 			}
@@ -410,10 +412,18 @@ public class GUI extends Frame implements ActionListener, MouseMotionListener, M
 	    		square = pieceSquare.getText().substring(3,5);
 	    		System.out.println("Piece from text field " + piece);
 	    		System.out.println("Square from text field " + square);
-	    		if(movePiece()){
-	    			updates.setText("Success!");
+	    		if(!gameMode.startsWith("A")){
+	    			if(movePiece()){
+	    				updates.setText("Success!");
+	    			}
+	    			switchPlayer();
 	    		}
-	    		switchPlayer();
+	    		else{
+	    			if(moveAIPiece()){
+	    				updates.setText("Success!");
+	    			}
+	    		}
+	    		
 	    	}
 	    });
 	    
@@ -436,11 +446,11 @@ public class GUI extends Frame implements ActionListener, MouseMotionListener, M
 		//deactivate current player activate next player
 		if(gameMode.equals("H") || gameMode.equals("T") ){
 			updates.setText("Its " + playerTwoName + "'s turn");
-			playerColour = playerTwo.getColour();
+			playerColour = observer.getCurrentState().getPlayer(2).getColour();
 		}
 		else{
 			updates.setText("It's the AI's turn");
-			playerColour = AI.getAIColour();
+			playerColour = observer.getCurrentState().getPlayer(0).getColour();
 		}	
 	}
 	
@@ -471,7 +481,13 @@ public class GUI extends Frame implements ActionListener, MouseMotionListener, M
 					time = "Y";
 					timeLength = Integer.valueOf(timeSecs.getText()); //doesnt handle unexpected input well yet
 					timerSettings.setTimer(timeLength);
-					gameMode = "T";
+					if(gameMode.equals("A")){
+						gameMode = "AT";
+					}
+					else{
+						gameMode = "T";
+					}
+					
 					settings.setVisible(false);
 			}
 		});
@@ -498,10 +514,10 @@ public class GUI extends Frame implements ActionListener, MouseMotionListener, M
 			time = gameSettings.get(2); // check options and split depeneding 
 			playerColour = gameSettings.get(3);
 			if(playerColour.equals("W")){
-				AI.setColour("B");
+				observer.getCurrentState().getPlayer(0).setColour("B");
 			}
 			else{
-				AI.setColour("W");
+				observer.getCurrentState().getPlayer(0).setColour("W");
 			}
 			gameMode = "A";
 		}
@@ -513,10 +529,10 @@ public class GUI extends Frame implements ActionListener, MouseMotionListener, M
 			time = gameSettings.get(3);
 			playerColour = gameSettings.get(4); //works as long as no one plays speed mode in AI lol
 			if(playerColour.equals("W")){
-				playerTwo.setColour("B");
+				observer.getCurrentState().getPlayer(2).setColour("B");
 			}
 			else{
-				playerTwo.setColour("W");
+				observer.getCurrentState().getPlayer(2).setColour("W");
 			}
 			gameMode = "H";
 		}
@@ -528,16 +544,16 @@ public class GUI extends Frame implements ActionListener, MouseMotionListener, M
 			timeLength = Double.parseDouble(gameSettings.get(4));
 			playerColour = gameSettings.get(5);
 			if(playerColour.equals("W")){
-				playerTwo.setColour("B");
+				observer.getCurrentState().getPlayer(2).setColour("B");
 			}
 			else{
-				playerTwo.setColour("W");
+				observer.getCurrentState().getPlayer(2).setColour("W");
 			}
 			
 			timerSettings.setTimer(timeLength);
 			gameMode = "T";
 		}		
-		playerOne.setColour(playerColour);
+		observer.getCurrentState().getPlayer(1).setColour(playerColour);
 	}
 	
 	public void save(){
@@ -557,21 +573,42 @@ public class GUI extends Frame implements ActionListener, MouseMotionListener, M
 			System.out.println("timed mode piece from move piece method " + piece);
 	    	System.out.println("timed mode square from move piece method " + square);
 			if(gameInterface.playTimed(piece, square, playerColour, timeLength)){
-				
 				//return gameInterface.isGameOver(); 
 				return true;
 			}
 		}
-		else{
-			System.out.println("AI mode piece from move piece method " + piece);
-    		System.out.println("AI mode square from move square method " + square);
-			return gameInterface.playAI(piece, square, playerColour);
-		}
 		return false;
 	}
 
-
-
+	public boolean moveAIPiece(){
+		if(gameMode.equals("A")){
+			if(gameInterface.play(piece, square, playerColour)){
+				//update interface here??
+				if(aiDiff.equals("E")){
+					return gameInterface.playAI(piece, square, playerColour);
+				}
+				else{
+					return gameInterface.playHardAI(piece, square, playerColour);
+				}
+			}
+		}
+		else{
+			if(gameInterface.playTimed(piece, square, playerColour, timeLength)){
+				if(aiDiff.equals("E")){
+					return gameInterface.playAI(piece, square, playerColour);
+				}
+				else{
+					return gameInterface.playHardAI(piece, square, playerColour);
+				}
+			}
+		}
+		return false;
+	}
+	
+	public void updateBroad(){
+		//idek
+	}
+	
 	public void actionPerformed(ActionEvent arg0) {
 		
 	}

@@ -18,12 +18,14 @@ public class CurrentState implements Serializable{
 	GamePieces pieces;
 	Board board;
 	String AImove;
+	//AIPlayer AI;
 	
 	public CurrentState(){
 		lastLandedOn = new Square("Default", "Defualt", false);
 		timer = new Settings();
 		pieces = new GamePieces();
 		board = new Board();
+		//AI = new AIPlayer();
 
 	}
 	
@@ -85,31 +87,73 @@ public class CurrentState implements Serializable{
 			return false;
 		}
 	}
-	public Piece getFreePiece(){
+	public Piece getFreePiece(String AIColour){
 		String lastCol;
 		Square last = getLastLandedOn(); //gets the last landed on square
 		lastCol = last.getColour(); //gets the colour of that square
 
-		Piece p[] = getPieces().getPieces();
-		for(Piece i: p){
-			if(i.getID().startsWith("B")){
-				if(i.getColour().equals(lastCol)){
-					return i;
+		if(lastCol.equals("Default")){
+			Piece p[] = getPieces().getPieces();
+			for(Piece i: p){
+				if(AIColour.equals("B")){
+					if(i.getID().startsWith("B")){
+						if(i.getColour().equals("Red")){
+							return i;
+						}
+					}
+				}	
+				else{
+					if(i.getID().startsWith("W")){
+						if(i.getColour().equals("Red")){
+							return i;
+						}
+					}
 				}
 			}
+			return null;
 		}
-		return null;
+		else{
+			Piece p[] = getPieces().getPieces();
+			for(Piece i: p){
+				if(AIColour.equals("B")){
+					if(i.getID().startsWith("B")){
+						if(i.getColour().equals(lastCol)){
+							return i;
+						}
+					}
+				}
+				else{
+					if(i.getID().startsWith("W")){
+						if(i.getColour().equals(lastCol)){
+							return i;
+						}
+					}
+				}
+			}
+			return null;				
+		}
 	}
 	
 	public boolean makeAIMove(String AIColour){
-		Piece free = getFreePiece();
+		String forwardSquare;
+		String leftDiagonalSquare;
+		String rightDiagonalSquare;
+		
+		Piece free = getFreePiece(AIColour);
 		co.stringToXY(free.getPiecePosition());
 		int x = co.getX();
 		int y = co.getY();
 		//find piece belonging to AI that is same colour as last landed on square
-		String forwardSquare = co.XYtoString(x, y + 1); //AI move forward
-		String leftDiagonalSquare = co.XYtoString(x - 1, y + 1); //AI move left diagonal
-		String rightDiagonalSquare = co.XYtoString(x + 1, y + 1); //AI move right diagonal
+		if(AIColour.equals("B")){
+			forwardSquare = co.XYtoString(x, y + 1); //AI move forward
+			leftDiagonalSquare = co.XYtoString(x - 1, y + 1); //AI move left diagonal
+			rightDiagonalSquare = co.XYtoString(x + 1, y + 1); //AI move right diagonal
+		}
+		else{
+			forwardSquare = co.XYtoString(x, y - 1); //AI move forward
+			leftDiagonalSquare = co.XYtoString(x + 1, y - 1); //AI move left diagonal
+			rightDiagonalSquare = co.XYtoString(x - 1, y - 1); //AI move right diagonal
+		}
 		
 		if(makeMove(free.getID(), forwardSquare, AIColour)){ //if forward move is okay, do that
 			AImove = forwardSquare;
@@ -128,6 +172,95 @@ public class CurrentState implements Serializable{
 			return false;
 		}
 			
+	}
+	
+	public boolean makeHardAIMove(String AIColour){
+		String forwardSquare = "";
+		String leftDiagonalSquare = "";
+		String rightDiagonalSquare = "";
+		
+		Piece free = getFreePiece(AIColour);
+		co.stringToXY(free.getPiecePosition());
+		int x = co.getX();
+		int y = co.getY();
+		
+		if(AIColour.equals("B")){
+			forwardSquare = co.moveDown(free.getPiecePosition());
+			leftDiagonalSquare = co.moveDiagonalLeftDown(free.getPiecePosition());
+			rightDiagonalSquare = co.moveDiagonalRightDown(free.getPiecePosition());
+			
+			int i = co.getY();
+			int j = co.getY(); //horizontals go too far, must update in loop???
+			int k = co.getY();
+			int m = co.getX();
+			int n = co.getX();
+			
+			while(!forwardSquare.isEmpty() && i < 6){
+				co.stringToXY(forwardSquare);
+				x = co.getX();
+				y = co.getY();
+				forwardSquare = co.XYtoString(x, y + 1); //AI move forward
+				i++;
+			}
+			while(!leftDiagonalSquare.isEmpty()  && j < 8 && m < 8){
+				co.stringToXY(leftDiagonalSquare);
+				x = co.getX();
+				y = co.getY();
+				leftDiagonalSquare = co.XYtoString(x - 1, y + 1); //AI move left diagonal
+				j++;
+				m++;
+			}
+			while(!rightDiagonalSquare.isEmpty()  && k < 8 && n >= 0){
+				co.stringToXY(rightDiagonalSquare);
+				x = co.getX();
+				y = co.getY();
+				rightDiagonalSquare = co.XYtoString(x + 1, y + 1); //AI move right diagonal
+				k++;
+				n--;
+			}
+		}
+		else{
+			forwardSquare = co.moveUp(free.getPiecePosition());
+			leftDiagonalSquare = co.moveDiagonalLeftUp(free.getPiecePosition());
+			rightDiagonalSquare = co.moveDiagonalRightUp(free.getPiecePosition());
+			
+			while(!forwardSquare.isEmpty() && co.getY() > 8){
+				co.stringToXY(forwardSquare);
+				x = co.getX();
+				y = co.getY();
+				forwardSquare = co.XYtoString(x, y - 1); //AI move forward
+			}
+			while(!leftDiagonalSquare.isEmpty() && co.getY() < 8 && co.getX() >= 0){
+				co.stringToXY(leftDiagonalSquare);
+				x = co.getX();
+				y = co.getY();
+				leftDiagonalSquare = co.XYtoString(x + 1, y - 1); //AI move left diagonal
+			}
+			while(!rightDiagonalSquare.isEmpty()  && co.getY() < 8 && co.getX() < 8){
+				co.stringToXY(rightDiagonalSquare);
+				x = co.getX();
+				y = co.getY();
+				rightDiagonalSquare = co.XYtoString(x - 1, y - 1); //AI move right diagonal
+			}
+		}
+		
+		if(makeMove(free.getID(), forwardSquare, AIColour)){ //if forward move is okay, do that
+			AImove = forwardSquare;
+			return true;
+		}
+		else if(makeMove(free.getID(), leftDiagonalSquare, AIColour)){ //if not and left diagonal is, do that
+			AImove = leftDiagonalSquare;
+			return true;
+		}
+		else if(makeMove(free.getID(), rightDiagonalSquare, AIColour)){ //if not and right is, do that
+			AImove = rightDiagonalSquare;
+			return true;
+		}
+		else{
+			System.out.println("The AI couldn't make any legal moves."); //else return message and move on
+			return false;
+		}
+		
 	}
 	
 	public void storeSettings(ArrayList<String> settings){
@@ -241,10 +374,36 @@ public class CurrentState implements Serializable{
 	public void createPlayer(int playerID){
 		if(playerID == 1){
 			Player playerOne = new Player();
-			players.add(playerOne);
+			players.add(1, playerOne);
 		}
 		else if(playerID == 2){
-			
+			Player playerTwo = new Player();
+			players.add(2, playerTwo);
+		}
+		else{
+			Player AI = new Player();
+			players.add(0, AI);
+		}
+	}
+	
+	public Player getActivePlayer(){
+		for(int i = 0; i < players.size(); i++){
+			if(players.get(i).isActive()){
+				return players.get(i);
+			}
+		}
+		return null;
+	}
+	
+	public Player getPlayer(int playerID){
+		if(playerID == 1){
+			return players.get(1);
+		}
+		else if(playerID == 2){
+			return players.get(2);
+		}
+		else{
+			return players.get(0);
 		}
 	}
 	
