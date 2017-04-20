@@ -445,12 +445,11 @@ public class GUI extends Frame implements ActionListener, MouseMotionListener, M
 	public void switchPlayer(){
 		//deactivate current player activate next player
 		if(gameMode.equals("H") || gameMode.equals("T") ){
-			updates.setText("Its " + playerTwoName + "'s turn");
-			playerColour = observer.getCurrentState().getPlayer(2).getColour();
+			updates.setText("Its " + observer.getCurrentState().getActivePlayer() + "'s turn");
+			playerColour = observer.getCurrentState().getActivePlayer().getColour();
 		}
 		else{
 			updates.setText("It's the AI's turn");
-			playerColour = observer.getCurrentState().getPlayer(0).getColour();
 		}	
 	}
 	
