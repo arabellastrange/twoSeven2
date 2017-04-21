@@ -46,6 +46,8 @@ public class CurrentState implements Serializable{
 		if(p.getID().startsWith("W") && p.getPiecePosition().charAt(1) == 0){
 			roundNumber++;
 			getActivePlayer().addPoints(1);
+			p.makeSumo();
+			p.addDragonTooth();
 			if(gameOver()){
 				System.exit(0);
 			}
@@ -307,7 +309,22 @@ public class CurrentState implements Serializable{
 			//System.out.println(movedTo.empty);
 			
 			if(movingPieceID == pColour.charAt(0)){
+				
 				if(last.getColour().equals("Default")){
+					if(piece.isSumo() && !movedTo.isEmpty()){
+						if(co.isMoveForward(piece.getPiecePosition(), movedTo.getSquarePosition(), movingPieceID)){
+							getPieceOnSquare(movedTo).moveBack();
+							getLastLandedOn().setSquareColour(movedTo.getColour());
+							getLastLandedOn().setOccupied();
+							getBoard().getStringSquare(toSquare).setOccupied();
+							getBoard().getStringSquare(piece.getPiecePosition()).clear();
+							piece.setPiecePosition(toSquare);
+							if(roundOver(piece)){
+								getActivePlayer().addPoints(2);
+								
+							}
+						}
+					}
 					if(movedTo.isEmpty()){
 						if(co.isMoveForward(piece.getPiecePosition(), movedTo.getSquarePosition(), movingPieceID)){
 							getLastLandedOn().setSquareColour(movedTo.getColour());
@@ -315,12 +332,7 @@ public class CurrentState implements Serializable{
 							getBoard().getStringSquare(toSquare).setOccupied();
 							getBoard().getStringSquare(piece.getPiecePosition()).clear();
 							piece.setPiecePosition(toSquare);
-							if(roundOver(piece)){
-								//System.out.println("Congrats! You won!");
-								//send message back to the GUI????
-								//System.exit(0);
-								
-							}
+							roundOver(piece);
 							return true;
 						}
 						else{
@@ -334,6 +346,19 @@ public class CurrentState implements Serializable{
 					}
 				}
 				else if(movingPieceColour.equals(last.getColour())){
+					if(piece.isSumo() && !movedTo.isEmpty()){
+						if(co.isMoveForward(piece.getPiecePosition(), movedTo.getSquarePosition(), movingPieceID)){
+							getPieceOnSquare(movedTo).moveBack();
+							getLastLandedOn().setSquareColour(movedTo.getColour());
+							getLastLandedOn().setOccupied();
+							getBoard().getStringSquare(toSquare).setOccupied();
+							getBoard().getStringSquare(piece.getPiecePosition()).clear();
+							piece.setPiecePosition(toSquare);
+							if(roundOver(piece)){
+								getActivePlayer().addPoints(2);								
+							}
+						}
+					}
 					if(!toSquare.isEmpty()){
 						if(co.isMoveForward(piece.getPiecePosition(), toSquare, movingPieceID)){
 							getLastLandedOn().setSquareColour(movedTo.getColour());
@@ -341,10 +366,7 @@ public class CurrentState implements Serializable{
 							getBoard().getStringSquare(toSquare).setOccupied();
 							getBoard().getStringSquare(piece.getPiecePosition()).clear();
 							piece.setPiecePosition(toSquare);
-							if(roundOver(piece)){
-								System.out.println("Congrats! You won!");
-								System.exit(0);
-							}
+							roundOver(piece);
 							return true;
 						}
 						else{
@@ -420,6 +442,17 @@ public class CurrentState implements Serializable{
 		for(int i = 0; i < players.size(); i++){
 			if(!players.get(i).isActive()){
 				return players.get(i);
+			}
+		}
+		return null;
+	}
+	
+	public Piece getPieceOnSquare(Square sq){
+		if(!sq.isEmpty()){
+			for(Piece p: getPieces().getPieces()){
+				if(p.getPiecePosition().equals(sq.getSquarePosition())){
+					return p;
+				}	
 			}
 		}
 		return null;

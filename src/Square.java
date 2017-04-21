@@ -15,6 +15,7 @@ public class Square implements Serializable{
 		return colour;
 	}
 	
+	
 	public String getSquarePosition(){
 		return position; 
 	}

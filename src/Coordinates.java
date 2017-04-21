@@ -63,6 +63,25 @@ public class Coordinates implements Serializable {
 		return XYtoString(x,y);
 	}
 	
+	public String moveBack(String coord, String playerColour){
+		if(playerColour.equals("W")){
+			stringToXY(coord);
+			if(y + 1 <= 7){
+				y = y + 1;
+			}
+			return XYtoString(x,y);
+			
+		}
+		else{
+			stringToXY(coord);
+			if(y - 1 >= 0){
+				y = y - 1;
+			}
+			return XYtoString(x,y);
+		}
+		
+	}
+	
 	public String moveDown(String coord){
 		stringToXY(coord);
 		if(y + 1 <= 7){

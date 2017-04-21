@@ -6,6 +6,7 @@ public class Piece implements Serializable{
 	String id;
 	boolean sumo;
 	int teeth = 0;
+	Coordinates co = new Coordinates();
 	
 	public Piece(String pieceColour, String piecePosition, String pid){
 		colour = pieceColour;
@@ -43,6 +44,10 @@ public class Piece implements Serializable{
 	
 	public void addDragonTooth(){
 		teeth++;
+	}
+	
+	public void moveBack(){
+		position = co.moveBack(getPiecePosition(), getColour());
 	}
 	
 }
