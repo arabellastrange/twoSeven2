@@ -9,8 +9,11 @@ import java.util.ArrayList;
 import java.util.Stack;
 
 public class CurrentState implements Serializable{
-	ArrayList<String> gamesSettings = new ArrayList();
-	ArrayList<Player> players = new ArrayList();
+
+	private static final long serialVersionUID = 1L;
+	
+	ArrayList<String> gamesSettings = new ArrayList<String>();
+	ArrayList<Player> players = new ArrayList<Player>();
 	Stack<CurrentState> states = new Stack<CurrentState>();
 	Coordinates co = new Coordinates();
 	Settings timer;

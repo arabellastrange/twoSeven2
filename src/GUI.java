@@ -76,7 +76,7 @@ public class GUI extends Frame implements ActionListener, MouseMotionListener, M
 				observer.getCurrentState().getPlayer(1).setName(playerOneName);
 				welcome.setVisible(false);
 				updates.setText("Player one created!");
-				observer.getCurrentState().getPlayer(1).activatePlaye();
+				observer.getCurrentState().getPlayer(1).activatePlayer();
 				choose(playerOneName);	
 			}
 		});
@@ -224,7 +224,7 @@ public class GUI extends Frame implements ActionListener, MouseMotionListener, M
 				playerColour = "W";
 				observer.getCurrentState().getPlayer(1).setColour(playerColour);
 				observer.getCurrentState().getPlayer(2).setColour("B");
-				observer.getCurrentState().getPlayer(0).setColour("B");
+				//observer.getCurrentState().getPlayer(0).setColour("B");
 				colour.setVisible(false);
 				drawBoard();
 			}
@@ -452,7 +452,7 @@ public class GUI extends Frame implements ActionListener, MouseMotionListener, M
 	public void switchPlayer(){
 		int id = observer.getCurrentState().getNextPlayer().getPlayerID();
 		observer.getCurrentState().getActivePlayer().disablePlayer();
-		observer.getCurrentState().getPlayer(id).activatePlaye();
+		observer.getCurrentState().getPlayer(id).activatePlayer();
 		if(gameMode.equals("H") || gameMode.equals("T") ){
 			updates.setText("Its " + observer.getCurrentState().getActivePlayer().getName() + "'s turn");
 			playerColour = observer.getCurrentState().getActivePlayer().getColour();

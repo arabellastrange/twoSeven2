@@ -47,7 +47,7 @@ public class Player implements Serializable{
 		currentlyPlaying = false;
 	}
 	
-	public void activatePlaye(){
+	public void activatePlayer(){
 		currentlyPlaying = true;
 	}
 	
