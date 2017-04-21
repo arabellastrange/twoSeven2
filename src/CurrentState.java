@@ -189,34 +189,36 @@ public class CurrentState implements Serializable{
 			leftDiagonalSquare = co.moveDiagonalLeftDown(free.getPiecePosition());
 			rightDiagonalSquare = co.moveDiagonalRightDown(free.getPiecePosition());
 			
-			int i = co.getY();
-			int j = co.getY(); //horizontals go too far, must update in loop???
-			int k = co.getY();
-			int m = co.getX();
-			int n = co.getX();
+			Square movedForward = getBoard().getStringSquare(forwardSquare);
+			Square movedL = getBoard().getStringSquare(leftDiagonalSquare);
+			Square movedR = getBoard().getStringSquare(rightDiagonalSquare);
 			
-			while(!forwardSquare.isEmpty() && i < 6){
-				co.stringToXY(forwardSquare);
-				x = co.getX();
-				y = co.getY();
-				forwardSquare = co.XYtoString(x, y + 1); //AI move forward
-				i++;
+			int i = co.getY();
+			int j = co.getX(); 
+			
+			while(i < (6 - co.getY())){
+				boolean empty = movedForward.isEmpty();
+				if(empty){
+					co.stringToXY(forwardSquare);
+					x = co.getX();
+					y = co.getY();
+					forwardSquare = co.XYtoString(x, y + 1); //AI move forward
+					movedForward = getBoard().getStringSquare(forwardSquare);
+				}
 			}
-			while(!leftDiagonalSquare.isEmpty()  && j < 8 && m < 8){
+			while(movedL.isEmpty()  && i < (6 - co.getY()) && j >= (6 - co.getX())){
 				co.stringToXY(leftDiagonalSquare);
 				x = co.getX();
 				y = co.getY();
 				leftDiagonalSquare = co.XYtoString(x - 1, y + 1); //AI move left diagonal
-				j++;
-				m++;
+				movedL = getBoard().getStringSquare(leftDiagonalSquare);
 			}
-			while(!rightDiagonalSquare.isEmpty()  && k < 8 && n >= 0){
+			while(movedR.isEmpty()  && i < (6 - co.getY()) && j < (6 - co.getX())){
 				co.stringToXY(rightDiagonalSquare);
 				x = co.getX();
 				y = co.getY();
 				rightDiagonalSquare = co.XYtoString(x + 1, y + 1); //AI move right diagonal
-				k++;
-				n--;
+				movedR = getBoard().getStringSquare(rightDiagonalSquare);
 			}
 		}
 		else{
@@ -224,19 +226,26 @@ public class CurrentState implements Serializable{
 			leftDiagonalSquare = co.moveDiagonalLeftUp(free.getPiecePosition());
 			rightDiagonalSquare = co.moveDiagonalRightUp(free.getPiecePosition());
 			
-			while(!forwardSquare.isEmpty() && co.getY() > 8){
+			Square movedForward = getBoard().getStringSquare(forwardSquare);
+			Square movedL = getBoard().getStringSquare(leftDiagonalSquare);
+			Square movedR = getBoard().getStringSquare(rightDiagonalSquare);
+			
+			int i = co.getY();
+			int j = co.getX();
+			
+			while(movedForward.isEmpty()  && i > (6 - co.getY())){
 				co.stringToXY(forwardSquare);
 				x = co.getX();
 				y = co.getY();
 				forwardSquare = co.XYtoString(x, y - 1); //AI move forward
 			}
-			while(!leftDiagonalSquare.isEmpty() && co.getY() < 8 && co.getX() >= 0){
+			while(movedL.isEmpty()  && i > (6 - co.getY()) && j < (6 - co.getX())){
 				co.stringToXY(leftDiagonalSquare);
 				x = co.getX();
 				y = co.getY();
 				leftDiagonalSquare = co.XYtoString(x + 1, y - 1); //AI move left diagonal
 			}
-			while(!rightDiagonalSquare.isEmpty()  && co.getY() < 8 && co.getX() < 8){
+			while(movedR.isEmpty()  && i > (6 - co.getY()) && j >= (6 - co.getX())){
 				co.stringToXY(rightDiagonalSquare);
 				x = co.getX();
 				y = co.getY();
@@ -311,7 +320,7 @@ public class CurrentState implements Serializable{
 					}
 				}
 				else if(movingPieceColour.equals(last.getColour())){
-					if(!toSquare.isEmpty()){
+					if(movedTo.isEmpty()){
 						if(co.isMoveForward(piece.getPiecePosition(), toSquare, movingPieceID)){
 							getLastLandedOn().setSquareColour(movedTo.getColour());
 							getLastLandedOn().setOccupied();
