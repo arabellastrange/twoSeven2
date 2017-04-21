@@ -360,6 +360,7 @@ public class GUI extends Frame implements ActionListener {
 		int id = observer.getCurrentState().getNextPlayer().getPlayerID();
 		observer.getCurrentState().getActivePlayer().disablePlayer();
 		observer.getCurrentState().getPlayer(id).activatePlayer();
+		
 		if(gameMode.equals("H") || gameMode.equals("T") ){
 			updates.setText("Its " + observer.getCurrentState().getActivePlayer().getName() + "'s turn");
 			playerColour = observer.getCurrentState().getActivePlayer().getColour();
@@ -503,10 +504,14 @@ public class GUI extends Frame implements ActionListener {
 				//update interface here??
 				switchPlayer();
 				if(aiDiff.equals("E")){
-					return gameInterface.playAI(piece, square, playerColour);
+					 gameInterface.playAI(piece, square, playerColour);
+					 switchPlayer();
+					 return true;
 				}
 				else{
-					return gameInterface.playHardAI(piece, square, playerColour);
+					gameInterface.playHardAI(piece, square, playerColour);
+					switchPlayer();
+					return true;
 				}
 			}
 		}
@@ -514,10 +519,14 @@ public class GUI extends Frame implements ActionListener {
 			if(gameInterface.playTimed(piece, square, playerColour, timeLength)){
 				switchPlayer();
 				if(aiDiff.equals("E")){
-					return gameInterface.playAI(piece, square, playerColour);
+					gameInterface.playAI(piece, square, playerColour);
+					switchPlayer();
+					return true;
 				}
 				else{
-					return gameInterface.playHardAI(piece, square, playerColour);
+					gameInterface.playHardAI(piece, square, playerColour);
+					switchPlayer();
+					return true;
 				}
 			}
 		}
