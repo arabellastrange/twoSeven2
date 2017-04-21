@@ -14,24 +14,12 @@ import java.awt.image.ImageObserver;
 import java.io.File;
 import java.io.IOException;
 
-public class GUI extends Frame implements ActionListener, MouseMotionListener, MouseListener {
+public class GUI extends Frame implements ActionListener {
 	private static final long serialVersionUID = 1L;
 	
 	Observer observer = new Observer();
-	//HumanPlayer playerOne = new HumanPlayer();
-	//HumanPlayer playerTwo = new HumanPlayer();
-	//AIPlayer AI = new AIPlayer();
 	Settings timerSettings = new Settings();
 	Interface gameInterface = new Interface();
-	
-	ArrayList<Rectangle> gamePieces =  new ArrayList<Rectangle>();
-	ArrayList<BufferedImage> draggedPieces = new ArrayList<BufferedImage>();
-	ArrayList<BufferedImage> wPieces = new ArrayList<BufferedImage>();
-	ArrayList<BufferedImage> bPieces = new ArrayList<BufferedImage>();
-	BufferedImage dragged;
-	Point lastLoc;
-	int piY;
-	int piX;
 	
 	ArrayList<String> gameSettings = new ArrayList<String>();
 	String playerOneName;
@@ -256,8 +244,6 @@ public class GUI extends Frame implements ActionListener, MouseMotionListener, M
 	
 	public void drawBoard(){
 		JPanel gameScreen = new JPanel();
-		JPanel board = null;
-		JPanel extra = null;
 		JButton loadGame = new JButton("Load Game");
 		JButton settings = new JButton("Settings");
 		JButton reset = new JButton("Reset");
@@ -318,89 +304,10 @@ public class GUI extends Frame implements ActionListener, MouseMotionListener, M
 	    toolbar.setVisible(true);
 	    toolbar.setFloatable(false);
 	    Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+	    
 	    toolbar.setBounds(0, 0, screenSize.width, 100);
 	    
-	    try {
-	    	final BufferedImage gboard = ImageIO.read(new File("cutsomGameBoard.jpg"));
-	    	final BufferedImage featPanel = ImageIO.read(new File("extraPanel.png"));
-	    	
-	    	//load white game pieces
-	    	wPieces.add(ImageIO.read(new File("rect-lightOrange.png")));
-	    	wPieces.add(ImageIO.read(new File("rect-navy.png")));
-	    	wPieces.add(ImageIO.read(new File("rect-maroon.png")));	
-	    	wPieces.add(ImageIO.read(new File("rect-lilac.png")));
-	    	wPieces.add(ImageIO.read(new File("rect-yellow.png")));
-	    	wPieces.add(ImageIO.read(new File("rect-orange.png")));
-	    	wPieces.add(ImageIO.read(new File("rect-green.png")));
-	    	wPieces.add(ImageIO.read(new File("rect-brown.png")));
-
-	    	//load black game pieces
-	    	bPieces.add(ImageIO.read(new File("rev-brown.png")));
-	    	bPieces.add(ImageIO.read(new File("rev-green.png")));
-	    	bPieces.add(ImageIO.read(new File("rev-orange.png")));
-	    	bPieces.add(ImageIO.read(new File("rev-yellow.png")));
-	    	bPieces.add(ImageIO.read(new File("rev-lilac.png")));
-	    	bPieces.add(ImageIO.read(new File("rev-maroon.png")));
-	    	bPieces.add(ImageIO.read(new File("rev-navy.png")));
-	    	bPieces.add(ImageIO.read(new File("rev-lighOrange.png")));
-	    	
-	    	board = new JPanel(){
-	            protected void paintComponent(Graphics g) {
-	            	Graphics2D g2 = (Graphics2D) g;
-	                super.paintComponent(g);
-	                g.drawImage(gboard, 0, 0, this);
-	                int x = 5;
-	                int y = 5;
-	                for(int i = 0; i <8; i++){
-	                	g.drawImage(wPieces.get(i), x, y, this);
-	                	x += 60;
-	                }
-	                x = 5;
-	                y = 425;
-	                for(int i = 0; i <8; i++){
-	                	g.drawImage(bPieces.get(i), x, y, this);
-	                	x += 60;
-	                }
-	                
-	                for(int i = 0; i < draggedPieces.size()-1; i++)
-	        			if(draggedPieces.get(i) != null){
-	        				g.drawImage(draggedPieces.get(i), piX, piY, this);
-	        		}
-	                
-	        		//draw rect pieces
-	        		for(int i = 5; i < 480; i+= 60){	
-	        			Rectangle b = new Rectangle(i, 425, 40, 40);
-	        			gamePieces.add(b);
-	        			g2.draw(b);
-	        		}
-	        		
-	        		for(int i = 5; i < 480; i+= 60){
-	        			Rectangle w = new Rectangle(i, 5, 40, 40);
-	        			gamePieces.add(w);
-	        			g2.draw(w);
-	        		}
-	                
-	            }
-	            @Override
-	            public Dimension getPreferredSize() {
-	                return new Dimension(480, 480);
-	            }   
-			};
-			extra = new JPanel(){
-				protected void paintComponent(Graphics g) {
-	                super.paintComponent(g);
-	                g.drawImage(featPanel, 0, 0, this);
-	            }
-				@Override
-	            public Dimension getPreferredSize() {
-	                return new Dimension(480, 480);
-	            }
-			};
-			
-		}
-	    catch (IOException e) {
-			e.printStackTrace();
-		}
+	    Draw boardImg = new Draw(gameScreen);
 	    
 	    JPanel keyInput = new JPanel();
 	    
@@ -441,7 +348,7 @@ public class GUI extends Frame implements ActionListener, MouseMotionListener, M
 	    keyInput.setVisible(true);
 	    gameScreen.add(toolbar, BorderLayout.PAGE_START); 
 	    //gameScreen.add(extra, BorderLayout.LINE_START);
-	    gameScreen.add(board, BorderLayout.LINE_END);
+	   // gameScreen.add(board, BorderLayout.LINE_END);
 	    gameScreen.add(keyInput, BorderLayout.LINE_END);
 	    gameScreen.setVisible(true);
 	    gameScreen.setBackground(Color.DARK_GRAY);
@@ -617,74 +524,8 @@ public class GUI extends Frame implements ActionListener, MouseMotionListener, M
 		return false;
 	}
 	
-	public void updateBroad(){
-		//idek
-	}
-	
 	public void actionPerformed(ActionEvent arg0) {
 		
 	}
-	
-	public void mouseClicked(MouseEvent e) {
-
-		
-	}
-
-	public void mouseEntered(MouseEvent e) {
-		
-	}
-
-	public void mouseExited(MouseEvent e) {
-		
-	}
-
-	public void mouseMoved(MouseEvent arg0) {
-		
-	}
-
-	public void mousePressed(MouseEvent e) {      
-        for(BufferedImage img: wPieces){
-     	   for(Rectangle r: gamePieces){
-         	   if(r.contains(e.getPoint())){
-         		   System.out.println("in");
-         		   dragged = img;
-         		   //piece =  this one but to string
-         		   lastLoc = e.getPoint();
-         		   break;
-         	   }
-         	   else{
-         		   System.out.println("in");
-         	   }
-     	   }
-        }
-     }
-	
- 	public void mouseReleased(MouseEvent e) {
- 			piX = e.getX(); 
-     		piY = e.getY();
-     		//square = this one but to string
-     		
-     		//if(gameInterface().movePiece()){
-     			draggedPieces.add(dragged);
-     		//}
-     		dragged = null;
-     		lastLoc = null;
-            System.out.println("release");
- 		
- 	}
- 	
- 	public void mouseDragged(MouseEvent e) {
- 		System.out.println("X is: " + e.getX()); 
- 		System.out.println("y is: " + e.getY());
- 		Graphics g = this.getGraphics();
-			if (dragged != null) {
-				Graphics2D g2 = (Graphics2D) g;
-				AffineTransform at = new AffineTransform();
-				at.translate(e.getX() - lastLoc.x, e.getY() - lastLoc.y);
-				lastLoc = e.getPoint();
-				g2.drawImage(dragged, at, null);
-				System.out.println("dragged");
-			}	
- 	}
  
 }

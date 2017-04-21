@@ -313,6 +313,7 @@ public class CurrentState implements Serializable{
 				if(last.getColour().equals("Default")){
 					if(piece.isSumo() && !movedTo.isEmpty()){
 						if(co.isMoveForward(piece.getPiecePosition(), movedTo.getSquarePosition(), movingPieceID)){
+							//implemented limited range of movement
 							getPieceOnSquare(movedTo).moveBack();
 							getLastLandedOn().setSquareColour(movedTo.getColour());
 							getLastLandedOn().setOccupied();
