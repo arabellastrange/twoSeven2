@@ -17,9 +17,11 @@ import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-public class Draw implements MouseMotionListener, MouseListener {
+public class Draw extends JPanel implements MouseMotionListener, MouseListener {
 	ArrayList<Rectangle> gamePieces =  new ArrayList<Rectangle>();
 	ArrayList<BufferedImage> draggedPieces = new ArrayList<BufferedImage>();
+	ArrayList<Rectangle> draggedRect = new ArrayList<Rectangle>();
+	Rectangle draggedRe = new Rectangle();
 	ArrayList<BufferedImage> wPieces = new ArrayList<BufferedImage>();
 	ArrayList<BufferedImage> bPieces = new ArrayList<BufferedImage>();
 	BufferedImage dragged;
@@ -103,6 +105,8 @@ public class Draw implements MouseMotionListener, MouseListener {
 		    catch (IOException e) {
 				e.printStackTrace();
 			}
+		board.addMouseListener(this);
+		board.addMouseMotionListener(this);
 		return board;
 		    
 	}
@@ -130,15 +134,31 @@ public class Draw implements MouseMotionListener, MouseListener {
          	   if(r.contains(e.getPoint())){
          		   System.out.println("in");
          		   dragged = img;
+         		   draggedRe = r;
          		   //piece =  this one but to string
          		   lastLoc = e.getPoint();
          		   break;
          	   }
          	   else{
-         		   System.out.println("in");
+         		   System.out.println("out");
          	   }
      	   }
         }
+        for(BufferedImage img: bPieces){
+      	   for(Rectangle r: gamePieces){
+          	   if(r.contains(e.getPoint())){
+          		   System.out.println("in");
+          		   dragged = img;
+          		   draggedRe = r;
+          		   //piece =  this one but to string
+          		   lastLoc = e.getPoint();
+          		   break;
+          	   }
+          	   else{
+          		   System.out.println("out");
+          	   }
+      	   }
+         }
      }
 	
  	public void mouseReleased(MouseEvent e) {
@@ -148,8 +168,10 @@ public class Draw implements MouseMotionListener, MouseListener {
      		
      		//if(gameInterface().movePiece()){
      			draggedPieces.add(dragged);
+     			draggedRect.add(draggedRe);
      		//}
      		dragged = null;
+     		draggedRe = null;
      		lastLoc = null;
             System.out.println("release");
  		
@@ -164,7 +186,9 @@ public class Draw implements MouseMotionListener, MouseListener {
 				AffineTransform at = new AffineTransform();
 				at.translate(e.getX() - lastLoc.x, e.getY() - lastLoc.y);
 				lastLoc = e.getPoint();
-				g2.drawImage(dragged, at, null);
+				g2.drawImage(dragged, at, null); //exception here
+				draggedRe.translate(e.getX() - lastLoc.x, e.getY() - lastLoc.y);
+				repaint();
 				System.out.println("dragged");
 			}	
  	}
