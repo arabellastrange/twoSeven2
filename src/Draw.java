@@ -18,16 +18,22 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 public class Draw extends JPanel implements MouseMotionListener, MouseListener {
-	ArrayList<Rectangle> gamePieces =  new ArrayList<Rectangle>();
 	ArrayList<BufferedImage> draggedPieces = new ArrayList<BufferedImage>();
 	ArrayList<Rectangle> draggedRect = new ArrayList<Rectangle>();
 	Rectangle draggedRe = new Rectangle();
+	BufferedImage dragged;
+	
+	ArrayList<Rectangle> gamePieces =  new ArrayList<Rectangle>();
 	ArrayList<BufferedImage> wPieces = new ArrayList<BufferedImage>();
 	ArrayList<BufferedImage> bPieces = new ArrayList<BufferedImage>();
-	BufferedImage dragged;
+	
 	Point lastLoc;
-	int piY;
-	int piX;
+	int currentX;
+	int currentY;
+	Point currentPoint;
+	
+	String square;
+	String piece;
 	
 	public Draw(JPanel panel){
 		panel.add(makeABoard(), BorderLayout.CENTER);
@@ -62,37 +68,19 @@ public class Draw extends JPanel implements MouseMotionListener, MouseListener {
 		    	board = new JPanel(){
 		            protected void paintComponent(Graphics g) {
 		            	Graphics2D g2 = (Graphics2D) g;
-		                super.paintComponent(g);
+
 		                g.drawImage(gboard, 0, 0, this);
-		                int x = 5;
-		                int y = 5;
-		                for(int i = 0; i <8; i++){
-		                	g.drawImage(wPieces.get(i), x, y, this);
-		                	x += 60;
-		                }
-		                x = 5;
-		                y = 425;
-		                for(int i = 0; i <8; i++){
-		                	g.drawImage(bPieces.get(i), x, y, this);
-		                	x += 60;
-		                }
-		                
+
+		                starterPieces(g);
+
 		                for(int i = 0; i < draggedPieces.size()-1; i++)
 		        			if(draggedPieces.get(i) != null){
-		        				g.drawImage(draggedPieces.get(i), piX, piY, this);
+		        				g.drawImage(draggedPieces.get(i), currentX, currentY, this);
 		        		}
 		                
-		        		//draw rect pieces
-		        		for(int i = 5; i < 480; i+= 60){	
-		        			Rectangle b = new Rectangle(i, 425, 40, 40);
-		        			gamePieces.add(b);
-		        			g2.draw(b);
-		        		}
-		        		
-		        		for(int i = 5; i < 480; i+= 60){
-		        			Rectangle w = new Rectangle(i, 5, 40, 40);
-		        			gamePieces.add(w);
-		        			g2.draw(w);
+		                for(int i = 0; i < draggedRect.size()-1; i++)
+		        			if(draggedRect.get(i) != null){
+		        				g2.draw(draggedRect.get(i));
 		        		}
 		                
 		            }
@@ -135,7 +123,7 @@ public class Draw extends JPanel implements MouseMotionListener, MouseListener {
          		   System.out.println("in");
          		   dragged = img;
          		   draggedRe = r;
-         		   //piece =  this one but to string
+         		   //piece =  this one but to string, set piece id W
          		   lastLoc = e.getPoint();
          		   break;
          	   }
@@ -150,7 +138,7 @@ public class Draw extends JPanel implements MouseMotionListener, MouseListener {
           		   System.out.println("in");
           		   dragged = img;
           		   draggedRe = r;
-          		   //piece =  this one but to string
+          		   //piece =  this one but to string, set piece id B
           		   lastLoc = e.getPoint();
           		   break;
           	   }
@@ -161,11 +149,20 @@ public class Draw extends JPanel implements MouseMotionListener, MouseListener {
          }
      }
 	
+ 	public void mouseDragged(MouseEvent e) {
+ 		System.out.println("X is: " + e.getX()); 
+ 		System.out.println("y is: " + e.getY());
+ 		currentX  = e.getX();
+ 		currentY = e.getY();
+ 		currentPoint = e.getPoint();
+			if (dragged != null) {
+				repaint();
+				System.out.println("dragged");
+			}
+ 	}
+ 	
  	public void mouseReleased(MouseEvent e) {
- 			piX = e.getX(); 
-     		piY = e.getY();
-     		//square = this one but to string
-     		
+     		//square movedTo = this one but to string
      		//if(gameInterface().movePiece()){
      			draggedPieces.add(dragged);
      			draggedRect.add(draggedRe);
@@ -175,22 +172,62 @@ public class Draw extends JPanel implements MouseMotionListener, MouseListener {
      		lastLoc = null;
             System.out.println("release");
  		
+ 	} 
+ 	
+ 	public void paintComponent(Graphics g){
+		Graphics2D g2 = (Graphics2D) g;
+		AffineTransform at = new AffineTransform();
+		at.translate(currentX - lastLoc.x, currentY - lastLoc.y);
+		lastLoc = currentPoint;
+		g2.drawImage(dragged, at, this); //exception here
+		draggedRe.translate(currentX - lastLoc.x, currentX - lastLoc.y);
  	}
  	
- 	public void mouseDragged(MouseEvent e) {
- 		System.out.println("X is: " + e.getX()); 
- 		System.out.println("y is: " + e.getY());
- 		Graphics g = null;
-			if (dragged != null) {
-				Graphics2D g2 = (Graphics2D) g;
-				AffineTransform at = new AffineTransform();
-				at.translate(e.getX() - lastLoc.x, e.getY() - lastLoc.y);
-				lastLoc = e.getPoint();
-				g2.drawImage(dragged, at, null); //exception here
-				draggedRe.translate(e.getX() - lastLoc.x, e.getY() - lastLoc.y);
-				repaint();
-				System.out.println("dragged");
-			}	
+ 	public void starterPieces(Graphics g){
+        int x = 5;
+        int y = 5;
+        for(int i = 0; i <8; i++){
+        	g.drawImage(wPieces.get(i), x, y, this);
+        	x += 60;
+        }
+        x = 5;
+        y = 425;
+        for(int i = 0; i <8; i++){
+        	g.drawImage(bPieces.get(i), x, y, this);
+        	x += 60;
+        }
+        
+        Graphics2D g2 = (Graphics2D) g;
+        
+		for(int i = 5; i < 480; i+= 60){	
+			Rectangle b = new Rectangle(i, 425, 40, 40);
+			gamePieces.add(b);
+			g2.draw(b);
+		}
+		
+		for(int i = 5; i < 480; i+= 60){
+			Rectangle w = new Rectangle(i, 5, 40, 40);
+			gamePieces.add(w);
+			g2.draw(w);
+		}
+ 		
+ 	}
+ 	
+ 	public void clearOldPiece(){
+		//repaint();
+	}
+ 	
+ 	// translate X,Y to a string id for piece and square
+ 	public String translatePoint(){
+ 		return "do this";
+ 	}
+ 	
+ 	public String getSelectedPiece(){
+ 		return piece;
+ 	}
+ 	
+ 	public String getMovedToSquare(){
+ 		return square;
  	}
 
 }
