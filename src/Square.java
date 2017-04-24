@@ -1,9 +1,13 @@
 import java.io.Serializable;
 
+import com.sun.javafx.geom.Point2D;
+import java.awt.geom.Point2Dt;
+
 public class Square implements Serializable{
 	String colour;
 	String position;
 	Boolean empty;
+	Point2D sqLoc;
 	
 	public Square(String squareColour, String squarePosition, Boolean squareEmpty){
 		colour = squareColour;
@@ -15,6 +19,13 @@ public class Square implements Serializable{
 		return colour;
 	}
 	
+	public void setSquareLocation(Point2D p){
+		sqLoc = p;
+	}
+	
+	public Point2D getSquareLocation(){
+		return sqLoc;
+	}
 	
 	public String getSquarePosition(){
 		return position; 

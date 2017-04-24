@@ -1,9 +1,11 @@
+import java.awt.image.BufferedImage;
 import java.io.Serializable;
 
 public class Piece implements Serializable{
 	String colour;
 	String position;
 	String id;
+	BufferedImage icon;
 	boolean sumo;
 	int teeth = 0;
 	Coordinates co = new Coordinates();
@@ -18,6 +20,13 @@ public class Piece implements Serializable{
 		colour = sColour;
 	}
 	
+	public void setIcon(BufferedImage img){
+		icon = img;
+	}
+	
+	public BufferedImage getIcon(){
+		return icon;
+	}
 	public String getColour(){
 		return colour;
 	}

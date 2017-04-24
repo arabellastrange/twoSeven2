@@ -307,7 +307,7 @@ public class GUI extends Frame implements ActionListener {
 	    
 	    toolbar.setBounds(0, 0, screenSize.width, 100);
 	    
-	    Draw boardImg = new Draw(gameScreen);
+	    Draw boardImg = new Draw();
 	    
 	    JPanel keyInput = new JPanel();
 	    
@@ -327,6 +327,7 @@ public class GUI extends Frame implements ActionListener {
 	    		if(!gameMode.startsWith("A")){
 	    			if(movePiece()){
 	    				updates.setText("Success!");
+	    				boardImg.updateBoard(piece,square);
 	    				switchPlayer();
 	    			}
 	    			
@@ -334,6 +335,7 @@ public class GUI extends Frame implements ActionListener {
 	    		else{
 	    			if(moveAIPiece()){
 	    				updates.setText("Success!");
+	    				boardImg.updateBoard(piece,square);
 	    				switchPlayer();
 	    			}
 	    		}
@@ -347,8 +349,7 @@ public class GUI extends Frame implements ActionListener {
 	    keyInput.setBackground(Color.darkGray);
 	    keyInput.setVisible(true);
 	    gameScreen.add(toolbar, BorderLayout.PAGE_START); 
-	    //gameScreen.add(extra, BorderLayout.LINE_START);
-	   // gameScreen.add(board, BorderLayout.LINE_END);
+	    gameScreen.add(boardImg.makeABoard(), BorderLayout.LINE_END);
 	    gameScreen.add(keyInput, BorderLayout.LINE_END);
 	    gameScreen.setVisible(true);
 	    gameScreen.setBackground(Color.DARK_GRAY);

@@ -18,14 +18,15 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 public class Draw extends JPanel implements MouseMotionListener, MouseListener {
+	Observer observer = new Observer();
+	
 	ArrayList<BufferedImage> draggedPieces = new ArrayList<BufferedImage>();
 	ArrayList<Rectangle> draggedRect = new ArrayList<Rectangle>();
 	Rectangle draggedRe = new Rectangle();
 	BufferedImage dragged;
 	
 	ArrayList<Rectangle> gamePieces =  new ArrayList<Rectangle>();
-	ArrayList<BufferedImage> wPieces = new ArrayList<BufferedImage>();
-	ArrayList<BufferedImage> bPieces = new ArrayList<BufferedImage>();
+	ArrayList<BufferedImage> Pieces = new ArrayList<BufferedImage>();
 	
 	Point lastLoc;
 	int currentX;
@@ -35,10 +36,6 @@ public class Draw extends JPanel implements MouseMotionListener, MouseListener {
 	String square;
 	String piece;
 	
-	public Draw(JPanel panel){
-		panel.add(makeABoard(), BorderLayout.CENTER);
-	}
-	
 	public JPanel makeABoard(){
 		JPanel board = null;
 		 try {
@@ -46,43 +43,36 @@ public class Draw extends JPanel implements MouseMotionListener, MouseListener {
 		    	final BufferedImage featPanel = ImageIO.read(new File("extraPanel.png"));
 		    	
 		    	//load white game pieces
-		    	wPieces.add(ImageIO.read(new File("rect-lightOrange.png")));
-		    	wPieces.add(ImageIO.read(new File("rect-navy.png")));
-		    	wPieces.add(ImageIO.read(new File("rect-maroon.png")));	
-		    	wPieces.add(ImageIO.read(new File("rect-lilac.png")));
-		    	wPieces.add(ImageIO.read(new File("rect-yellow.png")));
-		    	wPieces.add(ImageIO.read(new File("rect-orange.png")));
-		    	wPieces.add(ImageIO.read(new File("rect-green.png")));
-		    	wPieces.add(ImageIO.read(new File("rect-brown.png")));
+		    	Pieces.add(ImageIO.read(new File("rect-lightOrange.png")));
+		    	Pieces.add(ImageIO.read(new File("rect-navy.png")));
+		    	Pieces.add(ImageIO.read(new File("rect-maroon.png")));	
+		    	Pieces.add(ImageIO.read(new File("rect-lilac.png")));
+		    	Pieces.add(ImageIO.read(new File("rect-yellow.png")));
+		    	Pieces.add(ImageIO.read(new File("rect-orange.png")));
+		    	Pieces.add(ImageIO.read(new File("rect-green.png")));
+		    	Pieces.add(ImageIO.read(new File("rect-brown.png")));
 
 		    	//load black game pieces
-		    	bPieces.add(ImageIO.read(new File("rev-brown.png")));
-		    	bPieces.add(ImageIO.read(new File("rev-green.png")));
-		    	bPieces.add(ImageIO.read(new File("rev-orange.png")));
-		    	bPieces.add(ImageIO.read(new File("rev-yellow.png")));
-		    	bPieces.add(ImageIO.read(new File("rev-lilac.png")));
-		    	bPieces.add(ImageIO.read(new File("rev-maroon.png")));
-		    	bPieces.add(ImageIO.read(new File("rev-navy.png")));
-		    	bPieces.add(ImageIO.read(new File("rev-lighOrange.png")));
+		    	Pieces.add(ImageIO.read(new File("rev-brown.png")));
+		    	Pieces.add(ImageIO.read(new File("rev-green.png")));
+		    	Pieces.add(ImageIO.read(new File("rev-orange.png")));
+		    	Pieces.add(ImageIO.read(new File("rev-yellow.png")));
+		    	Pieces.add(ImageIO.read(new File("rev-lilac.png")));
+		    	Pieces.add(ImageIO.read(new File("rev-maroon.png")));
+		    	Pieces.add(ImageIO.read(new File("rev-navy.png")));
+		    	Pieces.add(ImageIO.read(new File("rev-lighOrange.png")));
+		    	
+		    	int i = 0;
+		    	for(Piece p : observer.getCurrentState().getPieces().getPieces()){
+		    		p.setIcon(Pieces.get(i));
+		    		i++;
+		    	}
 		    	
 		    	board = new JPanel(){
 		            protected void paintComponent(Graphics g) {
-		            	Graphics2D g2 = (Graphics2D) g;
-
 		                g.drawImage(gboard, 0, 0, this);
 
-		                starterPieces(g);
-
-		                for(int i = 0; i < draggedPieces.size()-1; i++)
-		        			if(draggedPieces.get(i) != null){
-		        				g.drawImage(draggedPieces.get(i), currentX, currentY, this);
-		        		}
-		                
-		                for(int i = 0; i < draggedRect.size()-1; i++)
-		        			if(draggedRect.get(i) != null){
-		        				g2.draw(draggedRect.get(i));
-		        		}
-		                
+		                starterPieces(g);  
 		            }
 		            @Override
 		            public Dimension getPreferredSize() {
@@ -117,7 +107,7 @@ public class Draw extends JPanel implements MouseMotionListener, MouseListener {
 	}
 
 	public void mousePressed(MouseEvent e) {      
-        for(BufferedImage img: wPieces){
+        for(BufferedImage img: Pieces){
      	   for(Rectangle r: gamePieces){
          	   if(r.contains(e.getPoint())){
          		   System.out.println("in");
@@ -132,21 +122,6 @@ public class Draw extends JPanel implements MouseMotionListener, MouseListener {
          	   }
      	   }
         }
-        for(BufferedImage img: bPieces){
-      	   for(Rectangle r: gamePieces){
-          	   if(r.contains(e.getPoint())){
-          		   System.out.println("in");
-          		   dragged = img;
-          		   draggedRe = r;
-          		   //piece =  this one but to string, set piece id B
-          		   lastLoc = e.getPoint();
-          		   break;
-          	   }
-          	   else{
-          		   System.out.println("out");
-          	   }
-      	   }
-         }
      }
 	
  	public void mouseDragged(MouseEvent e) {
@@ -179,21 +154,22 @@ public class Draw extends JPanel implements MouseMotionListener, MouseListener {
 		AffineTransform at = new AffineTransform();
 		at.translate(currentX - lastLoc.x, currentY - lastLoc.y);
 		lastLoc = currentPoint;
-		g2.drawImage(dragged, at, this); //exception here
+		g2.drawImage(dragged, at, this);
 		draggedRe.translate(currentX - lastLoc.x, currentX - lastLoc.y);
+		updateMovedPieces(g);
  	}
  	
  	public void starterPieces(Graphics g){
         int x = 5;
         int y = 5;
         for(int i = 0; i <8; i++){
-        	g.drawImage(wPieces.get(i), x, y, this);
+        	g.drawImage(Pieces.get(i), x, y, this);
         	x += 60;
         }
         x = 5;
         y = 425;
-        for(int i = 0; i <8; i++){
-        	g.drawImage(bPieces.get(i), x, y, this);
+        for(int i = 8; i <16; i++){
+        	g.drawImage(Pieces.get(i), x, y, this);
         	x += 60;
         }
         
@@ -213,15 +189,35 @@ public class Draw extends JPanel implements MouseMotionListener, MouseListener {
  		
  	}
  	
- 	public void clearOldPiece(){
-		//repaint();
-	}
- 	
- 	// translate X,Y to a string id for piece and square
- 	public String translatePoint(){
- 		return "do this";
+ 	public void updateMovedPieces(Graphics g){
+ 		Graphics2D g2 = (Graphics2D) g;
+        for(int i = 0; i < draggedPieces.size()-1; i++)
+			if(draggedPieces.get(i) != null){
+				g.drawImage(draggedPieces.get(i), currentX, currentY, this);
+		}
+        
+        for(int i = 0; i < draggedRect.size()-1; i++)
+			if(draggedRect.get(i) != null){
+				g2.draw(draggedRect.get(i));
+		}
  	}
  	
+ 	public void clearOldPieces(){
+ 		
+	}
+ 	
+// translate X,Y to a string id for piece and square
+// public String translatePoint(){
+// 		return "do this";
+// 	}
+ 	
+ 	public void updateBoard(String pieceInput, String squareInput){
+ 		Graphics g;
+ 		Square sq = observer.getCurrentState().getBoard().getStringSquare(squareInput);
+ 		g.drawImage(observer.getCurrentState().getPiece(pieceInput).getIcon(), sq.getSquareLocation().getX(), sq.getSquareLocation().getY(), this);
+ 	}
+ 	
+ 	//for the drag and drop stuff
  	public String getSelectedPiece(){
  		return piece;
  	}
