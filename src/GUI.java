@@ -502,7 +502,6 @@ public class GUI extends Frame implements ActionListener {
 	public boolean moveAIPiece(){
 		if(gameMode.equals("A")){
 			if(gameInterface.play(piece, square, playerColour)){
-				//update interface here??
 				switchPlayer();
 				if(aiDiff.equals("E")){
 					 gameInterface.playAI(piece, square, playerColour);

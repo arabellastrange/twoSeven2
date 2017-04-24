@@ -4,7 +4,6 @@ import java.util.Scanner;
 
 public class Interface {
 	Settings set = new Settings();
-	//AIPlayer AI = new AIPlayer();
 	ReadWrite save = new ReadWrite();
 	Observer observer = new Observer();
 
@@ -65,13 +64,8 @@ public class Interface {
 		}
 		else{
 			return false;
-			//back to original square?
 		}
 	}
-	
-//	public boolean isGameOver(){
-//		return observer.getCurrentState().gameOver();
-//	}
 	
 	public void store(ArrayList<String> settings){
 		observer.getCurrentState().storeSettings(settings);

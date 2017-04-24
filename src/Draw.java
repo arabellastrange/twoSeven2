@@ -204,9 +204,7 @@ public class Draw extends JPanel implements MouseMotionListener, MouseListener {
 		}
  	}
  	
- 	public void clearOldPieces(){
- 		
-	}
+ 	
  	
 // translate X,Y to a string id for piece and square
 // public String translatePoint(){
@@ -216,8 +214,14 @@ public class Draw extends JPanel implements MouseMotionListener, MouseListener {
  	public void updateBoard(String pieceInput, String squareInput){
  		Graphics g = this.getGraphics();
  		Square sq = observer.getCurrentState().getBoard().getStringSquare(squareInput);
+ 		//exception here
  		g.drawImage(observer.getCurrentState().getPiece(pieceInput).getIcon(), (int) sq.getSquareLocation().getX(), (int) sq.getSquareLocation().getY(), this);
+ 		clearOldPieces();
  	}
+ 	
+ 	public void clearOldPieces(){
+ 		
+	}
  	
  	//for the drag and drop stuff
  	public String getSelectedPiece(){
