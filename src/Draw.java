@@ -17,6 +17,8 @@ import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import com.sun.prism.Image;
+
 public class Draw extends JPanel implements MouseMotionListener, MouseListener {
 	Observer observer = new Observer();
 	
@@ -212,9 +214,9 @@ public class Draw extends JPanel implements MouseMotionListener, MouseListener {
 // 	}
  	
  	public void updateBoard(String pieceInput, String squareInput){
- 		Graphics g;
+ 		Graphics g = this.getGraphics();
  		Square sq = observer.getCurrentState().getBoard().getStringSquare(squareInput);
- 		g.drawImage(observer.getCurrentState().getPiece(pieceInput).getIcon(), sq.getSquareLocation().getX(), sq.getSquareLocation().getY(), this);
+ 		g.drawImage(observer.getCurrentState().getPiece(pieceInput).getIcon(), (int) sq.getSquareLocation().getX(), (int) sq.getSquareLocation().getY(), this);
  	}
  	
  	//for the drag and drop stuff

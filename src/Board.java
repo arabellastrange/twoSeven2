@@ -1,3 +1,4 @@
+import java.awt.geom.Point2D;
 import java.io.Serializable;
 
 public class Board implements Serializable {
@@ -5,19 +6,30 @@ public class Board implements Serializable {
 	Square squares[][] = new Square[8][8];
 	
 	String colours[] = {"Brown", "Green", "Red", "Yellow", "Purple", "Maroon", "Navy", "Orange"};
-	
+	Point2D sqLoc = new Point2D.Double(0,0);
 	Coordinates coord = new Coordinates();
 	
 	public Board(){
 			int n = 0;
+			int s = 5;
+			int r = 5;
 			for(int i = 0; i < 8; i++){
 				for(int m = 0; m < 8; m++){
 					String j =  coord.getCoordinates(n);
-					if(i == 0 || i == 7){
+					if(i == 0){
 						squares[i][m] = new Square("Default", j, false);
+						sqLoc.setLocation(s += 60, 5);
+						squares[i][m].setSquareLocation(sqLoc);
+					}
+					else if(i == 7){
+						squares[i][m] = new Square("Default", j, false);
+						sqLoc.setLocation(s += 60, 425);
+						squares[i][m].setSquareLocation(sqLoc);
 					}
 					else{
 						squares[i][m] = new Square("Default", j, true);
+						sqLoc.setLocation(s += 60, r += 200);
+						squares[i][m].setSquareLocation(sqLoc);
 					}
 //					System.out.println("Assigned Square ["+ i + "] [" + m + "] position: " + squares[i][m].getSquarePosition());
 					n++;

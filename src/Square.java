@@ -1,7 +1,5 @@
 import java.io.Serializable;
-
-import com.sun.javafx.geom.Point2D;
-import java.awt.geom.Point2Dt;
+import java.awt.geom.Point2D;
 
 public class Square implements Serializable{
 	String colour;
